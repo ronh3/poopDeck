@@ -24,15 +24,15 @@ poopDeck.Seamonsters = {
 --Turns your automatic seamonster firing on or off.
 function poopDeck.SetSeamonsterAutoFire(mode)
     if mode == "on" then
-        enableTriggerGroup("Auto Seamonster Fire")
+        enableTrigger("Automatics")
         myMessage = "AUTO FIRE ON"
         poopDeck.mode = "automatic"
-        cecho("\n"..poopDeck.GoodEcho:format(myMessage).."\n")
+        poopDeck.GoodEcho(myMessage)
     else
-        disableTriggerGroup("Auto Seamonster Fire")
+        disableTrigger("Automatics")
         myMessage = "AUTO FIRE OFF"
         poopDeck.mode = "manual"
-        cecho("\n"..poopDeck.BadEcho:format(myMessage).."\n")
+        poopDeck.BadEcho(myMessage)
     end
     
 end
@@ -44,17 +44,17 @@ function poopDeck.SetWeapon(boomstick)
     poopDeck.Thrower = false
     local myMessage
 
-    if boomstick == "b" then 
+    if boomstick == "ballista" then 
         poopDeck.Ballista = true
         myMessage = "UNLEASH THE DARTS!"
-    elseif boomstick == "o" then
+    elseif boomstick == "onager" then
         poopDeck.Onager = true
         myMessage = "ENGAGE THE MIGHTY SLINGSHOT"
-    elseif boomstick == "t" then
+    elseif boomstick == "thrower" then
         poopDeck.Thrower = true
         myMessage = "SEND HAVOC SPINNING!"
     end
-    cecho("\n"..poopDeck.GoodEcho:format(myMessage).."\n")
+    poopDeck.GoodEcho(myMessage)
 end
 
 --Automatically fires your set weapon. Will first check for which weapon you're supposed to be firing.
@@ -62,7 +62,7 @@ end
 --For the onager, it will rotate between starshot and spidershot.
 function poopDeck.AutoFire()
     poopDeck.ToggleCuring(true)
-    poopDeck.shipVitals()
+    poopDeck.ShipVitals()
 
     if poopDeck.Ballista then
         sendAll("maintain hull", "load ballista with dart", "fire ballista at seamonster")
@@ -80,7 +80,7 @@ end
 --Manually fire a weapon. Onager will alternate between spidershot and starshot if the correct alias (firo) is used.
 function poopDeck.SeaFire(ammo)
     poopDeck.ToggleCuring(true)
-    poopDeck.shipVitals()
+    poopDeck.ShipVitals()
 
     if ammo == "b" then
         sendAll("maintain hull", "load ballista with dart", "fire ballista at seamonster")
@@ -92,7 +92,7 @@ function poopDeck.SeaFire(ammo)
         else
             sendAll("maintain hull", "load onager with spidershot", "fire onager at seamonster")
         end
-    elseif ammo = "sp" then
+    elseif ammo == "sp" then
         sendAll("maintain hull", "load onager with spidershot", "fire onager at seamonster")
     elseif ammo == "st" then
         sendAll("maintain hull", "load onager with starshort", "fire onager at seamonster")
@@ -110,7 +110,7 @@ function poopDeck.SeaFired()
     if poopDeck.mode == "automatic" then
         tempTimer(4, [[poopDeck.AutoFire()]])
     elseif poopDeck.mode == "manual" then
-        tempTimer(4, [[mymessage = "READY TO FIRE" cecho("\n"..poopDeck.GoodEcho:format(myMessage).."\n")]])
+        tempTimer(4, [[myMessage = "READY TO FIRE" poopDeck.GoodEcho(myMessage)]])
     end
 end
 
@@ -126,15 +126,20 @@ end
 --Toggle to turn curing on/off automatically while firing.
 function poopDeck.ToggleCuring(thankyouherrdoktor)
     if thankyouherrdoktor then
-        send("curing on")
-    else
         send("curing off")
+    else
+        send("curing on")
     end
 end
 
+--Ship Vital checker. Do something with this later
+function poopDeck.ShipVitals()
+    return
+end
+
 --If we were out of range, turn curing back on.
-function poopDeck.OutOfMonsterRange(icanhazshootplz)
-    poopDeck.ToggleCuring(icanhazshootplz)
+function poopDeck.OutOfMonsterRange()
+    poopDeck.ToggleCuring()
     enableTrigger("Ship Moved Lets Try Again")
 end
 
@@ -144,6 +149,6 @@ function poopDeck.MonsterSurfaced()
     local myMessage
     
     myMessage = "SEAMONSTER HAS SURFACED"
-    cecho("\n"..poopDeck.BadEcho:format(myMessage).."\n")
+    poopDeck.BadEcho(myMessage)
     if poopDeck.mode == true then poopDeck.AutoFire() end
 end
