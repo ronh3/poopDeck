@@ -65,7 +65,7 @@ end
 
 --Set the ship's speed. Will accept a number (for percentage) as well as full, relax, furl, and strike. I think those last three are all the same? o.O
 function poopDeck.SetSpeed(zoom)
-    if zoom == "strike" or if zoom == "furl" or if zoom == "full" or if zoom = "relax" then
+    if zoom == "strike" or zoom == "furl" or zoom == "full" or zoom == "relax" then
         send("ship sails " .. zoom)
     else
         send("ship sails set " .. zoom)
@@ -87,7 +87,7 @@ end
 function poopDeck.ShipWarning(whatdo)
     if whatdo == "on" then
         send("shipwarning on")
-    elseif whatdo == "off"
+    elseif whatdo == "off" then
         send("shipwarning off")
     end
 end
