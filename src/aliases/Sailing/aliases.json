@@ -1,0 +1,77 @@
+[
+    {
+        "name": "Turn Ship",
+        "isActive": "yes",
+        "regex": "^stt\s?(\w+)$"
+    },
+    {
+        "name": "Set Speed",
+        "isActive": "yes",
+        "regex": "^sss\s?((\w+)|(\d+))$"
+    },
+    {
+        "name": "Cast Off",
+        "isActive": "yes",
+        "regex": "^scast$"
+    },
+    {
+        "name": "Ship Repairs",
+        "isActive": "yes",
+        "regex": "^srep$"
+    },
+    {
+        "name": "Comm Screen",
+        "isActive": "yes",
+        "regex": "^scomm (on|off)"
+    },
+    {
+        "name": "Anchor",
+        "isActive": "yes",
+        "regex": "^(r|l)anc$"
+    },
+    {
+        "name": "Plank",
+        "isActive": "yes",
+        "regex": "^(r|l)pla$"
+    },
+    {
+        "name": "Ship Warning",
+        "isActive": "yes",
+        "regex": "shw\s?(on|off)"
+    },
+    {
+        "name": "Wavecall",
+        "isActive": "yes",
+        "regex": "^wav (\w+) ([12345678])$"
+    },
+    {
+        "name": "Rainstorm",
+        "isActive": "yes",
+        "regex": "^rain$"
+    },
+    {
+        "name": "Dock",
+        "isActive": "yes",
+        "regex": "dock (\w+)"
+    },
+    {
+        "name": "Douse",
+        "isActive": "yes",
+        "regex": "^dou([rm])$"
+    },
+    {
+        "name": "Chop Ropes",
+        "isActive": "yes",
+        "regex": "^chop$"
+    },
+    {
+        "name": "Clear Rigging",
+        "isActive": "yes",
+        "regex": "^crig$"
+    },
+    {
+        "name": "Ship Rescue",
+        "isActive": "yes",
+        "regex": "^sres$"
+    }
+]

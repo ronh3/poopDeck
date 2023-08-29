@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Auto Mode Select",
+        "isActive": "yes",
+        "regex": "^a(dam|dbf|off)$"
+    },
+    {
+        "name": "Set Weapon",
+        "isActive": "yes",
+        "regex": "seaweapon (\w+)"
+    }
+]

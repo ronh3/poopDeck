@@ -1,0 +1,17 @@
+[
+    {
+      "name": "Monster_Shot", // the name of the trigger object being created
+      "isActive": "yes", // is this active? Defaults to yes
+      "isFolder": "no", // is this a folder? Defaults to no. Set to yes if you want to define a trigger folder with no patterns in triggers.json
+      "patterns": [ // the list of trigger patterns as maps containing two keys, "pattern" and "type" valid types are
+        {
+          "pattern": "A heavy wooden shaft streaks from .+ toward (?<monster>.+), burying itself deeply in its side.$", // The actual pattern. This is used for regex and all substring patterns, and lua code for lua trigger types
+          "type": "regex"     // accepted trigger types are "substring", "regex", "startOfLine", "exactMatch", "lua", "spacer", "color", "colour", and "prompt"
+        },
+
+      ]
+    },
+    {
+    // You would describe the next trigger in this folder here.
+    }
+  ]

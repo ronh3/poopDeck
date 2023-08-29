@@ -1,0 +1,47 @@
+{
+    "name": "Sailing Functions",
+    "isActive": "yes"
+}
+    "name": "Turn_Ship",
+    "isActive": "yes"
+},
+{
+    "name": "Set_Speed",
+    "isActive": "yes"
+},
+{
+    "name": "Cast_Off",
+    "isActive": "yes"
+},
+{
+    "name": "Ship_Repairs",
+    "isActive": "yes"
+},
+{
+    "name": "Comm_Screen",
+    "isActive": "yes"
+},
+{
+    "name": "Anchor",
+    "isActive": "yes"
+},
+{
+    "name": "Plank",
+    "isActive": "yes"
+},
+{
+    "name": "Ship_Warning",
+    "isActive": "yes"
+},
+{
+    "name": "Wavecall",
+    "isActive": "yes"
+},
+{
+    "name": "Rainstorm",
+    "isActive": "yes"
+},
+{
+    "name": "Dock",
+    "isActive": "yes"
+}

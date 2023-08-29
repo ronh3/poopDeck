@@ -1,0 +1,1 @@
+poopDeck.SetSeamonsterMode(matches[2])
