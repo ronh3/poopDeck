@@ -1,1 +1,1 @@
-poopDeck.Rescue()
+poopDeck.ShipRescue()

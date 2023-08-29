@@ -2,12 +2,12 @@
     {
         "name": "Turn Ship",
         "isActive": "yes",
-        "regex": "^stt\s?(\w+)$"
+        "regex": "^stt\s?([nesw]{1,3})$"
     },
     {
         "name": "Set Speed",
         "isActive": "yes",
-        "regex": "^sss\s?((\w+)|(\d+))$"
+        "regex": "^sss\s?((full|furl|relax|strike)|(\d+))$"
     },
     {
         "name": "Cast Off",

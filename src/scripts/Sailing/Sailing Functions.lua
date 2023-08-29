@@ -59,10 +59,45 @@ function poopDeck.Plank(whatdo)
 end
 
 --Cast Rainstorm
-function poopDeck.Rain()
+function poopDeck.Rainstorm()
     send("invoke rainstorm")
 end
 
---Set the ship's speed. Will accept a number (for percentage) as well as full, relax, furl, and strike
+--Set the ship's speed. Will accept a number (for percentage) as well as full, relax, furl, and strike. I think those last three are all the same? o.O
 function poopDeck.SetSpeed(zoom)
-    
+    if zoom == "strike" or if zoom == "furl" or if zoom == "full" or if zoom = "relax" then
+        send("ship sails " .. zoom)
+    else
+        send("ship sails set " .. zoom)
+    end
+end
+
+--Get the crew to repairing.
+function poopDeck.ShipRepairs()
+    send("ship repair all")
+end
+
+--Get yourself rescued!
+function poopDeck.ShipRescue()
+    send("get token from pack")
+    send("ship rescue me")
+end
+
+--Turn on/off shipwarning. Honestly, this should always be on. Tempted to make it a trigger. Maybe? We'll see.
+function poopDeck.ShipWarning(whatdo)
+    if whatdo == "on" then
+        send("shipwarning on")
+    elseif whatdo == "off"
+        send("shipwarning off")
+    end
+end
+
+--Turning the ship!
+function poopDeck.TurnShip(heading)
+    send("ship turn " .. heading)
+end
+
+--Wavecall. Takes direction, and number of spaces
+function poopDeck.WaveCall(heading, howfar)
+    send("invoke wavecall " .. heading .. " " .. howfar)
+end

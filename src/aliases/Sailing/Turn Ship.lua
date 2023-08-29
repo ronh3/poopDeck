@@ -1,1 +1,1 @@
-poopDeck.turnShip(matches[2])
+poopDeck.TurnShip(matches[2])
