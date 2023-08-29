@@ -1,63 +1,13 @@
 [
     {
-        "name": "Turn Ship",
-        "isActive": "yes",
-        "regex": "^stt\s?([nesw]{1,3})$"
-    },
-    {
-        "name": "Set Speed",
-        "isActive": "yes",
-        "regex": "^sss\s?((full|furl|relax|strike)|(\d+))$"
-    },
-    {
-        "name": "Cast Off",
-        "isActive": "yes",
-        "regex": "^scast$"
-    },
-    {
-        "name": "Ship Repairs",
-        "isActive": "yes",
-        "regex": "^srep$"
-    },
-    {
-        "name": "Comm Screen",
-        "isActive": "yes",
-        "regex": "^scomm (on|off)"
-    },
-    {
         "name": "Anchor",
         "isActive": "yes",
         "regex": "^(r|l)anc$"
     },
     {
-        "name": "Plank",
+        "name": "Cast Off",
         "isActive": "yes",
-        "regex": "^(r|l)pla$"
-    },
-    {
-        "name": "Ship Warning",
-        "isActive": "yes",
-        "regex": "shw\s?(on|off)"
-    },
-    {
-        "name": "Wavecall",
-        "isActive": "yes",
-        "regex": "^wav (\w+) ([12345678])$"
-    },
-    {
-        "name": "Rainstorm",
-        "isActive": "yes",
-        "regex": "^rain$"
-    },
-    {
-        "name": "Dock",
-        "isActive": "yes",
-        "regex": "dock (\w+)"
-    },
-    {
-        "name": "Douse",
-        "isActive": "yes",
-        "regex": "^dou([rm])$"
+        "regex": "^scast$"
     },
     {
         "name": "Chop Ropes",
@@ -70,8 +20,58 @@
         "regex": "^crig$"
     },
     {
+        "name": "Comm Screen",
+        "isActive": "yes",
+        "regex": "^scomm (on|off)"
+    },
+    {
+        "name": "Dock",
+        "isActive": "yes",
+        "regex": "dock (\\w+)"
+    },
+    {
+        "name": "Douse",
+        "isActive": "yes",
+        "regex": "^dou([rm])$"
+    },
+    {
+        "name": "Plank",
+        "isActive": "yes",
+        "regex": "^(r|l)pla$"
+    },
+    {
+        "name": "Rainstorm",
+        "isActive": "yes",
+        "regex": "^rain$"
+    },
+    {
+        "name": "Set Speed",
+        "isActive": "yes",
+        "regex": "^sss\\s?((full|furl|relax|strike)|(\\d+))$"
+    },
+    {
+        "name": "Ship Repairs",
+        "isActive": "yes",
+        "regex": "^srep$"
+    },
+    {
         "name": "Ship Rescue",
         "isActive": "yes",
         "regex": "^sres$"
+    },
+    {
+        "name": "Ship Warning",
+        "isActive": "yes",
+        "regex": "shw\\s?(on|off)"
+    },
+    {
+        "name": "Turn Ship",
+        "isActive": "yes",
+        "regex": "^stt\\s?([nesw]{1,3})$"
+    },
+    {
+        "name": "Wavecall",
+        "isActive": "yes",
+        "regex": "^wav (\\w+) ([12345678])$"
     }
 ]

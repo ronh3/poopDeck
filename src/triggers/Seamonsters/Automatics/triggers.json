@@ -1,17 +1,62 @@
 [
     {
-      "name": "Monster_Shot", // the name of the trigger object being created
-      "isActive": "yes", // is this active? Defaults to yes
-      "isFolder": "no", // is this a folder? Defaults to no. Set to yes if you want to define a trigger folder with no patterns in triggers.json
-      "patterns": [ // the list of trigger patterns as maps containing two keys, "pattern" and "type" valid types are
+      "name": "Fired Weapon",
+      "isActive": "yes",
+      "patterns": [
         {
-          "pattern": "A heavy wooden shaft streaks from .+ toward (?<monster>.+), burying itself deeply in its side.$", // The actual pattern. This is used for regex and all substring patterns, and lua code for lua trigger types
-          "type": "regex"     // accepted trigger types are "substring", "regex", "startOfLine", "exactMatch", "lua", "spacer", "color", "colour", and "prompt"
+          "pattern": "You call out \"Fire!\" and release the mechanism on a ballista.",
+          "type": "exactMatch"
         },
-
+        {
+          "pattern": "You call out \"Fire!\" and release the mechanism on an Arcanian arm thrower.",
+          "type": "exactMatch"
+        },
+        {
+          "pattern": "You call out \"Fire!\" and release the mechanism on an onager.",
+          "type": "exactMatch"
+        }
       ]
     },
     {
-    // You would describe the next trigger in this folder here.
+      "name": "Out of Range",
+      "isActive": "yes",
+      "patterns": [
+        {
+          "pattern": "pebkacderpderp",
+          "type": "exactMatch"
+        }
+      ]
+    },
+    {
+      "name": "Ship Moved Lets Try Again",
+      "isActive": "yes",
+      "patterns": [
+        {
+          "pattern": "^The ship (moves|drifts) .+$",
+          "type": "regex"
+        },
+        {
+          "pattern": "The wake caused by the movement .+",
+          "type": "regex"
+        }
+      ]
+    },
+    {
+      "name": "Monster Surfaced",
+      "isActive": "yes",
+      "patterns": [
+        {
+          "pattern": "A wave crashes over the ship as a massive form emerges from the depths.",
+          "type": "exactMatch"
+        },
+        {
+          "pattern": "The result of the depths disturbed, a great wave crashes against your ship, sending spume showering down over all aboard.",
+          "type": "exactMatch"
+        },
+        {
+          "pattern": "A fearfilled silence weighs heavily upon the waves as something shifts in the dark water.",
+          "type": "exactMatch"
+        }
+      ]
     }
   ]
