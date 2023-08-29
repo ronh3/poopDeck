@@ -1,1 +1,1 @@
-poopDeck.SeaWeapon(matches[2])
+poopDeck.SetWeapon(matches[2])
