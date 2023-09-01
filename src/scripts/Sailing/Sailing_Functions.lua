@@ -19,9 +19,13 @@ end
 
 --Clear the rigging
 function poopDeck.ClearRigging()
-    send("queue add full climb rigging")
-    send("queue add full clear rigging")
-    send("queue add full climb rigging")
+    send("queue add freestand climb rigging")
+    send("queue add freestand clear rigging")
+end
+
+--Climb down after clearing the rigging
+function poopDeck.ClearedRigging()
+    send("queue add freestand climb rigging down")
 end
 
 --Raise and lower Comm Screen

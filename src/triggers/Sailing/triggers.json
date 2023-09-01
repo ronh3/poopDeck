@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Rigging Cleared",
+        "isActive": "yes",
+        "patterns": [
+            {
+                "pattern": "As you remove the final remnants of the chain-shot from the ship, the sails are once again able to be unfurled.",
+                "type": "exactMatch"
+            },
+            {
+                "pattern": "There is nothing to clear from the riggings.",
+                "type": "exactMatch"
+            }
+        ]
+    }
+]
