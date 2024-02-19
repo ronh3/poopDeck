@@ -21,6 +21,34 @@ poopDeck.Seamonsters = {
     ["a red-faced septacean"] = 20
 }
 
+--Table of dead seamonster messages
+poopDeck.DeadSeamonsterMessages = {
+    "🚢🐉 Triumphant Victory! 🐉🚢",
+    "⚓🌊 Monster Subdued! 🌊⚓",
+    "🔱🌊 Beast Beneath Conquered! 🌊🔱",
+    "⛵🌊 Monstrous Foe Defeated! 🌊⛵",
+    "🗡️🌊 Siren of the Deep Quelled! 🌊🗡️",
+    "⚔️🌊 Sea's Terror Defeated! 🌊⚔️",
+    "🦈🌊 Jaws of the Abyss Conquered! 🌊🦈",
+    "🏴‍☠️🌊 Monstrous Victory Achieved! 🌊🏴‍☠️",
+    "🌟🌊 Tidal Terror Tamed! 🌊🌟",
+    "🗺️🌊 Legends Born of Victory! 🌊🗺️"
+}
+
+--Table of spawned seamonster messages
+poopDeck.SpottedSeamonsterMessages = {
+    "🐉🌊 Rising Behemoth! 🌊🐉",
+    "🔍🌊 Titan of the Deep Spotted! 🌊🔍",
+    "🐲🌊 Majestic Leviathan Ascendant! 🌊🐲",
+    "🦑🌊 Monstrous Anomaly Unveiled! 🌊🦑",
+    "🌌🌊 Awakening of the Abyssal Colossus! 🌊🌌",
+    "🌊🌊 Ripple of Giants! 🌊🌊",
+    "🌟🌊 Deep's Enigma Revealed! 🌊🌟",
+    "🐙🌊 Emergence of the Watery Behemoth! 🌊🐙",
+    "🔮🌊 Ocean's Secret Unveiled! 🌊🔮",
+    "🐍🌊 Serpentine Giant Surfaces! 🌊🐍"
+}
+
 --Turns your automatic seamonster firing on or off.
 function poopDeck.SetSeamonsterAutoFire(mode)
     if mode == "on" then
@@ -70,9 +98,11 @@ function poopDeck.AutoFire()
         sendAll("maintain hull", "load thrower with disc", "fire thrower at seamonster")
     elseif poopDeck.Onager then
         if poopDeck.FiredSpider then
-            sendAll("maintain hull", "load onager with starshort", "fire onager at seamonster")
+            sendAll("maintain hull", "load onager with starshot", "fire onager at seamonster")
+            poopDeck.FiredSpider = false
         else
             sendAll("maintain hull", "load onager with spidershot", "fire onager at seamonster")
+            poopDeck.FiredSpider = true
         end
     end
 end
@@ -89,13 +119,15 @@ function poopDeck.SeaFire(ammo)
     elseif ammo == "o" then
         if poopDeck.FiredSpider then
             sendAll("maintain hull", "load onager with starshort", "fire onager at seamonster")
+            poopDeck.FiredSpider = false
         else
             sendAll("maintain hull", "load onager with spidershot", "fire onager at seamonster")
+            poopDeck.FiredSpider = true
         end
     elseif ammo == "sp" then
         sendAll("maintain hull", "load onager with spidershot", "fire onager at seamonster")
     elseif ammo == "st" then
-        sendAll("maintain hull", "load onager with starshort", "fire onager at seamonster")
+        sendAll("maintain hull", "load onager with starshot", "fire onager at seamonster")
     elseif ammo == "d" then
         sendAll("maintain hull", "load thrower with disc", "fire thrower at seamonster")
     end
@@ -125,10 +157,23 @@ end
 
 --Toggle to turn curing on/off automatically while firing.
 function poopDeck.ToggleCuring(thankyouherrdoktor)
+    local myMessage
+
     if thankyouherrdoktor then
-        send("curing off")
-    else
         send("curing on")
+        myMessage = "CURING ON"
+    else
+        if (tonumber(gmcp.Char.Vitals.hp) / tonumber(gmcp.Char.Vitals.maxhp) * 100) < 69 then
+            send("curing on")
+            myMessage = "CURING ON"
+            poopDeck.GoodEcho(myMessage)
+            return false
+        else
+            send("curing off")
+            myMessage = "CURING OFF"
+            poopDeck.GoodEcho(myMessage)
+            return true
+        end
     end
 end
 
@@ -151,4 +196,25 @@ function poopDeck.MonsterSurfaced()
     myMessage = "SEAMONSTER HAS SURFACED"
     poopDeck.BadEcho(myMessage)
     if poopDeck.mode == true then poopDeck.AutoFire() end
+end
+
+--If you aren't autofiring, will give a popup that you stopped your shot.
+--If autofiring, will attempt to lock and fire after 1 second.
+function poopDeck.InterruptedShot()
+    local keepShooting = poopDeck.ToggleCuring()
+    if keepShooting then
+        poopDeck.AutoFire()
+    end
+end
+
+--Once a seamonster is killed, this will set the seamonster counter back to zero, give us a nice message that it's dead
+--then turn curing back on because why not. Curing on is good. Off is bad, unless it stops us from doing nifty things.
+--Like shooting seamonsters. And looking fly.
+function poopDeck.DeadSeamonster()
+    local myMessage
+
+    poopDeck.SeamonsterShots = 0
+    myMessage = poopDeck.DeadSeamonsterMessages[math.random(#poopDeck.DeadSeamonsterMessages)]
+    poopDeck.ToggleCuring(true)
+    poopDeck.GoodEcho(myMessage)
 end

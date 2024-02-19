@@ -22,8 +22,8 @@
       "isActive": "yes",
       "patterns": [
         {
-          "pattern": "pebkacderpderp",
-          "type": "exactMatch"
+          "pattern": "^The target is out of range of .+\\.$",
+          "type": "regex"
         }
       ]
     },
@@ -56,6 +56,30 @@
         {
           "pattern": "A fearfilled silence weighs heavily upon the waves as something shifts in the dark water.",
           "type": "exactMatch"
+        },
+        {
+          "pattern": "A swell rocks your vessel as something rises from the depths.",
+          "type": "exactMatch"
+        }
+      ]
+    },
+    {
+      "name": "Firing Interrupted",
+      "isActive": "yes",
+      "patterns": [
+        {
+          "pattern": "You cease the process of aiming the ship's weapon.",
+          "type": "exactMatch"
+        }
+      ]
+    },
+    {
+      "name": "Dead Monster",
+      "isActive": "yes",
+      "patterns": [
+        {
+          "pattern": "^.+ is defeated and begins to sink to the depths\\.$",
+          "type": "regex"
         }
       ]
     }

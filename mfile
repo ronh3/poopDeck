@@ -1,7 +1,7 @@
 {
   "package": "poopDeck",
   "title": "poopDeck Sailing Package",
-  "version": "0.9a",
+  "version": "0.9b",
   "author": "Nikolais",
-  "icon": "imonaboat.png",
+  "icon": "imonaboat.png"
 }

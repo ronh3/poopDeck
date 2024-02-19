@@ -19,9 +19,13 @@ end
 
 --Clear the rigging
 function poopDeck.ClearRigging()
-    send("queue add full climb rigging")
-    send("queue add full clear rigging")
-    send("queue add full climb rigging")
+    send("queue add freestand climb rigging")
+    send("queue add freestand clear rigging")
+end
+
+--Climb down after clearing the rigging
+function poopDeck.ClearedRigging()
+    send("queue add freestand climb rigging down")
 end
 
 --Raise and lower Comm Screen
@@ -35,7 +39,7 @@ end
 
 --Dock the ship in a direction
 function poopDeck.Dock(direction)
-    send("ship dock " .. direction)
+    send("ship dock " .. direction .. "confirm")
 end
 
 --Fill a bucket, douse the room or yourself, then fill the bucket up again

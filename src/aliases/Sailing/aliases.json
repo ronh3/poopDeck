@@ -22,12 +22,12 @@
     {
         "name": "Comm Screen",
         "isActive": "yes",
-        "regex": "^scomm (on|off)"
+        "regex": "^scomm\\s?(on|off)"
     },
     {
         "name": "Dock",
         "isActive": "yes",
-        "regex": "dock (\\w+)"
+        "regex": "^dock\\s?(\\w+)$"
     },
     {
         "name": "Douse",
@@ -72,6 +72,6 @@
     {
         "name": "Wavecall",
         "isActive": "yes",
-        "regex": "^wav (\\w+) ([12345678])$"
+        "regex": "^wav\\s?(\\w+)\\s?([12345678])$"
     }
 ]
