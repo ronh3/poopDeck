@@ -205,6 +205,7 @@ function poopDeck.InterruptedShot()
     if keepShooting then
         poopDeck.AutoFire()
     end
+end
 
 --Once a seamonster is killed, this will set the seamonster counter back to zero, give us a nice message that it's dead
 --then turn curing back on because why not. Curing on is good. Off is bad, unless it stops us from doing nifty things.
