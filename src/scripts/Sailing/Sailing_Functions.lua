@@ -39,7 +39,7 @@ end
 
 --Dock the ship in a direction
 function poopDeck.Dock(direction)
-    send("ship dock " .. direction)
+    send("ship dock " .. direction .. "confirm")
 end
 
 --Fill a bucket, douse the room or yourself, then fill the bucket up again
