@@ -1,3 +1,6 @@
+--Setting up namespace
+poopDeck = poopDeck or {}
+
 --Function to check if a string contains any emojis
 function poopDeck.containsEmoji(text)
   -- This pattern matches characters outside the standard ASCII range, where most emojis reside.
