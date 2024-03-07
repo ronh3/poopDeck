@@ -1,15 +1,15 @@
 --Raise/lower anchor
 function poopDeck.Anchor(whatdo)
     if whatdo == "r" then
-        send("ship raise anchor")
+        send("say weigh anchor!")
     elseif whatdo == "l" then
-        send("ship lower anchor")
+        send("say drop the anchor!")
     end
 end
 
 --Cast off from the dock
 function poopDeck.CastOff()
-    send("ship castoff")
+    send("say castoff!")
 end
 
 --Chop ropes from an enemy ship
@@ -19,8 +19,7 @@ end
 
 --Clear the rigging
 function poopDeck.ClearRigging()
-    send("queue add freestand climb rigging")
-    send("queue add freestand clear rigging")
+    sendAll("queue add freestand climb rigging", "queue add freestand clear rigging")
 end
 
 --Climb down after clearing the rigging
@@ -39,26 +38,34 @@ end
 
 --Dock the ship in a direction
 function poopDeck.Dock(direction)
-    send("ship dock " .. direction .. "confirm")
+    send("say dock " .. direction .. " confirm")
 end
 
 --Fill a bucket, douse the room or yourself, then fill the bucket up again
 function poopDeck.Douse(whatdo)
-    send("fill bucket with water")
     if whatdo == "r" then
-        send("queue add full douse room")
+        sendAll("queue add freestand fill bucket with water", "queue add freestand douse room")
     elseif whatdo == "m" then
-        send("queue add full douse me")
+        sendAll("queue add freestand fill bucket with water", "queue add freestand douse me")
     end
-    send("queue add full fill bucket with water")
+    send("queue add freestand fill bucket with water")
+end
+
+--Maintain the hull or sails
+function poopDeck.maintain(whatdo)
+    if whatdo == "h" then
+        send("queue add freestand maintain hull")
+    elseif whatdo == "s" then
+        send("queue add freestand maintain sails")
+    end
 end
 
 --Raise/lower the plank
 function poopDeck.Plank(whatdo)
     if whatdo == "r" then
-        send("ship raise plank")
+        send("say raise the plank!")
     elseif whatdo == "l" then
-        send("ship lower plank")
+        send("say lower the plank!")
     end
 end
 
@@ -70,7 +77,11 @@ end
 --Set the ship's speed. Will accept a number (for percentage) as well as full, relax, furl, and strike. I think those last three are all the same? o.O
 function poopDeck.SetSpeed(zoom)
     if zoom == "strike" or zoom == "furl" or zoom == "full" or zoom == "relax" then
-        send("ship sails " .. zoom)
+        send("say " .. zoom .. "sails!")
+    elseif zoom == 100 then
+        send("say full sails!")
+    elseif zoom == 0 then
+        send("say strike sails!")
     else
         send("ship sails set " .. zoom)
     end
@@ -83,8 +94,7 @@ end
 
 --Get yourself rescued!
 function poopDeck.ShipRescue()
-    send("get token from pack")
-    send("ship rescue me")
+    sendAll("get token from pack", "ship rescue me")
 end
 
 --Turn on/off shipwarning. Honestly, this should always be on. Tempted to make it a trigger. Maybe? We'll see.
@@ -98,7 +108,7 @@ end
 
 --Turning the ship!
 function poopDeck.TurnShip(heading)
-    send("ship turn " .. heading)
+    send("say Bring her to the " .. heading .. "!")
 end
 
 --Wavecall. Takes direction, and number of spaces
