@@ -68,6 +68,8 @@ function poopDeck.MonsterSurfaced()
     myMessage = poopDeck.SpottedSeamonsterMessages[math.random(#poopDeck.SpottedSeamonsterMessages)]
     poopDeck.badEcho(myMessage)
     if poopDeck.mode == true then poopDeck.AutoFire() end
+    tempTimer(900, [[poopDeck.goodEcho("Monster in 5 minutes")]])
+    tempTimer(1140, [[poopDeck.goodEcho("Monster in 1 minute")]])
 end
 
 --Once a seamonster is killed, this will set the seamonster counter back to zero, give us a nice message that it's dead
