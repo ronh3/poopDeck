@@ -1,8 +1,13 @@
 [
     {
+        "name": "All Stop",
+        "isActive": "yes",
+        "regex": "^sstop$"
+    },
+    {
         "name": "Anchor",
         "isActive": "yes",
-        "regex": "^(r|l)anc$"
+        "regex": "^([rl])anc$"
     },
     {
         "name": "Cast Off",
@@ -35,14 +40,29 @@
         "regex": "^dou([rm])$"
     },
     {
+        "name": "Maintain",
+        "isActive": "yes",
+        "regex": "^main([hs])$"
+    },
+    {
         "name": "Plank",
         "isActive": "yes",
-        "regex": "^(r|l)pla$"
+        "regex": "^([rl])pla$"
     },
     {
         "name": "Rainstorm",
         "isActive": "yes",
         "regex": "^rain$"
+    },
+    {
+        "name": "Relax Oars",
+        "isActive": "yes",
+        "regex": "^sreo$"
+    },
+    {
+        "name": "Row",
+        "isActive": "yes",
+        "regex": "^srow$"
     },
     {
         "name": "Set Speed",
