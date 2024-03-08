@@ -1,4 +1,3 @@
 # poopDeck
 Seafaring package for Achaea. Yes, I chose the name because I have the maturity of a thirteen year old.
-
-In-Game helpfile, just type poopdeck
+3/8/2024 - Autofiring is not working at the moment. Working to fix it.
