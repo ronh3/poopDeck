@@ -1,1 +1,1 @@
-poopDeck.OutOfMonsterRange(true)
+poopDeck.OutOfMonsterRange()
