@@ -1,4 +1,3 @@
----@diagnostic disable: redundant-parameter
 --Seamonster Tracking and callouts
 
 --Seamonster table to know total shots needed to kill.
