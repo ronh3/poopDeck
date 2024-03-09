@@ -42,44 +42,12 @@
       ]
     },
     {
-      "name": "Monster Surfaced",
-      "isActive": "yes",
-      "patterns": [
-        {
-          "pattern": "A wave crashes over the ship as a massive form emerges from the depths.",
-          "type": "exactMatch"
-        },
-        {
-          "pattern": "The result of the depths disturbed, a great wave crashes against your ship, sending spume showering down over all aboard.",
-          "type": "exactMatch"
-        },
-        {
-          "pattern": "A fearfilled silence weighs heavily upon the waves as something shifts in the dark water.",
-          "type": "exactMatch"
-        },
-        {
-          "pattern": "A swell rocks your vessel as something rises from the depths.",
-          "type": "exactMatch"
-        }
-      ]
-    },
-    {
       "name": "Firing Interrupted",
       "isActive": "yes",
       "patterns": [
         {
           "pattern": "You cease the process of aiming the ship's weapon.",
           "type": "exactMatch"
-        }
-      ]
-    },
-    {
-      "name": "Dead Monster",
-      "isActive": "yes",
-      "patterns": [
-        {
-          "pattern": "^.+ is defeated and begins to sink to the depths\\.$",
-          "type": "regex"
         }
       ]
     }
