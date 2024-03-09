@@ -32,7 +32,7 @@ poopDeck.DeadSeamonsterMessages = {
     "🗡️🌊 Siren of the Deep Quelled! 🌊🗡️",
     "⚔️🌊 Sea's Terror Defeated! 🌊⚔️",
     "🦈🌊 Jaws of the Abyss Conquered! 🌊🦈",
-    "🏴‍☠️🌊 Monstrous Victory Achieved! 🌊🏴‍☠️",
+    "🚢🌊 Monstrous Victory Achieved! 🌊🚢",
     "🌟🌊 Tidal Terror Tamed! 🌊🌟",
     "🗺️🌊 Legends Born of Victory! 🌊🗺️"
 }
@@ -79,7 +79,7 @@ function poopDeck.DeadSeamonster()
     local myMessage
     poopDeck.SeamonsterShots = 0
     myMessage = poopDeck.DeadSeamonsterMessages[math.random(#poopDeck.DeadSeamonsterMessages)]
-    poopDeck.ToggleCuring(true)
+    poopDeck.ToggleCuring("on")
     poopDeck.goodEcho(myMessage)
 end
 
@@ -122,12 +122,16 @@ function poopDeck.SetWeapon(boomstick)
     poopDeck.goodEcho(myMessage)
 end
 
+--Tracks that you have started firing, so that triggers can be disabled/won't interrupt.
+function poopDeck.SeaFiring()
+    disableTrigger("Ship Moved Lets Try Again")
+    poopDeck.ToggleCuring(false)
+end
+
 --Automatically fires your set weapon. Will first check for which weapon you're supposed to be firing.
 --For ballista and thrower, it's just going to dart and wardisc the monster.
 --For the onager, it will rotate between starshot and spidershot.
 function poopDeck.AutoFire()
-    poopDeck.ToggleCuring(true)
-
     if poopDeck.Ballista then
         sendAll("maintain hull", "load ballista with dart", "fire ballista at seamonster")
     elseif poopDeck.Thrower then
@@ -145,26 +149,30 @@ end
 
 --Manually fire a weapon. Onager will alternate between spidershot and starshot if the correct alias (firo) is used.
 function poopDeck.SeaFire(ammo)
-    poopDeck.ToggleCuring(true)
-
-    if ammo == "b" then
-        sendAll("maintain hull", "load ballista with dart", "fire ballista at seamonster")
-    elseif ammo == "bf" then
-        sendAll("maintain hull", "load ballista with flare", "fire ballista at seamonster")
-    elseif ammo == "o" then
-        if poopDeck.FiredSpider then
-            sendAll("maintain hull", "load onager with starshot", "fire onager at seamonster")
-            poopDeck.FiredSpider = false
-        else
+    if poopDeck.ToggleCuring() then
+        if ammo == "b" then
+            sendAll("maintain hull", "load ballista with dart", "fire ballista at seamonster")
+        elseif ammo == "bf" then
+            sendAll("maintain hull", "load ballista with flare", "fire ballista at seamonster")
+        elseif ammo == "o" then
+            if poopDeck.FiredSpider then
+                sendAll("maintain hull", "load onager with starshot", "fire onager at seamonster")
+                poopDeck.FiredSpider = false
+            else
+                sendAll("maintain hull", "load onager with spidershot", "fire onager at seamonster")
+                poopDeck.FiredSpider = true
+            end
+        elseif ammo == "sp" then
             sendAll("maintain hull", "load onager with spidershot", "fire onager at seamonster")
-            poopDeck.FiredSpider = true
+        elseif ammo == "st" then
+            sendAll("maintain hull", "load onager with starshot", "fire onager at seamonster")
+        elseif ammo == "d" then
+            sendAll("maintain hull", "load thrower with disc", "fire thrower at seamonster")
         end
-    elseif ammo == "sp" then
-        sendAll("maintain hull", "load onager with spidershot", "fire onager at seamonster")
-    elseif ammo == "st" then
-        sendAll("maintain hull", "load onager with starshot", "fire onager at seamonster")
-    elseif ammo == "d" then
-        sendAll("maintain hull", "load thrower with disc", "fire thrower at seamonster")
+    else
+        poopDeck.ToggleCuring("on")
+        local myMessage = "NEED TO HEAL - HOLD FIRE!"
+        poopDeck.badEcho(myMessage)
     end
 end
 
@@ -172,7 +180,6 @@ end
 --Otherwise, setting a 4s temptimer to let the user know they can shoot again.
 function poopDeck.SeaFired()
     local myMessage = "READY TO FIRE!"
-
     poopDeck.ToggleCuring()
     if poopDeck.mode == "automatic" then
         tempTimer(4, [[poopDeck.AutoFire()]])
@@ -183,8 +190,12 @@ end
 
 --Toggle to turn curing on/off automatically while firing.
 function poopDeck.ToggleCuring(curing)
-    if curing then
+    if curing == "on" then
         send("curing on")
+        return false
+    elseif curing == "off" then
+        send("curing off")
+        return true
     else
         if (tonumber(gmcp.Char.Vitals.hp) / tonumber(gmcp.Char.Vitals.maxhp) * 100) < 69 then
             send("curing on")
@@ -203,19 +214,19 @@ end
 
 --If we were out of range, turn curing back on.
 function poopDeck.OutOfMonsterRange()
-    poopDeck.ToggleCuring(true)
+    poopDeck.ToggleCuring("on")
     enableTrigger("Ship Moved Lets Try Again")
 end
 
 --If you aren't autofiring, will give a popup that you stopped your shot.
 --If autofiring, will attempt to lock and fire after 1 second.
 function poopDeck.InterruptedShot()
-    local myMessage = "SHOT INTERRUPTED!"
-    poopDeck.badEcho(myMessage)
-    local keepShooting = poopDeck.ToggleCuring()
+    local myMessageManual = "SHOT INTERRUPTED!"
+    local myMessageAuto = "SHOT INTERRUPTED! RETRYING!"
     if poopDeck.mode == "auto" then
-        if keepShooting then
-            tempTimer(1, [[poopDeck.AutoFire()]])
-        end
+        tempTimer(1, [[poopDeck.AutoFire()]])
+        poopDeck.badEcho(myMessageAuto)
+    else
+        poopDeck.badEcho(myMessageManual)
     end
 end
