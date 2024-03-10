@@ -29,7 +29,7 @@
     },
     {
       "name": "Ship Moved Lets Try Again",
-      "isActive": "yes",
+      "isActive": "no",
       "patterns": [
         {
           "pattern": "^The ship (moves|drifts) .+$",
