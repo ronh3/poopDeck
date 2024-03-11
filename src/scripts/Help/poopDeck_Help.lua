@@ -78,6 +78,8 @@ poopDeck.helpSplash = {
         borderColor = "00557F",
         commandColor = "B1D4E0",
         descriptionColor = "FFFFFF",
+        headerFooterColor = "F0F0F0",
+        categoryColor = "FFD700",
         width = 100
     },
     entries = {
