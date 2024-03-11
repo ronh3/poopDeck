@@ -225,6 +225,7 @@ end
 function poopDeck.InterruptedShot()
     local myMessageManual = "SHOT INTERRUPTED!"
     local myMessageAuto = "SHOT INTERRUPTED! RETRYING!"
+    poopDeck.ToggleCuring("on")
     if poopDeck.mode == "auto" then
         tempTimer(4, [[poopDeck.AutoFire()]])
         poopDeck.badEcho(myMessageAuto)

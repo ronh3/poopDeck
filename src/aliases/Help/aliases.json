@@ -1,0 +1,22 @@
+[
+    {
+        "name": "poopDeck Splash",
+        "isActive": "yes",
+        "regex": "^poopdeck$"
+    },
+    {
+        "name": "poopDeck Full",
+        "isActive": "yes",
+        "regex": "^poopfull$"
+    },
+    {
+        "name": "poopDeck Sailing",
+        "isActive": "yes",
+        "regex": "^poopsail$"
+    },
+    {
+        "name": "poopDeck Seamonsters",
+        "isActive": "yes",
+        "regex": "^poopmonster$"
+    }
+]

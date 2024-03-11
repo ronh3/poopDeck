@@ -119,46 +119,24 @@ end
 --Turning the ship!
 function poopDeck.TurnShip(heading)
     local directions = {
-        ["n"] = "north",
-        ["s"] = "south",
         ["e"] = "east",
-        ["w"] = "west",
+        ["ene"] = "east northeast",
+        ["ese"] = "east southeast",
+        ["n"] = "north",
+        ["nnw"] = "north northwest",
+        ["nne"] = "north northeast",
         ["ne"] = "northeast",
         ["nw"] = "northwest",
+        ["s"] = "south",
+        ["sse"] = "south southeast",
+        ["ssw"] = "south southwest",
         ["se"] = "southeast",
         ["sw"] = "southwest",
-        ["u"] = "up",
-        ["d"] = "down"
+        ["w"] = "west",
+        ["wnw"] = "west northwest",
+        ["wsw"] = "west southwest"
     }
-    
-    -- Iterate through each character in the string
-    local expandedHeading = ""
-    local i = 1
-    while i <= #heading do
-        local char = heading:sub(i, i)
-        local nextChar = heading:sub(i+1, i+1)
-        
-        -- Check if the current character and the next character form an abbreviated direction
-        if directions[char..nextChar] then
-            -- If yes, append the expanded direction to the result
-            expandedHeading = expandedHeading .. directions[char..nextChar]
-            i = i + 2 -- Skip the next character since it's part of the abbreviation
-        elseif directions[char] then
-            -- If the current character alone is an abbreviation, append its expanded form
-            expandedHeading = expandedHeading .. directions[char]
-            i = i + 1
-        else
-            -- If the current character is not part of an abbreviation, simply append it to the result
-            expandedHeading = expandedHeading .. char
-            i = i + 1
-        end
-    end
-    
-    -- Add a space between the results of the first and second sets of characters if the input contains three characters
-    if #heading == 3 then
-        expandedHeading = expandedHeading:gsub("^([a-z]+)([a-z]+)$", "%1 %2")
-    end
-    send("say Bring her to the " .. expandedHeading .. "!")
+    send("say Bring her to the " .. heading .. "!")
 end
 
 --Wavecall. Takes direction, and number of spaces
