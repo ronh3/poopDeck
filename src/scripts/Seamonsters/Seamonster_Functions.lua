@@ -54,10 +54,10 @@ poopDeck.SpottedSeamonsterMessages = {
 --Shot counter - Could probably make this cleaner, not sure exactly how though.
 function poopDeck.ShotCounter(target)
     local toKill = poopDeck.Seamonsters[target] or 30
-
     poopDeck.SeamonsterShots = poopDeck.SeamonsterShots or 0
     poopDeck.SeamonsterShots = poopDeck.SeamonsterShots + 1
-    cecho("\n<orange>We have taken <green>".. poopDeck.SeamonsterShots .. "<orange> shots. <red>" .. toKill - poopDeck.SeamonsterShots .. "<orange> remain.\n")
+    local myMessage = poopDeck.SeamonsterShots .. " shots taken, " .. toKill - poopDeck.SeamonsterShots .. " remain."
+    poopDeck.badEcho(myMessage)
 end
 
 --Start shooting if a monster surfaced if set to auto
@@ -67,9 +67,10 @@ function poopDeck.MonsterSurfaced()
     poopDeck.SeamonsterShots = 0
     myMessage = poopDeck.SpottedSeamonsterMessages[math.random(#poopDeck.SpottedSeamonsterMessages)]
     poopDeck.badEcho(myMessage)
-    if poopDeck.mode == true then poopDeck.AutoFire() end
+    if poopDeck.mode == "automatic" then poopDeck.AutoFire() end
     tempTimer(900, [[poopDeck.goodEcho("Monster in 5 minutes")]])
     tempTimer(1140, [[poopDeck.goodEcho("Monster in 1 minute")]])
+    tempTimer(1200, [[poopDeck.badEcho("Reel in, it's monster time!")]])
 end
 
 --Once a seamonster is killed, this will set the seamonster counter back to zero, give us a nice message that it's dead
@@ -180,7 +181,7 @@ end
 --Otherwise, setting a 4s temptimer to let the user know they can shoot again.
 function poopDeck.SeaFired()
     local myMessage = "READY TO FIRE!"
-    poopDeck.ToggleCuring()
+    poopDeck.ToggleCuring("on")
     if poopDeck.mode == "automatic" then
         tempTimer(4, [[poopDeck.AutoFire()]])
     else
@@ -197,7 +198,7 @@ function poopDeck.ToggleCuring(curing)
         send("curing off")
         return true
     else
-        if (tonumber(gmcp.Char.Vitals.hp) / tonumber(gmcp.Char.Vitals.maxhp) * 100) < 69 then
+        if (tonumber(gmcp.Char.Vitals.hp) / tonumber(gmcp.Char.Vitals.maxhp) * 100) < 75 then
             send("curing on")
             return false
         else
@@ -212,19 +213,21 @@ function poopDeck.ShipVitals()
     return
 end
 
---If we were out of range, turn curing back on.
+--If we were out of range, turn curing back on. 
+--Then turn on the trigger to attempt moving each time the ship moves.
 function poopDeck.OutOfMonsterRange()
     poopDeck.ToggleCuring("on")
     enableTrigger("Ship Moved Lets Try Again")
 end
 
 --If you aren't autofiring, will give a popup that you stopped your shot.
---If autofiring, will attempt to lock and fire after 1 second.
+--If autofiring, will attempt to lock and fire after 4 seconds.
 function poopDeck.InterruptedShot()
     local myMessageManual = "SHOT INTERRUPTED!"
     local myMessageAuto = "SHOT INTERRUPTED! RETRYING!"
+    poopDeck.ToggleCuring("on")
     if poopDeck.mode == "auto" then
-        tempTimer(1, [[poopDeck.AutoFire()]])
+        tempTimer(4, [[poopDeck.AutoFire()]])
         poopDeck.badEcho(myMessageAuto)
     else
         poopDeck.badEcho(myMessageManual)

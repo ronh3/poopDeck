@@ -1,0 +1,1 @@
+poopDeck.createHelp(poopDeck.helpSeamonsters)
