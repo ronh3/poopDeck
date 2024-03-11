@@ -89,7 +89,7 @@ poopDeck.helpSplash = {
     }
 }
 
-poopDeck.helpCombined = {
+poopDeck.helpFullPoop = {
     config = {
         headerName = "All Commands",
         footerName = "poopDeck",

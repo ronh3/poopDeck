@@ -1,1 +1,1 @@
-poopDeck.createHelp(poopDeck.helpFull)
+poopDeck.createHelp(poopDeck.helpFullPoop)
