@@ -57,8 +57,8 @@ poopDeck.helpSeamonsters = {
     },
     categories = {
         Automatic = {
-            ["autosea on|off"] = "Turn automatic seamonstering on or off",
-            ["seaweapon X"] = "Set what weapon to fire, accepts: ballista onager thrower",
+            ["autosea"] = "Turn automatic seamonstering on or off",
+            ["seaweapon X"] = "Set what weapon to fire, accepts: ballista, onager, thrower",
         },
         Manual = {
             ["firb"] = "Fire a dart from a ballista at a seamonster",
@@ -73,12 +73,15 @@ poopDeck.helpSeamonsters = {
 
 poopDeck.helpSplash = {
     config = {
-        headerName = "Manual Ship Weapon Commands",
+        headerName = "Welcome to poopDeck!",
         footerName = "poopDeck",
         borderColor = "00557F",
         commandColor = "B1D4E0",
         descriptionColor = "FFFFFF",
         width = 100
     },
-    
+    entries = {
+        ["poopmonster"] = "Show commands related to seamonsters and ship weapons",
+        ["poopsail"] = "Show commands related to sailing a ship"
+    }
 }
