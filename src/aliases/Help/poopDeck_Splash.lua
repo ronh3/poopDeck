@@ -1,1 +1,1 @@
-poopDeck.createHelp("poopDeck.helpSplash")
+poopDeck.createHelp(poopDeck.helpSplash)

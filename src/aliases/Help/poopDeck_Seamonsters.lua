@@ -1,1 +1,1 @@
-poopDeck.createHelp("poopDeck.helpSeamonsters")
+poopDeck.createHelp(poopDeck.helpSeamonsters)

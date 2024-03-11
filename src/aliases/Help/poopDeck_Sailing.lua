@@ -1,1 +1,1 @@
-poopDeck.createHelp("poopDeck.helpSailing")
+poopDeck.createHelp(poopDeck.helpSailing)
