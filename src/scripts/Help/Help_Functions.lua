@@ -12,7 +12,7 @@ function poopDeck.createHeader(name, borderC, headerFooterColor, totalWidth)
     local headerLine = string.format("#%s┌─#%s%s#%s─┐#r", borderC, headerFooterColor, name, borderC)
     local bottomLine = "#" .. borderC .. string.rep("─", totalWidth)
     local header = string.format("#%s\n%s\n%s#r", borderC, headerLine, bottomLine)
-    hecho(header)
+    hecho(header .. "\n")
 end
 
 -- Creates the footer for the helpfile
@@ -22,7 +22,7 @@ function poopDeck.createFooter(name, borderC, headerFooterColor, totalWidth)
     local footerLine = string.format("#%s└─#%s%s#%s─┘", borderC, headerFooterColor, name, borderC)
     local paddedFooterLine = string.rep(" ", paddingLength) .. footerLine
     local footer = string.format("#%s%s\n%s#r", borderC, topLine, paddedFooterLine)
-    hecho(footer)
+    hecho(footer .. "\n")
 end
 
 -- Creates an entry for the helpfile
@@ -43,8 +43,8 @@ end
 -- Processes entries for the helpfile, either a single category or multiple categories
 function poopDeck.processEntries(entries, config, categoryName)
     if categoryName then
-        local categoryNameFormatted = string.format("#%s     %s#r", config.categoryColor, categoryName)
-        hecho("\n" .. categoryNameFormatted .. "\n")
+        local categoryNameFormatted = string.format("#%s[%s]#r", config.categoryColor, categoryName)
+        hecho(categoryNameFormatted .. "\n")
     end
 
     local longestCommandLength = poopDeck.calculateLongestCommandLength(entries)
