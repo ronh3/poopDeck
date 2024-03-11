@@ -1,4 +1,4 @@
-poopDeck.Sailing = {
+poopDeck.helpSailing = {
     config = {
         headerName = "Ship Commands",
         footerName = "poopDeck",
@@ -44,7 +44,7 @@ poopDeck.Sailing = {
     }
 }
 
-poopDeck.Seamonsters = {
+poopDeck.helpSeamonsters = {
     config = {
         headerName = "Manual Ship Weapon Commands",
         footerName = "poopDeck",
@@ -71,7 +71,7 @@ poopDeck.Seamonsters = {
     }
 }
 
-poopDeck.Splash = {
+poopDeck.helpSplash = {
     config = {
         headerName = "Manual Ship Weapon Commands",
         footerName = "poopDeck",
