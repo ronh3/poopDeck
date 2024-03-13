@@ -1,5 +1,6 @@
---Setting up namespace
+--Setting up namespace and setting current version
 poopDeck = poopDeck or {}
+poopDeck.version = "0.9f"
 
 --Function to check if a string contains any emojis
 function poopDeck.containsEmoji(text)
@@ -52,14 +53,16 @@ hecho("\n" .. topMidLine)
 hecho("\n" .. middleLine)
 hecho("\n" .. bottomMidLine)
 hecho("\n" .. bottomLine)
-
-
 end
 
+--Echo for good things
 function poopDeck.goodEcho(daword)
   poopDeck.FramedBox(daword, "#6aa84f","#274e13","#6e1b1b","#FFFFFF","#FFFFFF,008000")
 end
 
+--Echo for bad things
 function poopDeck.badEcho(daword)
   poopDeck.FramedBox(daword, "#f37735","#d11141","#6e1b1b","#FFFFFF","#FFFFFF,800000")
 end
+
+--Update notification and download new version. Checks what the current version is vs what the version is up on Github.

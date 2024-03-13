@@ -37,12 +37,12 @@
     {
         "name": "Douse",
         "isActive": "yes",
-        "regex": "^dou([rm])$"
+        "regex": "^dou([rms])$"
     },
     {
         "name": "Maintain",
         "isActive": "yes",
-        "regex": "^main([hs])$"
+        "regex": "^main([hsn])$"
     },
     {
         "name": "Plank",
@@ -72,7 +72,7 @@
     {
         "name": "Ship Repairs",
         "isActive": "yes",
-        "regex": "^srep$"
+        "regex": "^sre[pn]$"
     },
     {
         "name": "Ship Rescue",
@@ -93,5 +93,10 @@
         "name": "Wavecall",
         "isActive": "yes",
         "regex": "^wav\\s?(\\w+)\\s?([12345678])$"
+    },
+    {
+        "name": "Windboost",
+        "isActive": "yes",
+        "regex": "^wind$"
     }
 ]
