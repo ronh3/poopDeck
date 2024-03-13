@@ -47,6 +47,8 @@ function poopDeck.Douse(whatdo)
         sendAll("queue add freestand fill bucket with water", "queue add freestand douse room")
     elseif whatdo == "m" then
         sendAll("queue add freestand fill bucket with water", "queue add freestand douse me")
+    elseif whatdo == "s" then
+        sendAll("queue add freestand fill bucket with water", "queue add freestand douse sails")
     end
     send("queue add freestand fill bucket with water")
 end
@@ -57,6 +59,8 @@ function poopDeck.maintain(whatdo)
         send("queue add freestand maintain hull")
     elseif whatdo == "s" then
         send("queue add freestand maintain sails")
+    elseif whatdo == "n" then
+        send("queue add freestand maintain none")
     end
 end
 
@@ -87,7 +91,7 @@ end
 --Set the ship's speed. Will accept a number (for percentage) as well as full, relax, furl, and strike. I think those last three are all the same? o.O
 function poopDeck.SetSpeed(zoom)
     if zoom == "strike" or zoom == "furl" or zoom == "full" or zoom == "relax" then
-        send("say " .. zoom .. "sails!")
+        send("say " .. zoom .. " sails!")
     elseif zoom == 100 then
         send("say full sails!")
     elseif zoom == 0 then
@@ -120,26 +124,36 @@ end
 function poopDeck.TurnShip(heading)
     local directions = {
         ["e"] = "east",
-        ["ene"] = "east northeast",
-        ["ese"] = "east southeast",
+        ["ene"] = "east-northeast",
+        ["ese"] = "east-southeast",
         ["n"] = "north",
-        ["nnw"] = "north northwest",
-        ["nne"] = "north northeast",
+        ["nnw"] = "north-northwest",
+        ["nne"] = "north-northeast",
         ["ne"] = "northeast",
         ["nw"] = "northwest",
         ["s"] = "south",
-        ["sse"] = "south southeast",
-        ["ssw"] = "south southwest",
+        ["sse"] = "south-southeast",
+        ["ssw"] = "south-southwest",
         ["se"] = "southeast",
         ["sw"] = "southwest",
         ["w"] = "west",
-        ["wnw"] = "west northwest",
-        ["wsw"] = "west southwest"
+        ["wnw"] = "west-northwest",
+        ["wsw"] = "west-southwest"
     }
-    send("say Bring her to the " .. heading .. "!")
+    send("say Bring her to the " .. directions[heading] .. "!")
 end
 
 --Wavecall. Takes direction, and number of spaces
 function poopDeck.WaveCall(heading, howfar)
     send("invoke wavecall " .. heading .. " " .. howfar)
+end
+
+--Windboost. What it says on the tin really.
+function poopDeck.Windboost()
+    send("invoke windboost")
+end
+
+--Send the all stop command
+function poopDeck.allStop()
+    send("say All stop!")
 end
