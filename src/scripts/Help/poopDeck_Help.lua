@@ -7,7 +7,7 @@ poopDeck.helpSailing = {
         descriptionColor = "FFFFFF",
         headerFooterColor = "F0F0F0",
         categoryColor = "FFD700",
-        width = 100
+        width = getWindowWrap("main")
     },
     categories = {
         ["Navigation and Movement"] = {
@@ -53,7 +53,7 @@ poopDeck.helpSeamonsters = {
         descriptionColor = "FFFFFF",
         headerFooterColor = "F0F0F0",
         categoryColor = "FFD700",
-        width = 100
+        width = getWindowWrap("main")
     },
     categories = {
         Automatic = {
@@ -80,7 +80,7 @@ poopDeck.helpSplash = {
         descriptionColor = "FFFFFF",
         headerFooterColor = "F0F0F0",
         categoryColor = "FFD700",
-        width = 100
+        width = getWindowWrap("main")
     },
     entries = {
         ["poopmonster"] = "Show commands related to seamonsters and ship weapons",
@@ -98,7 +98,7 @@ poopDeck.helpFullPoop = {
         descriptionColor = "FFFFFF",
         headerFooterColor = "F0F0F0",
         categoryColor = "FFD700",
-        width = 100
+        width = getWindowWrap("main")
     },
     categories = {
         ["Navigation and Movement"] = {

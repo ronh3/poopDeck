@@ -57,7 +57,7 @@ function poopDeck.ShotCounter(target)
     poopDeck.SeamonsterShots = poopDeck.SeamonsterShots or 0
     poopDeck.SeamonsterShots = poopDeck.SeamonsterShots + 1
     local myMessage = poopDeck.SeamonsterShots .. " shots taken, " .. toKill - poopDeck.SeamonsterShots .. " remain."
-    poopDeck.badEcho(myMessage)
+    poopDeck.shotEcho(myMessage)
 end
 
 --Start shooting if a monster surfaced if set to auto
@@ -125,14 +125,15 @@ end
 
 --Tracks that you have started firing, so that triggers can be disabled/won't interrupt.
 function poopDeck.SeaFiring()
-    disableTrigger("Ship Moved Lets Try Again")
     poopDeck.ToggleCuring(false)
+    poopDeck.Firing = true
 end
 
 --Automatically fires your set weapon. Will first check for which weapon you're supposed to be firing.
 --For ballista and thrower, it's just going to dart and wardisc the monster.
 --For the onager, it will rotate between starshot and spidershot.
 function poopDeck.AutoFire()
+    if poopDeck.Firing == true then return end
     if poopDeck.Ballista then
         sendAll("maintain hull", "load ballista with dart", "fire ballista at seamonster")
     elseif poopDeck.Thrower then
@@ -150,6 +151,7 @@ end
 
 --Manually fire a weapon. Onager will alternate between spidershot and starshot if the correct alias (firo) is used.
 function poopDeck.SeaFire(ammo)
+    if poopDeck.Firing == true then return end
     if poopDeck.ToggleCuring() then
         if ammo == "b" then
             sendAll("maintain hull", "load ballista with dart", "fire ballista at seamonster")
@@ -182,6 +184,7 @@ end
 function poopDeck.SeaFired()
     local myMessage = "READY TO FIRE!"
     poopDeck.ToggleCuring("on")
+    poopDeck.Firing = false
     if poopDeck.mode == "automatic" then
         tempTimer(4, [[poopDeck.AutoFire()]])
     else
@@ -214,22 +217,20 @@ function poopDeck.ShipVitals()
 end
 
 --If we were out of range, turn curing back on. 
---Then turn on the trigger to attempt moving each time the ship moves.
+--Then turn on the trigger to attempt firing each time the ship moves.
 function poopDeck.OutOfMonsterRange()
+    local myMessage = "OUT OF RANGE!"
+    poopDeck.Firing = false
     poopDeck.ToggleCuring("on")
-    enableTrigger("Ship Moved Lets Try Again")
+    poopDeck.badEcho(myMessage)
 end
 
 --If you aren't autofiring, will give a popup that you stopped your shot.
 --If autofiring, will attempt to lock and fire after 4 seconds.
 function poopDeck.InterruptedShot()
-    local myMessageManual = "SHOT INTERRUPTED!"
+    local myMessage = "SHOT INTERRUPTED!"
     local myMessageAuto = "SHOT INTERRUPTED! RETRYING!"
     poopDeck.ToggleCuring("on")
-    if poopDeck.mode == "auto" then
-        tempTimer(4, [[poopDeck.AutoFire()]])
-        poopDeck.badEcho(myMessageAuto)
-    else
-        poopDeck.badEcho(myMessageManual)
-    end
+    poopDeck.Firing = false
+    poopDeck.badEcho(myMessage)
 end

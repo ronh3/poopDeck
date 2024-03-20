@@ -50,5 +50,15 @@
           "type": "exactMatch"
         }
       ]
+    },
+    {
+      "name": "Firing_Weapon",
+      "isActive": "yes",
+      "patterns": [
+        {
+          "pattern": "You begin the painstaking process of aiming",
+          "type": "startOfLine"
+        }
+      ]
     }
   ]
