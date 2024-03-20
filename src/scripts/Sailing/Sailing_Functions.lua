@@ -108,6 +108,7 @@ end
 
 --Get yourself rescued!
 function poopDeck.ShipRescue()
+    poopDeck.rescue = true
     sendAll("get token from pack", "ship rescue me")
 end
 

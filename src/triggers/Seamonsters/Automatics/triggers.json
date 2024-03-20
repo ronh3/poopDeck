@@ -24,6 +24,10 @@
         {
           "pattern": "^The target is out of range of .+\\.$",
           "type": "regex"
+        },
+        {
+          "pattern": "^Fire at what\\?$",
+          "type": "regex"
         }
       ]
     },
@@ -48,6 +52,16 @@
         {
           "pattern": "You cease the process of aiming the ship's weapon.",
           "type": "exactMatch"
+        }
+      ]
+    },
+    {
+      "name": "Firing_Weapon",
+      "isActive": "yes",
+      "patterns": [
+        {
+          "pattern": "You begin the painstaking process of aiming",
+          "type": "startOfLine"
         }
       ]
     }

@@ -57,7 +57,19 @@ function poopDeck.ShotCounter(target)
     poopDeck.SeamonsterShots = poopDeck.SeamonsterShots or 0
     poopDeck.SeamonsterShots = poopDeck.SeamonsterShots + 1
     local myMessage = poopDeck.SeamonsterShots .. " shots taken, " .. toKill - poopDeck.SeamonsterShots .. " remain."
-    poopDeck.badEcho(myMessage)
+    poopDeck.shotEcho(myMessage)
+end
+
+--Seamonster got spidershotted and is attacking slower
+function poopDeck.MonsterSpidershot()
+    local myMessage = "Seamonster Attack Slowed!"
+    poopDeck.smallGoodEcho(myMessage)
+end
+
+--Seamonster got starshotted and is attacking lighter
+function poopDeck.MonsterStarshot()
+    local myMessage = "Seamonster Attack Weakened!"
+    poopDeck.smallGoodEcho(myMessage)
 end
 
 --Start shooting if a monster surfaced if set to auto
@@ -125,14 +137,16 @@ end
 
 --Tracks that you have started firing, so that triggers can be disabled/won't interrupt.
 function poopDeck.SeaFiring()
-    disableTrigger("Ship Moved Lets Try Again")
     poopDeck.ToggleCuring(false)
+    poopDeck.Firing = true
+    disableTrigger("Ship Moved Lets Try Again")
 end
 
 --Automatically fires your set weapon. Will first check for which weapon you're supposed to be firing.
 --For ballista and thrower, it's just going to dart and wardisc the monster.
 --For the onager, it will rotate between starshot and spidershot.
 function poopDeck.AutoFire()
+    if poopDeck.Firing == true then return end
     if poopDeck.Ballista then
         sendAll("maintain hull", "load ballista with dart", "fire ballista at seamonster")
     elseif poopDeck.Thrower then
@@ -150,6 +164,7 @@ end
 
 --Manually fire a weapon. Onager will alternate between spidershot and starshot if the correct alias (firo) is used.
 function poopDeck.SeaFire(ammo)
+    if poopDeck.Firing == true then return end
     if poopDeck.ToggleCuring() then
         if ammo == "b" then
             sendAll("maintain hull", "load ballista with dart", "fire ballista at seamonster")
@@ -165,6 +180,8 @@ function poopDeck.SeaFire(ammo)
             end
         elseif ammo == "sp" then
             sendAll("maintain hull", "load onager with spidershot", "fire onager at seamonster")
+        elseif ammo == "c" then
+            sendAll("maintain hull", "load onager with chainshot", "fire onager at seamonster")
         elseif ammo == "st" then
             sendAll("maintain hull", "load onager with starshot", "fire onager at seamonster")
         elseif ammo == "d" then
@@ -182,6 +199,7 @@ end
 function poopDeck.SeaFired()
     local myMessage = "READY TO FIRE!"
     poopDeck.ToggleCuring("on")
+    poopDeck.Firing = false
     if poopDeck.mode == "automatic" then
         tempTimer(4, [[poopDeck.AutoFire()]])
     else
@@ -191,6 +209,7 @@ end
 
 --Toggle to turn curing on/off automatically while firing.
 function poopDeck.ToggleCuring(curing)
+    if poopDeck.rescue == true then return end
     if curing == "on" then
         send("curing on")
         return false
@@ -214,22 +233,20 @@ function poopDeck.ShipVitals()
 end
 
 --If we were out of range, turn curing back on. 
---Then turn on the trigger to attempt moving each time the ship moves.
+--Then turn on the trigger to attempt firing each time the ship moves.
 function poopDeck.OutOfMonsterRange()
-    poopDeck.ToggleCuring("on")
+    local myMessage = "OUT OF RANGE!"
+    poopDeck.Firing = false
     enableTrigger("Ship Moved Lets Try Again")
+    poopDeck.ToggleCuring("on")
+    poopDeck.badEcho(myMessage)
 end
 
---If you aren't autofiring, will give a popup that you stopped your shot.
---If autofiring, will attempt to lock and fire after 4 seconds.
+--Will pop a notification that your shot got interrupted.
 function poopDeck.InterruptedShot()
-    local myMessageManual = "SHOT INTERRUPTED!"
+    local myMessage = "SHOT INTERRUPTED!"
     local myMessageAuto = "SHOT INTERRUPTED! RETRYING!"
     poopDeck.ToggleCuring("on")
-    if poopDeck.mode == "auto" then
-        tempTimer(4, [[poopDeck.AutoFire()]])
-        poopDeck.badEcho(myMessageAuto)
-    else
-        poopDeck.badEcho(myMessageManual)
-    end
+    poopDeck.Firing = false
+    poopDeck.badEcho(myMessage)
 end
