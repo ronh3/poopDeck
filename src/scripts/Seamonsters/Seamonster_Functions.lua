@@ -60,6 +60,18 @@ function poopDeck.ShotCounter(target)
     poopDeck.shotEcho(myMessage)
 end
 
+--Seamonster got spidershotted and is attacking slower
+function poopDeck.MonsterSpidershot()
+    local myMessage = "Seamonster Attack Slowed!"
+    poopDeck.smallGoodEcho(myMessage)
+end
+
+--Seamonster got starshotted and is attacking lighter
+function poopDeck.MonsterStarshot()
+    local myMessage = "Seamonster Attack Weakened!"
+    poopDeck.smallGoodEcho(myMessage)
+end
+
 --Start shooting if a monster surfaced if set to auto
 --For auto and manual, display a warning
 function poopDeck.MonsterSurfaced()
@@ -127,6 +139,7 @@ end
 function poopDeck.SeaFiring()
     poopDeck.ToggleCuring(false)
     poopDeck.Firing = true
+    disableTrigger("Ship Moved Lets Try Again")
 end
 
 --Automatically fires your set weapon. Will first check for which weapon you're supposed to be firing.
@@ -167,6 +180,8 @@ function poopDeck.SeaFire(ammo)
             end
         elseif ammo == "sp" then
             sendAll("maintain hull", "load onager with spidershot", "fire onager at seamonster")
+        elseif ammo == "c" then
+            sendAll("maintain hull", "load onager with chainshot", "fire onager at seamonster")
         elseif ammo == "st" then
             sendAll("maintain hull", "load onager with starshot", "fire onager at seamonster")
         elseif ammo == "d" then
@@ -194,6 +209,7 @@ end
 
 --Toggle to turn curing on/off automatically while firing.
 function poopDeck.ToggleCuring(curing)
+    if poopDeck.rescue == true then return end
     if curing == "on" then
         send("curing on")
         return false
@@ -221,12 +237,12 @@ end
 function poopDeck.OutOfMonsterRange()
     local myMessage = "OUT OF RANGE!"
     poopDeck.Firing = false
+    enableTrigger("Ship Moved Lets Try Again")
     poopDeck.ToggleCuring("on")
     poopDeck.badEcho(myMessage)
 end
 
---If you aren't autofiring, will give a popup that you stopped your shot.
---If autofiring, will attempt to lock and fire after 4 seconds.
+--Will pop a notification that your shot got interrupted.
 function poopDeck.InterruptedShot()
     local myMessage = "SHOT INTERRUPTED!"
     local myMessageAuto = "SHOT INTERRUPTED! RETRYING!"

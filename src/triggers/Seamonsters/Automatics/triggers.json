@@ -24,6 +24,10 @@
         {
           "pattern": "^The target is out of range of .+\\.$",
           "type": "regex"
+        },
+        {
+          "pattern": "^Fire at what\\?$",
+          "type": "regex"
         }
       ]
     },

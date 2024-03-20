@@ -121,7 +121,7 @@ end
 
 --Small Echo for shooting things
 function poopDeck.shotEcho(daword)
-  poopDeck.SmallFramedBox(daword, "#fdb643","#90d673","#6e1b1b","#FFFFFF","#FFFFFF,#fdb643")
+  poopDeck.SmallFramedBox(daword, "#fdb643","#90d673","#6e1b1b","#FFFFFF","#FFFFFF,#800000")
 end
 
 --Update notification and download new version. Checks what the current version is vs what the version is up on Github.

@@ -14,6 +14,26 @@
       ]
     },
     {
+      "name": "Monster Starshot",
+      "isActive": "yes",
+      "patterns": [
+        {
+          "pattern": "A mass of sharp pieces of metal and wood fly out from",
+          "type": "startOfLine"
+        }
+      ]
+    },
+    {
+      "name": "Monster Spidershot",
+      "isActive": "yes",
+      "patterns": [
+        {
+          "pattern": "A tangle of ropes and cloth rises from",
+          "type": "startOfLine"
+        }
+      ]
+    },
+    {
       "name": "Monster Surfaced",
       "isActive": "yes",
       "patterns": [
