@@ -253,6 +253,8 @@ end
 
 --Displays a thingie letting you know that you're shooting at something
 function poopDeck.parsePrompt()
+  if poopDeck.Firing then
     local myMessage = "Firing at Seamonster!"
     poopDeck.fireEcho(myMessage)
+  end
 end

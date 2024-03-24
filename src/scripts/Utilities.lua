@@ -100,8 +100,28 @@ function poopDeck.SmallFramedBox(secondLineText, edgeColor, frameColor, poopColo
   end
 
 --Line echo for firing - Note to self, add for fire, hookshot, etc.
-function poopDeck.fireLine(daword)
-  local middleLine = edgeColor .."[" .. fillColor .. secondPadding .. textColor .. secondLineText .. fillColor .. secondPadding2 .. "#r" .. edgeColor .. "]"
+function poopDeck.fireLine(daword, edgeColor, frameColor, poopColor, textColor, fillColor)
+-- Second line text (variable content) with padding
+  local totalWidth = 80
+  local secondLineLength = utf8.len(daword)
+  local secondPaddingLength = math.floor((totalWidth - secondLineLength - 2) / 2)
+  local secondPadding
+  local secondPadding2
+  if poopDeck.containsEmoji(daword) then
+    secondPadding = string.rep(" ", secondPaddingLength - 2)
+    secondPadding2 = string.rep(" ", secondPaddingLength - 2)
+  else
+    secondPadding = string.rep(" ", secondPaddingLength)
+    secondPadding2 = string.rep(" ", secondPaddingLength)
+  end
+  
+  -- Adjust for odd-length secondLineText
+  if (secondLineLength % 2 ~= 0) then
+      secondPadding = secondPadding .. " " -- Add an extra space for odd length
+      local secondPadding2 = string.rep(" ", secondPaddingLength + 1)
+  
+  end
+  local middleLine = edgeColor .."|" .. fillColor .. secondPadding .. textColor .. daword .. fillColor .. secondPadding2 .. "#r" .. edgeColor .. "|"
   hecho("\n" .. middleLine .. "\n")
 end
 
