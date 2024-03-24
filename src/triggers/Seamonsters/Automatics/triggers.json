@@ -64,5 +64,15 @@
           "type": "startOfLine"
         }
       ]
+    },
+    {
+      "name": "Parsing Prompt",
+      "isActive": "yes",
+      "patterns": [
+        {
+          "pattern": "^= Sl\\s+([\\w%]+) - hp\\s+(\\d+%),Hl:\\s+(\\d+%),Wd\\s+([A-Z]+)@(\\d+kts),Cr\/Sp\\s+([A-Z]+)@(\\d+),Sea\\s+(\\w+),(?:Row)?(?:,Turn->([A-Z]+))?$",
+          "type": "regex"
+        }
+      ]
     }
   ]

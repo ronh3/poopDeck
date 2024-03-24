@@ -7,6 +7,6 @@
     {
         "name": "Set Weapon",
         "isActive": "yes",
-        "regex": "seaweapon (\\w+)"
+        "regex": "^seaweapon (\\w+)$"
     }
 ]
