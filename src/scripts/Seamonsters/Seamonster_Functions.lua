@@ -250,3 +250,9 @@ function poopDeck.InterruptedShot()
     poopDeck.Firing = false
     poopDeck.badEcho(myMessage)
 end
+
+--Displays a thingie letting you know that you're shooting at something
+function poopDeck.parsePrompt()
+    local myMessage = "Firing at Seamonster!"
+    poopDeck.fireEcho(myMessage)
+end

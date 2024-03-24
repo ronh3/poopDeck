@@ -99,6 +99,12 @@ function poopDeck.SmallFramedBox(secondLineText, edgeColor, frameColor, poopColo
   hecho("\n" .. bottomLine)
   end
 
+--Line echo for firing - Note to self, add for fire, hookshot, etc.
+function poopDeck.fireLine(daword)
+  local middleLine = edgeColor .."[" .. fillColor .. secondPadding .. textColor .. secondLineText .. fillColor .. secondPadding2 .. "#r" .. edgeColor .. "]"
+  hecho("\n" .. middleLine .. "\n")
+end
+
 --Large Echo for good things
 function poopDeck.goodEcho(daword)
   poopDeck.FramedBox(daword, "#6aa84f","#274e13","#6e1b1b","#FFFFFF","#FFFFFF,008000")
@@ -121,7 +127,11 @@ end
 
 --Small Echo for shooting things
 function poopDeck.shotEcho(daword)
-  poopDeck.SmallFramedBox(daword, "#fdb643","#90d673","#6e1b1b","#FFFFFF","#FFFFFF,#800000")
+  poopDeck.SmallFramedBox(daword, "#fdb643","#90d673","#6e1b1b","#FFFFFF","#FFFFFF,800000")
 end
 
+--Small Echo for firing at something
+function poopDeck.fireEcho(daword)
+  poopDeck.fireLine(daword, "#6aa84f","#274e13","#6e1b1b","#FFFFFF","#FFFFFF,008000")
+end
 --Update notification and download new version. Checks what the current version is vs what the version is up on Github.
