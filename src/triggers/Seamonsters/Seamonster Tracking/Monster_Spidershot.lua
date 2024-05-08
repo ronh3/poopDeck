@@ -1,1 +1,1 @@
-poopDeck.MonsterSpidershot()
+poopDeck.monsterSpidershot()

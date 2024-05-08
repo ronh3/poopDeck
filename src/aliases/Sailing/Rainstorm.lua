@@ -1,1 +1,1 @@
-poopDeck.Rainstorm()
+poopDeck.command('rainstorm')

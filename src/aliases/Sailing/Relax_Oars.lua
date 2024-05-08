@@ -1,1 +1,1 @@
-poopDeck.relaxOars()
+poopDeck.command('relaxOars')

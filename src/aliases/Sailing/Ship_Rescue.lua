@@ -1,1 +1,1 @@
-poopDeck.ShipRescue()
+poopDeck.command('shipRescue')

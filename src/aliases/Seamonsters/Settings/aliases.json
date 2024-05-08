@@ -5,6 +5,11 @@
         "regex": "^autosea (on|off)$"
     },
     {
+        "name": "Set Health",
+        "isActive": "yes",
+        "regex": "^poophp (\\d+)$"
+    },
+    {
         "name": "Set Weapon",
         "isActive": "yes",
         "regex": "^seaweapon (\\w+)$"

@@ -1,1 +1,1 @@
-poopDeck.Dock(matches[2])
+poopDeck.command('dock', matches[2])

@@ -1,1 +1,1 @@
-poopDeck.rowOars()
+poopDeck.command('row')

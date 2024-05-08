@@ -1,1 +1,1 @@
-poopDeck.ClearRigging()
+poopDeck.command('clearRigging')

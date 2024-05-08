@@ -1,7 +1,7 @@
 --Seamonster Tracking and callouts
 
 --Seamonster table to know total shots needed to kill.
-poopDeck.Seamonsters = {
+poopDeck.seamonsters = {
     ["a legendary leviathan"] = 60,
     ["a hulking oceanic cyclops"] = 60,
     ["a towering oceanic hydra"] = 60,
@@ -24,7 +24,7 @@ poopDeck.Seamonsters = {
 }
 
 --Table of dead seamonster messages
-poopDeck.DeadSeamonsterMessages = {
+poopDeck.deadSeamonsterMessages = {
     "🚢🐉 Triumphant Victory! 🐉🚢",
     "⚓🌊 Monster Subdued! 🌊⚓",
     "🔱🌊 Beast Beneath Conquered! 🌊🔱",
@@ -38,7 +38,7 @@ poopDeck.DeadSeamonsterMessages = {
 }
 
 --Table of spawned seamonster messages
-poopDeck.SpottedSeamonsterMessages = {
+poopDeck.spottedSeamonsterMessages = {
     "🐉🌊 Rising Behemoth! 🌊🐉",
     "🔍🌊 Titan of the Deep Spotted! 🌊🔍",
     "🐲🌊 Majestic Leviathan Ascendant! 🌊🐲",
@@ -51,63 +51,63 @@ poopDeck.SpottedSeamonsterMessages = {
     "🐍🌊 Serpentine Giant Surfaces! 🌊🐍"
 }
 
+
 --Shot counter - Could probably make this cleaner, not sure exactly how though.
-function poopDeck.ShotCounter(target)
-    local toKill = poopDeck.Seamonsters[target] or 30
-    poopDeck.SeamonsterShots = poopDeck.SeamonsterShots or 0
-    poopDeck.SeamonsterShots = poopDeck.SeamonsterShots + 1
-    local myMessage = poopDeck.SeamonsterShots .. " shots taken, " .. toKill - poopDeck.SeamonsterShots .. " remain."
+function poopDeck.countShots(target)
+    poopDeck.seamonsterShots = poopDeck.seamonsterShots or 0
+    poopDeck.seamonsterShots = poopDeck.seamonsterShots + 1
+    local toKill = poopDeck.seamonsters[target] - poopDeck.seamonsterShots
+    local myMessage = string.format("%d shots taken, %d remain.", poopDeck.seamonsterShots, toKill)
     poopDeck.shotEcho(myMessage)
 end
 
 --Seamonster got spidershotted and is attacking slower
-function poopDeck.MonsterSpidershot()
+function poopDeck.monsterSpidershot()
     local myMessage = "Seamonster Attack Slowed!"
     poopDeck.smallGoodEcho(myMessage)
 end
 
 --Seamonster got starshotted and is attacking lighter
-function poopDeck.MonsterStarshot()
+function poopDeck.monsterStarshot()
     local myMessage = "Seamonster Attack Weakened!"
     poopDeck.smallGoodEcho(myMessage)
 end
 
 --Start shooting if a monster surfaced if set to auto
 --For auto and manual, display a warning
-function poopDeck.MonsterSurfaced()
-    local myMessage
-    poopDeck.SeamonsterShots = 0
-    myMessage = poopDeck.SpottedSeamonsterMessages[math.random(#poopDeck.SpottedSeamonsterMessages)]
+function poopDeck.monsterSurfaced()
+    local myMessage = poopDeck.spottedSeamonsterMessages[math.random(#poopDeck.spottedSeamonsterMessages)]
+    local timerName = os.date("monster%H%M%S")
+    poopDeck.seamonsterShots = 0
     poopDeck.badEcho(myMessage)
-    if poopDeck.mode == "automatic" then poopDeck.AutoFire() end
-    tempTimer(900, [[poopDeck.goodEcho("Monster in 5 minutes")]])
-    tempTimer(1140, [[poopDeck.goodEcho("Monster in 1 minute")]])
-    tempTimer(1200, [[poopDeck.badEcho("Reel in, it's monster time!")]])
+    if poopDeck.mode == "automatic" then poopDeck.autoFire() end
+    tempTimer(poopDeck.constants.FIVE_MINUTES, [[poopDeck.goodEcho("Monster in 5 minutes")]], 5 .. timerName)
+    tempTimer(poopDeck.constants.ONE_MINUTE, [[poopDeck.goodEcho("Monster in 1 minute")]], 1 .. timerName)
+    tempTimer(poopDeck.constants.NEW_MONSTER, [[poopDeck.badEcho("Reel in, it's monster time!")]], 0 .. timerName)
 end
 
 --Once a seamonster is killed, this will set the seamonster counter back to zero, give us a nice message that it's dead
 --then turn curing back on because why not. Curing on is good. Off is bad, unless it stops us from doing nifty things.
 --Like shooting seamonsters. And looking fly.
-function poopDeck.DeadSeamonster()
-    local myMessage
-    poopDeck.SeamonsterShots = 0
-    myMessage = poopDeck.DeadSeamonsterMessages[math.random(#poopDeck.DeadSeamonsterMessages)]
-    poopDeck.ToggleCuring("on")
+function poopDeck.deadSeamonster()
+    local myMessage = poopDeck.deadSeamonsterMessages[math.random(#poopDeck.deadSeamonsterMessages)]
+    poopDeck.seamonsterShots = 0
+    poopDeck.toggleCuring("on")
     poopDeck.goodEcho(myMessage)
+    poopDeck.firing = false
+    disableTrigger("Ship Moved Lets Try Again")
 end
 
 
 --Automatic Items
-
 --Turns your automatic seamonster firing on or off.
-function poopDeck.SetSeamonsterAutoFire(mode)
+function poopDeck.setSeamonsterAutoFire(mode)
+    local myMessage
     if mode == "on" then
-        enableTrigger("Automatics")
         myMessage = "AUTO FIRE ON"
         poopDeck.mode = "automatic"
         poopDeck.goodEcho(myMessage)
     else
-        disableTrigger("Automatics")
         myMessage = "AUTO FIRE OFF"
         poopDeck.mode = "manual"
         poopDeck.badEcho(myMessage)
@@ -116,79 +116,92 @@ function poopDeck.SetSeamonsterAutoFire(mode)
 end
 
 --Sets which weapon you'll automatically attempt to fire.
-function poopDeck.SetWeapon(boomstick)
-    poopDeck.Ballista = false
-    poopDeck.Onager = false
-    poopDeck.Thrower = false
-    local myMessage
+function poopDeck.setWeapon(boomstick)
+    local weaponMessages = {
+        ballista = "UNLEASH THE DARTS! - BALLISTA",
+        onager = "ENGAGE THE MIGHTY SLINGSHOT - ONAGER",
+        thrower = "SEND HAVOC SPINNING! - THROWER"
+    }
 
-    if boomstick == "ballista" then 
-        poopDeck.Ballista = true
-        myMessage = "UNLEASH THE DARTS! - BALLISTA"
-    elseif boomstick == "onager" then
-        poopDeck.Onager = true
-        myMessage = "ENGAGE THE MIGHTY SLINGSHOT - ONAGER"
-    elseif boomstick == "thrower" then
-        poopDeck.Thrower = true
-        myMessage = "SEND HAVOC SPINNING! - THROWER"
+    -- Reset all weapon flags
+    poopDeck.weapons.ballista = false
+    poopDeck.weapons.onager = false
+    poopDeck.weapons.thrower = false
+
+    -- If the weapon is recognized, set its flag to true and get its message
+    if weaponMessages[boomstick] then
+        poopDeck[boomstick] = true
+        poopDeck.goodEcho(weaponMessages[boomstick])
+    else
+        poopDeck.badEcho("NO WEAPON SELECTED!")
     end
-    poopDeck.goodEcho(myMessage)
 end
 
 --Tracks that you have started firing, so that triggers can be disabled/won't interrupt.
-function poopDeck.SeaFiring()
-    poopDeck.ToggleCuring(false)
-    poopDeck.Firing = true
+function poopDeck.seaFiring()
+    poopDeck.toggleCuring(false)
+    poopDeck.firing = true
+    poopDeck.oor = false
     disableTrigger("Ship Moved Lets Try Again")
 end
 
 --Automatically fires your set weapon. Will first check for which weapon you're supposed to be firing.
 --For ballista and thrower, it's just going to dart and wardisc the monster.
 --For the onager, it will rotate between starshot and spidershot.
-function poopDeck.AutoFire()
-    if poopDeck.Firing == true then return end
-    if poopDeck.Ballista then
-        sendAll("maintain hull", "load ballista with dart", "fire ballista at seamonster")
-    elseif poopDeck.Thrower then
-        sendAll("maintain hull", "load thrower with disc", "fire thrower at seamonster")
-    elseif poopDeck.Onager then
-        if poopDeck.FiredSpider then
-            sendAll("maintain hull", "load onager with starshot", "fire onager at seamonster")
-            poopDeck.FiredSpider = false
-        else
-            sendAll("maintain hull", "load onager with spidershot", "fire onager at seamonster")
-            poopDeck.FiredSpider = true
+function poopDeck.autoFire()
+    if poopDeck.firing then return end
+
+    -- Define a table that maps each weapon to its corresponding commands
+    local weaponCommands = {
+        ballista = {"maintain hull", "load ballista with dart", "fire ballista at seamonster"},
+        thrower = {"maintain hull", "load thrower with disc", "fire thrower at seamonster"},
+        onager = poopDeck.firedSpider and {"maintain hull", "load onager with starshot", "fire onager at seamonster"} or {"maintain hull", "load onager with spidershot", "fire onager at seamonster"}
+    }
+
+    if poopDeck.toggleCuring() then
+        for weapon, isWeaponActive in pairs(poopDeck.weapons) do
+            if isWeaponActive and weaponCommands[weapon] then
+                sendAll(unpack(weaponCommands[weapon]))
+                if weapon == "onager" then
+                    poopDeck.firedSpider = not poopDeck.firedSpider
+                end
+                break
+            end
         end
+    else
+        poopDeck.toggleCuring("on")
+        local myMessage = "NEED TO HEAL - HOLD FIRE!"
+        poopDeck.badEcho(myMessage)
     end
 end
 
---Manually fire a weapon. Onager will alternate between spidershot and starshot if the correct alias (firo) is used.
-function poopDeck.SeaFire(ammo)
-    if poopDeck.Firing == true then return end
-    if poopDeck.ToggleCuring() then
-        if ammo == "b" then
-            sendAll("maintain hull", "load ballista with dart", "fire ballista at seamonster")
-        elseif ammo == "bf" then
-            sendAll("maintain hull", "load ballista with flare", "fire ballista at seamonster")
-        elseif ammo == "o" then
-            if poopDeck.FiredSpider then
-                sendAll("maintain hull", "load onager with starshot", "fire onager at seamonster")
-                poopDeck.FiredSpider = false
-            else
-                sendAll("maintain hull", "load onager with spidershot", "fire onager at seamonster")
-                poopDeck.FiredSpider = true
+--Manually fire a weapon. onager will alternate between spidershot and starshot if the correct alias (firo) is used.
+function poopDeck.seaFire(ammo)
+    -- Define a table that maps each ammo type to its corresponding commands
+    local ammoCommands = {
+        b = {"maintain hull", "load ballista with dart", "fire ballista at seamonster"},
+        bf = {"maintain hull", "load ballista with flare", "fire ballista at seamonster"},
+        o = poopDeck.firedSpider and {"maintain hull", "load onager with starshot", "fire onager at seamonster"} or {"maintain hull", "load onager with spidershot", "fire onager at seamonster"},
+        sp = {"maintain hull", "load onager with spidershot", "fire onager at seamonster"},
+        c = {"maintain hull", "load onager with chainshot", "fire onager at seamonster"},
+        st = {"maintain hull", "load onager with starshot", "fire onager at seamonster"},
+        d = {"maintain hull", "load thrower with disc", "fire thrower at seamonster"}
+    }
+
+    if poopDeck.firing == true then return end
+    if poopDeck.toggleCuring() then
+        local commands = ammoCommands[ammo]
+        if commands then
+            sendAll(unpack(commands))
+            if ammo == "o" then
+                poopDeck.firedSpider = not poopDeck.firedSpider
             end
-        elseif ammo == "sp" then
-            sendAll("maintain hull", "load onager with spidershot", "fire onager at seamonster")
-        elseif ammo == "c" then
-            sendAll("maintain hull", "load onager with chainshot", "fire onager at seamonster")
-        elseif ammo == "st" then
-            sendAll("maintain hull", "load onager with starshot", "fire onager at seamonster")
-        elseif ammo == "d" then
-            sendAll("maintain hull", "load thrower with disc", "fire thrower at seamonster")
+        else
+            -- Handle the case where the ammo type is not recognized
+            print("Unknown ammo type: " .. ammo)
         end
     else
-        poopDeck.ToggleCuring("on")
+        poopDeck.toggleCuring("on")
         local myMessage = "NEED TO HEAL - HOLD FIRE!"
         poopDeck.badEcho(myMessage)
     end
@@ -196,34 +209,29 @@ end
 
 --Fired a weapon. Setting a temptimer for 4s to fire again if automatic mode is engaged.
 --Otherwise, setting a 4s temptimer to let the user know they can shoot again.
-function poopDeck.SeaFired()
+function poopDeck.seaFired()
     local myMessage = "READY TO FIRE!"
-    poopDeck.ToggleCuring("on")
-    poopDeck.Firing = false
+    poopDeck.toggleCuring("on")
+    poopDeck.firing = false
+    poopDeck.oor = false
     if poopDeck.mode == "automatic" then
-        tempTimer(4, [[poopDeck.AutoFire()]])
+        tempTimer(4, [[poopDeck.autoFire()]])
     else
-        tempTimer(4, [[poopDeck.goodEcho(myMessage)]])
+        tempTimer(4, [[poopDeck.goodEcho("READY TO FIRE!")]])
     end
 end
 
 --Toggle to turn curing on/off automatically while firing.
-function poopDeck.ToggleCuring(curing)
+function poopDeck.toggleCuring(curing)
     if poopDeck.rescue == true then return end
-    if curing == "on" then
+
+    local shouldCure = (tonumber(gmcp.Char.Vitals.hp) / tonumber(gmcp.Char.Vitals.maxhp) * 100) < poopDeck.config.sipHealthPercent
+    if curing == "on" or shouldCure then
         send("curing on")
         return false
-    elseif curing == "off" then
+    else
         send("curing off")
         return true
-    else
-        if (tonumber(gmcp.Char.Vitals.hp) / tonumber(gmcp.Char.Vitals.maxhp) * 100) < 75 then
-            send("curing on")
-            return false
-        else
-            send("curing off")
-            return true
-        end
     end
 end
 
@@ -236,9 +244,12 @@ end
 --Then turn on the trigger to attempt firing each time the ship moves.
 function poopDeck.OutOfMonsterRange()
     local myMessage = "OUT OF RANGE!"
-    poopDeck.Firing = false
-    enableTrigger("Ship Moved Lets Try Again")
-    poopDeck.ToggleCuring("on")
+    poopDeck.firing = false
+    poopDeck.oor = true
+    if poopDeck.mode == "automatic" then
+        enableTrigger("Ship Moved Lets Try Again")
+    end
+    poopDeck.toggleCuring("on")
     poopDeck.badEcho(myMessage)
 end
 
@@ -246,15 +257,24 @@ end
 function poopDeck.InterruptedShot()
     local myMessage = "SHOT INTERRUPTED!"
     local myMessageAuto = "SHOT INTERRUPTED! RETRYING!"
-    poopDeck.ToggleCuring("on")
-    poopDeck.Firing = false
-    poopDeck.badEcho(myMessage)
+    poopDeck.toggleCuring("on")
+    poopDeck.firing = false
+    if poopDeck.mode == "automatic" then
+        tempTimer(4, [[poopDeck.autoFire()]])
+        poopDeck.badEcho(myMessageAuto)
+    else
+        poopDeck.badEcho(myMessage)
+    end
 end
 
 --Displays a thingie letting you know that you're shooting at something
 function poopDeck.parsePrompt()
-  if poopDeck.Firing then
-    local myMessage = "Firing at Seamonster!"
+  if poopDeck.firing then
+    local myMessage = "FIRING!"
     poopDeck.fireEcho(myMessage)
+  end
+  if poopDeck.oor then
+    local myMessage = "OUT OF RANGE!"
+    poopDeck.rangeEcho(myMessage)
   end
 end

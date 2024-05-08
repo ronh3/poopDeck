@@ -1,1 +1,1 @@
-poopDeck.Windboost()
+poopDeck.command('windboost')

@@ -1,1 +1,1 @@
-poopDeck.Douse(matches[2])
+poopDeck.command('douse', matches[2])

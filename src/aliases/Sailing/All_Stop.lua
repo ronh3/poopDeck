@@ -1,1 +1,1 @@
-poopDeck.allStop()
+poopDeck.command('allStop')
