@@ -1,1 +1,1 @@
-poopDeck.DeadSeamonster()
+poopDeck.deadSeamonster()

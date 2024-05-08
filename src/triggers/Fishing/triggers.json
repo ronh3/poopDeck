@@ -1,0 +1,54 @@
+[
+    {
+        "name": "Line Teaser",
+        "isActive": "yes",
+        "patterns": [
+            {
+                "pattern": "You feel a fish nibbling on your hook.",
+                "type": "exactMatch"
+            },
+            {
+                "pattern": "You see the water ripple as a fish makes a medium strike at your bait.",
+                "type": "exactMatch"
+            },
+            {
+                "pattern": "You feel a fish make a small strike at your bait.",
+                "type": "exactMatch"
+            }
+        ]
+    },
+    {
+        "name": "Jerk the Pole",
+        "isActive": "yes",
+        "patterns": [
+            {
+                "pattern": "You stagger as a fish makes a large strike at your bait.",
+                "type": "exactMatch"
+            }
+        ]
+    },
+    {
+        "name": "Reel in the Fish",
+        "isActive": "yes",
+        "patterns": [
+            {
+                "pattern": "Relaxing the tension on your line, you are able to reel again.",
+                "type": "exactMatch"
+            },
+            {
+                "pattern": "You quickly jerk back your fishing pole and feel the line go taut. You've hooked",
+                "type": "startOfLine"
+            }
+        ]
+    },
+    {
+        "name": "Fish Sizer",
+        "isActive": "yes",
+        "patterns": [
+            {
+                "pattern": "^You quickly jerk back your fishing pole and feel the line go taut. You've hooked (.+) fish!$",
+                "type": "regex"
+            }
+        ]
+    }
+]

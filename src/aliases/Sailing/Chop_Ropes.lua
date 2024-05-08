@@ -1,1 +1,1 @@
-poopDeck.Chop()
+poopDeck.command('chop')

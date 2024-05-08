@@ -1,1 +1,1 @@
-poopDeck.ShipRepairs()
+poopDeck.command('shipRepairs')

@@ -1,1 +1,1 @@
-poopDeck.CastOff()
+poopDeck.command('castoff')

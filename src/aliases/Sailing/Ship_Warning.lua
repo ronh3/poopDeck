@@ -1,1 +1,1 @@
-poopDeck.ShipWarning(matches[2])
+poopDeck.command('shipWarning', matches[2])

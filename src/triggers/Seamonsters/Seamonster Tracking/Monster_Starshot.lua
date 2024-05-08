@@ -1,1 +1,1 @@
-poopDeck.MonsterStarshot()
+poopDeck.monsterStarshot()

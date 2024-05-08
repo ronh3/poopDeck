@@ -1,1 +1,1 @@
-poopDeck.SetSpeed(matches[2])
+poopDeck.command('setSpeed', matches[2])

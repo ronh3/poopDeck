@@ -1,1 +1,1 @@
-poopDeck.maintain(matches[2])
+poopDeck.command('maintain', matches[2])

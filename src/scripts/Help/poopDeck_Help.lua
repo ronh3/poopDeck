@@ -59,6 +59,7 @@ poopDeck.helpSeamonsters = {
         Automatic = {
             ["autosea"] = "Turn automatic seamonstering on or off",
             ["seaweapon X"] = "Set what weapon to fire, accepts: ballista, onager, thrower",
+            ["poophp X"] = "Set what HP percentage to go down to until curing is turned back on, default 75%"
         },
         Manual = {
             ["firb"] = "Fire a dart from a ballista at a seamonster",
@@ -66,7 +67,7 @@ poopDeck.helpSeamonsters = {
             ["firf"] = "fire a flare from a ballista at a seamonster",
             ["firo"] = "fire alternating starshot and spidershot from an onager at a seamonster",
             ["first"] = "fire a starshot from an onager at a seamonster",
-            ["firsp"] = "fire a spidershot from an onager at a seamonster"    
+            ["firsp"] = "fire a spidershot from an onager at a seamonster"
         }
     }
 }
@@ -135,6 +136,7 @@ poopDeck.helpFullPoop = {
         ["Automatic Weapons"] = {
             ["autosea"] = "Turn automatic seamonstering on or off",
             ["seaweapon X"] = "Set what weapon to fire, accepts: ballista, onager, thrower",
+            ["poophp X"] = "Set what HP percentage to go down to until curing is turned back on, default 75%"
         },
         ["Manual Weapons"] = {
             ["firb"] = "Fire a dart from a ballista at a seamonster",
@@ -142,7 +144,7 @@ poopDeck.helpFullPoop = {
             ["firf"] = "fire a flare from a ballista at a seamonster",
             ["firo"] = "fire alternating starshot and spidershot from an onager at a seamonster",
             ["first"] = "fire a starshot from an onager at a seamonster",
-            ["firsp"] = "fire a spidershot from an onager at a seamonster"    
+            ["firsp"] = "fire a spidershot from an onager at a seamonster"
         }
     }
 }

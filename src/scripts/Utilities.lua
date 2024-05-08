@@ -1,6 +1,37 @@
 --Setting up namespace and setting current version
 poopDeck = poopDeck or {}
-poopDeck.version = "0.9f"
+poopDeck.config = poopDeck.config or {}
+poopDeck.weapons = poopDeck.weapons or {}
+poopDeck.version = "1.0"
+
+--Table of constants that are used throughout the package
+poopDeck.constants = {
+  FIVE_MINUTES = 900,
+  ONE_MINUTE = 1140,
+  NEW_MONSTER = 1200
+}
+--Saving config table if it exists
+function poopDeck.saveTable()
+  table.save(getMudletHomeDir() .. "/poopDeckconfig.lua", poopDeck.config)
+end
+
+--Loading config table if it exists
+function poopDeck.loadTable()
+  if io.exists(getMudletHomeDir() .. "/poopDeckconfig.lua") then
+    table.load(getMudletHomeDir() .. "/poopDeckconfig.lua", poopDeck.config)
+  end
+  --Setting the percent health to sip at to 75% if the user didn't set a config previously.
+  if poopDeck.config.sipHealthPercent == nil then
+    poopDeck.config.sipHealthPercent = 75
+  end
+end
+
+--Let the user set a custom HP sipping threshold as a percentage
+function poopDeck.setHealth(hpperc)
+  local myMessage = "Health sip percentage set to " .. hpperc .. "%"
+  poopDeck.config.sipHealthPercent = tonumber(hpperc)
+  poopDeck.settingEcho(myMessage)
+end
 
 --Function to check if a string contains any emojis
 function poopDeck.containsEmoji(text)
@@ -102,7 +133,7 @@ function poopDeck.SmallFramedBox(secondLineText, edgeColor, frameColor, poopColo
 --Line echo for firing - Note to self, add for fire, hookshot, etc.
 function poopDeck.fireLine(daword, edgeColor, frameColor, poopColor, textColor, fillColor)
 -- Second line text (variable content) with padding
-  local totalWidth = 80
+  local totalWidth = getWindowWrap("main") / 4
   local secondLineLength = utf8.len(daword)
   local secondPaddingLength = math.floor((totalWidth - secondLineLength - 2) / 2)
   local secondPadding
@@ -150,8 +181,22 @@ function poopDeck.shotEcho(daword)
   poopDeck.SmallFramedBox(daword, "#fdb643","#90d673","#6e1b1b","#FFFFFF","#FFFFFF,800000")
 end
 
---Small Echo for firing at something
+--Prompt echo for when firing
 function poopDeck.fireEcho(daword)
   poopDeck.fireLine(daword, "#6aa84f","#274e13","#6e1b1b","#FFFFFF","#FFFFFF,008000")
 end
---Update notification and download new version. Checks what the current version is vs what the version is up on Github.
+
+--Prompt echo for when out of range
+--Small Echo for firing at something
+function poopDeck.rangeEcho(daword)
+  poopDeck.fireLine(daword, "#6aa84f","#274e13","#6e1b1b","#FFFFFF","#FFFFFF,008000")
+end
+
+-- Echo for settings information
+function poopDeck.settingEcho(daword)
+  poopDeck.SmallFramedBox(daword, "#4f81bd","#385d8a","#6e1b1b","#FFFFFF","#FFFFFF,008080")
+end
+
+--Saves and loads the config tables
+registerAnonymousEventHandler("sysExitEvent", poopDeck.saveTable)
+registerAnonymousEventHandler("sysLoadEvent", poopDeck.loadTable)

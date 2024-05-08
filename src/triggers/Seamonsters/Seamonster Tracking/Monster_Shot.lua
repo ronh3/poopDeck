@@ -1,1 +1,1 @@
-poopDeck.ShotCounter(matches.monster)
+poopDeck.countShots(matches.monster)

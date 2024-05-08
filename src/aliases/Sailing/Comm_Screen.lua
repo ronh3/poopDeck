@@ -1,1 +1,1 @@
-poopDeck.CommScreen(matches[2])
+poopDeck.command('commScreen', matches[2])

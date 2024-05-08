@@ -1,1 +1,1 @@
-poopDeck.Plank(matches[2])
+poopDeck.command('plank', matches[2])

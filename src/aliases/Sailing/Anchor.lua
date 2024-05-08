@@ -1,1 +1,1 @@
-poopDeck.Anchor(matches[2])
+poopDeck.command('anchor', matches[2])
