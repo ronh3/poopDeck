@@ -153,7 +153,7 @@ function poopDeck.fireLine(daword, edgeColor, frameColor, poopColor, textColor, 
   
   end
   local middleLine = edgeColor .."|" .. fillColor .. secondPadding .. textColor .. daword .. fillColor .. secondPadding2 .. "#r" .. edgeColor .. "|"
-  hecho("\n" .. middleLine .. "\n")
+  hecho(middleLine)
 end
 
 --Large Echo for good things
@@ -186,10 +186,14 @@ function poopDeck.fireEcho(daword)
   poopDeck.fireLine(daword, "#6aa84f","#274e13","#6e1b1b","#FFFFFF","#FFFFFF,008000")
 end
 
+--Prompt echo for when maintaining
+function poopDeck.maintainEcho(daword)
+  poopDeck.fireLine(daword, "#4CAF50", "#8BC34A", "#6e1b1b", "#FFEB3B", "#FFFFFF,FFC107")
+end
+
 --Prompt echo for when out of range
---Small Echo for firing at something
 function poopDeck.rangeEcho(daword)
-  poopDeck.fireLine(daword, "#6aa84f","#274e13","#6e1b1b","#FFFFFF","#FFFFFF,008000")
+  poopDeck.fireLine(daword, "#FFC107", "#FF9800", "#6e1b1b", "#F44336", "#FFFFFF,E91E63")
 end
 
 -- Echo for settings information

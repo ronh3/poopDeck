@@ -269,12 +269,43 @@ end
 
 --Displays a thingie letting you know that you're shooting at something
 function poopDeck.parsePrompt()
-  if poopDeck.firing then
-    local myMessage = "FIRING!"
-    poopDeck.fireEcho(myMessage)
-  end
-  if poopDeck.oor then
-    local myMessage = "OUT OF RANGE!"
-    poopDeck.rangeEcho(myMessage)
-  end
+    local firstMessage = true
+    if poopDeck.maintain then
+        echo("\\n")
+        local myMessage = "MAINTAINING " .. poopDeck.maintain
+        poopDeck.maintainEcho(myMessage)
+        firstMessage = false
+    end
+    if poopDeck.firing then
+        local myMessage = "FIRING!"
+        if firstMessage then echo("\\n") end
+        poopDeck.fireEcho(myMessage)
+        firstMessage = false
+    end
+    if poopDeck.oor then
+        if firstMessage then echo("\\n") end
+        local myMessage = "OUT OF RANGE!"
+        poopDeck.rangeEcho(myMessage)
+        firstMessage = false
+    end
+    if not firstMessage then echo("\\n") end
+end
+
+--Sets if you maintain on shot or not
+function poopDeck.setMaintain(maintain)
+    local myMessage
+    if maintain == "h" then
+        myMessage = "MAINTAINING HULL"
+        poopDeck.maintain = "hull"
+    elseif maintain == "s" then
+        myMessage = "MAINTAINING SAILS"
+        poopDeck.maintain = "sails"
+    elseif maintain == "n" then
+        myMessage = "MAINTAINING NONE"
+        poopDeck.maintain = false
+    else
+        myMessage = "MAINTAINING NONE"
+        poopDeck.maintain = false
+    end
+    poopDeck.goodEcho(myMessage)
 end
