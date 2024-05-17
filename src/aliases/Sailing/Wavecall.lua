@@ -1,1 +1,1 @@
-poopDeck.command('wavecall', matches[2], matches[3])
+poopDeck.wavecall(matches[2], matches[3])

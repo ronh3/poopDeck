@@ -236,13 +236,13 @@ function poopDeck.toggleCuring(curing)
 end
 
 --Ship Vital checker. Do something with this later
-function poopDeck.ShipVitals()
+function poopDeck.shipVitals()
     return
 end
 
 --If we were out of range, turn curing back on. 
 --Then turn on the trigger to attempt firing each time the ship moves.
-function poopDeck.OutOfMonsterRange()
+function poopDeck.outOfMonsterRange()
     local myMessage = "OUT OF RANGE!"
     poopDeck.firing = false
     poopDeck.oor = true
@@ -254,7 +254,7 @@ function poopDeck.OutOfMonsterRange()
 end
 
 --Will pop a notification that your shot got interrupted.
-function poopDeck.InterruptedShot()
+function poopDeck.interruptedShot()
     local myMessage = "SHOT INTERRUPTED!"
     local myMessageAuto = "SHOT INTERRUPTED! RETRYING!"
     poopDeck.toggleCuring("on")
@@ -271,24 +271,24 @@ end
 function poopDeck.parsePrompt()
     local firstMessage = true
     if poopDeck.maintain then
-        echo("\\n")
+        echo("\n")
         local myMessage = "MAINTAINING " .. poopDeck.maintain
         poopDeck.maintainEcho(myMessage)
         firstMessage = false
     end
     if poopDeck.firing then
         local myMessage = "FIRING!"
-        if firstMessage then echo("\\n") end
+        if firstMessage then echo("\n") end
         poopDeck.fireEcho(myMessage)
         firstMessage = false
     end
     if poopDeck.oor then
-        if firstMessage then echo("\\n") end
+        if firstMessage then echo("\n") end
         local myMessage = "OUT OF RANGE!"
         poopDeck.rangeEcho(myMessage)
         firstMessage = false
     end
-    if not firstMessage then echo("\\n") end
+    if not firstMessage then echo("\n") end
 end
 
 --Sets if you maintain on shot or not

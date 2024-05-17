@@ -188,12 +188,12 @@ end
 
 --Prompt echo for when maintaining
 function poopDeck.maintainEcho(daword)
-  poopDeck.fireLine(daword, "#4CAF50", "#8BC34A", "#6e1b1b", "#FFEB3B", "#FFFFFF,FFC107")
+  poopDeck.fireLine(daword, "#6aa84f", "#274e13", "#6e1b1b", "#FFFFFF", "#FFFFFF,8B4513")
 end
 
 --Prompt echo for when out of range
 function poopDeck.rangeEcho(daword)
-  poopDeck.fireLine(daword, "#FFC107", "#FF9800", "#6e1b1b", "#F44336", "#FFFFFF,E91E63")
+  poopDeck.fireLine(daword, "#6aa84f", "#274e13", "#6e1b1b", "#FFFFFF", "#FFFFFF,E91E63")
 end
 
 -- Echo for settings information

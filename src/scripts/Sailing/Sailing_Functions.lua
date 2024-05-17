@@ -24,8 +24,6 @@ local speeds = {
     furl = "say furl sails!",
     full = "say full sails!",
     relax = "say relax sails!",
-    [0] = "say strike sails!",
-    [100] = "say full sails!"
 }
 
 --Table of all of the ship commands that we're dealing with at this time. All are pretty self explanatory.
@@ -46,7 +44,7 @@ local commands = {
     plank = {r = "say raise the plank!", l = "say lower the plank!"},
     rainstorm = "invoke rainstorm",
     relaxOars = "say stop rowing.",
-    rowOars = "say start rowing.",
+    rowOars = "say row!",
     shipRepairs = "ship repair all",
     shipRescue = {"get token from pack", "ship rescue me"},
     shipWarning = {on = "shipwarning on", off = "shipwarning off"},
@@ -56,14 +54,14 @@ local commands = {
 function poopDeck.command(func, whatDo)
     local command = commands[func]
     if not command then
-        echo("Command not found: " .. func)
+        echo("Error: Command not found: " .. func)
         return
     end
     if type(command) == "table" then
         if whatDo and command[whatDo] then
             sendAll(command[whatDo])
         else
-            echo("Value not found in command table: " .. whatDo)
+            echo("Error: Value not found in command table: " .. whatDo)
             return
         end
     elseif type(command) == "string" then
@@ -78,7 +76,7 @@ end
 function poopDeck.setSpeed(speed)
     local command = speeds[speed]
     if not command then
-        send("ship set speed " .. speed)
+        send("ship sails set " .. speed)
     else
         send(command)
     end
