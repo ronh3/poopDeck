@@ -1,1 +1,1 @@
-poopDeck.SetSeamonsterAutoFire(matches[2])
+poopDeck.setSeamonsterAutoFire(matches[2])

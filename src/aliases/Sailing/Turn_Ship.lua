@@ -1,1 +1,1 @@
-poopDeck.command('turnShip', matches[2])
+poopDeck.turnShip(matches[2])

@@ -18,6 +18,14 @@ local directions = {
     wsw = "west-southwest"
 }
 
+--Speeds for setSpeed function
+local speeds = {
+    strike = "say strike sails!",
+    furl = "say furl sails!",
+    full = "say full sails!",
+    relax = "say relax sails!",
+}
+
 --Table of all of the ship commands that we're dealing with at this time. All are pretty self explanatory.
 local commands = {
     allStop = "say All stop!",
@@ -27,7 +35,6 @@ local commands = {
     clearRigging = {"queue add freestand climb rigging", "queue add freestand clear rigging"},
     clearedRigging = "queue add freestand climb rigging down",
     commScreen = {on = "ship commscreen raise", off = "ship commscreen lower"},
-    dock = function(direction) return "ship dock " .. direction .. " confirm" end,
     douse = {
         r = {"queue add freestand fill bucket with water", "queue add freestand douse room"},
         m = {"queue add freestand fill bucket with water", "queue add freestand douse me"},
@@ -37,33 +44,48 @@ local commands = {
     plank = {r = "say raise the plank!", l = "say lower the plank!"},
     rainstorm = "invoke rainstorm",
     relaxOars = "say stop rowing.",
-    rowOars = "say stop rowing.",
-    setSpeed = {
-        strike = "say strike sails!",
-        furl = "say furl sails!",
-        full = "say full sails!",
-        relax = "say relax sails!",
-        [0] = "say strike sails!",
-        [100] = "say full sails!"
-    },
+    rowOars = "say row!",
     shipRepairs = "ship repair all",
     shipRescue = {"get token from pack", "ship rescue me"},
     shipWarning = {on = "shipwarning on", off = "shipwarning off"},
-    turnShip = function(heading) return "say Bring her to the " .. directions[heading] .. "!" end,
-    waveCall = function(heading, howFar) return "invoke wavecall " .. heading .. " " .. howFar end,
     windboost = "invoke windboost",
 }
 
 function poopDeck.command(func, whatDo)
-    local command = commands[func][whatDo]
-    if type(command) == "function" then
-        command = command(whatDo)
+    local command = commands[func]
+    if not command then
+        echo("Error: Command not found: " .. func)
+        return
     end
     if type(command) == "table" then
-        sendAll(unpack(command))
-    elseif command then
+        if whatDo and command[whatDo] then
+            sendAll(command[whatDo])
+        else
+            echo("Error: Value not found in command table: " .. whatDo)
+            return
+        end
+    elseif type(command) == "string" then
         send(command)
-    else
-        send("ship sails set " .. whatDo)
     end
+end
+
+function poopDeck.dock(direction)
+    send("ship dock " .. direction .. " confirm")
+end
+
+function poopDeck.setSpeed(speed)
+    local command = speeds[speed]
+    if not command then
+        send("ship sails set " .. speed)
+    else
+        send(command)
+    end
+end
+
+function poopDeck.turnShip(heading)
+    send("say Bring her to the " .. directions[heading] .. "!")
+end
+
+function poopDeck.wavecall(heading, howFar)
+    send("invoke wavecall " .. heading .. " " .. howFar)
 end

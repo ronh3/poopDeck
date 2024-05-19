@@ -7,4 +7,4 @@
 --fird - fire thrower disc
 --firo - fire alternating starshot and spidershot
 
-poopDeck.SeaFire(matches[2])
+poopDeck.seaFire(matches[2])

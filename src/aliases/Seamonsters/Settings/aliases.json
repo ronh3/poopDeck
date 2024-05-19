@@ -2,7 +2,7 @@
     {
         "name": "Auto Mode Toggle",
         "isActive": "yes",
-        "regex": "^autosea (on|off)$"
+        "regex": "^autosea\\s?(on|off)$"
     },
     {
         "name": "Set Health",
@@ -10,8 +10,13 @@
         "regex": "^poophp (\\d+)$"
     },
     {
+        "name": "Set Maintain",
+        "isActive": "yes",
+        "regex": "^maint\\s?(\\S+)$"
+    },
+    {
         "name": "Set Weapon",
         "isActive": "yes",
-        "regex": "^seaweapon (\\w+)$"
+        "regex": "^seaweapon\\s?(\\S+)$"
     }
 ]

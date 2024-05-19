@@ -119,8 +119,11 @@ end
 function poopDeck.setWeapon(boomstick)
     local weaponMessages = {
         ballista = "UNLEASH THE DARTS! - BALLISTA",
+        b = "UNLEASH THE DARTS! - BALLISTA",
         onager = "ENGAGE THE MIGHTY SLINGSHOT - ONAGER",
-        thrower = "SEND HAVOC SPINNING! - THROWER"
+        o = "ENGAGE THE MIGHTY SLINGSHOT - ONAGER",
+        thrower = "SEND HAVOC SPINNING! - THROWER",
+        t = "SEND HAVOC SPINNING! - THROWER"
     }
 
     -- Reset all weapon flags
@@ -130,7 +133,7 @@ function poopDeck.setWeapon(boomstick)
 
     -- If the weapon is recognized, set its flag to true and get its message
     if weaponMessages[boomstick] then
-        poopDeck[boomstick] = true
+        poopDeck.weapons[boomstick] = true
         poopDeck.goodEcho(weaponMessages[boomstick])
     else
         poopDeck.badEcho("NO WEAPON SELECTED!")
@@ -153,9 +156,9 @@ function poopDeck.autoFire()
 
     -- Define a table that maps each weapon to its corresponding commands
     local weaponCommands = {
-        ballista = {"maintain hull", "load ballista with dart", "fire ballista at seamonster"},
-        thrower = {"maintain hull", "load thrower with disc", "fire thrower at seamonster"},
-        onager = poopDeck.firedSpider and {"maintain hull", "load onager with starshot", "fire onager at seamonster"} or {"maintain hull", "load onager with spidershot", "fire onager at seamonster"}
+        ballista = {"maintain " .. poopDeck.maintain, "load ballista with dart", "fire ballista at seamonster"},
+        thrower = {"maintain " .. poopDeck.maintain, "load thrower with disc", "fire thrower at seamonster"},
+        onager = poopDeck.firedSpider and {"maintain " .. poopDeck.maintain, "load onager with starshot", "fire onager at seamonster"} or {"maintain " .. poopDeck.maintain, "load onager with spidershot", "fire onager at seamonster"}
     }
 
     if poopDeck.toggleCuring() then
@@ -179,13 +182,13 @@ end
 function poopDeck.seaFire(ammo)
     -- Define a table that maps each ammo type to its corresponding commands
     local ammoCommands = {
-        b = {"maintain hull", "load ballista with dart", "fire ballista at seamonster"},
-        bf = {"maintain hull", "load ballista with flare", "fire ballista at seamonster"},
-        o = poopDeck.firedSpider and {"maintain hull", "load onager with starshot", "fire onager at seamonster"} or {"maintain hull", "load onager with spidershot", "fire onager at seamonster"},
-        sp = {"maintain hull", "load onager with spidershot", "fire onager at seamonster"},
-        c = {"maintain hull", "load onager with chainshot", "fire onager at seamonster"},
-        st = {"maintain hull", "load onager with starshot", "fire onager at seamonster"},
-        d = {"maintain hull", "load thrower with disc", "fire thrower at seamonster"}
+        b = {"maintain " .. poopDeck.maintain, "load ballista with dart", "fire ballista at seamonster"},
+        bf = {"maintain " .. poopDeck.maintain, "load ballista with flare", "fire ballista at seamonster"},
+        o = poopDeck.firedSpider and {"maintain " .. poopDeck.maintain, "load onager with starshot", "fire onager at seamonster"} or {"maintain " .. poopDeck.maintain, "load onager with spidershot", "fire onager at seamonster"},
+        sp = {"maintain " .. poopDeck.maintain, "load onager with spidershot", "fire onager at seamonster"},
+        c = {"maintain " .. poopDeck.maintain, "load onager with chainshot", "fire onager at seamonster"},
+        st = {"maintain " .. poopDeck.maintain, "load onager with starshot", "fire onager at seamonster"},
+        d = {"maintain " .. poopDeck.maintain, "load thrower with disc", "fire thrower at seamonster"}
     }
 
     if poopDeck.firing == true then return end
@@ -236,13 +239,13 @@ function poopDeck.toggleCuring(curing)
 end
 
 --Ship Vital checker. Do something with this later
-function poopDeck.ShipVitals()
+function poopDeck.shipVitals()
     return
 end
 
 --If we were out of range, turn curing back on. 
 --Then turn on the trigger to attempt firing each time the ship moves.
-function poopDeck.OutOfMonsterRange()
+function poopDeck.outOfMonsterRange()
     local myMessage = "OUT OF RANGE!"
     poopDeck.firing = false
     poopDeck.oor = true
@@ -254,7 +257,7 @@ function poopDeck.OutOfMonsterRange()
 end
 
 --Will pop a notification that your shot got interrupted.
-function poopDeck.InterruptedShot()
+function poopDeck.interruptedShot()
     local myMessage = "SHOT INTERRUPTED!"
     local myMessageAuto = "SHOT INTERRUPTED! RETRYING!"
     poopDeck.toggleCuring("on")
@@ -269,12 +272,43 @@ end
 
 --Displays a thingie letting you know that you're shooting at something
 function poopDeck.parsePrompt()
-  if poopDeck.firing then
-    local myMessage = "FIRING!"
-    poopDeck.fireEcho(myMessage)
-  end
-  if poopDeck.oor then
-    local myMessage = "OUT OF RANGE!"
-    poopDeck.rangeEcho(myMessage)
-  end
+    local firstMessage = true
+    if poopDeck.maintain then
+        echo("\n")
+        local myMessage = "MAINTAINING " .. poopDeck.maintain
+        poopDeck.maintainEcho(myMessage)
+        firstMessage = false
+    end
+    if poopDeck.firing then
+        local myMessage = "FIRING!"
+        if firstMessage then echo("\n") end
+        poopDeck.fireEcho(myMessage)
+        firstMessage = false
+    end
+    if poopDeck.oor then
+        if firstMessage then echo("\n") end
+        local myMessage = "OUT OF RANGE!"
+        poopDeck.rangeEcho(myMessage)
+        firstMessage = false
+    end
+    if not firstMessage then echo("\n") end
+end
+
+--Sets if you maintain on shot or not
+function poopDeck.setMaintain(maintain)
+    local myMessage
+    if maintain == "h" then
+        myMessage = "MAINTAINING HULL"
+        poopDeck.maintain = "hull"
+    elseif maintain == "s" then
+        myMessage = "MAINTAINING SAILS"
+        poopDeck.maintain = "sails"
+    elseif maintain == "n" then
+        myMessage = "MAINTAINING NONE"
+        poopDeck.maintain = false
+    else
+        myMessage = "MAINTAINING NONE"
+        poopDeck.maintain = false
+    end
+    poopDeck.goodEcho(myMessage)
 end

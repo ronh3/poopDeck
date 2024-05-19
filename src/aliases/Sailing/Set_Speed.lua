@@ -1,1 +1,1 @@
-poopDeck.command('setSpeed', matches[2])
+poopDeck.setSpeed(matches[2])
