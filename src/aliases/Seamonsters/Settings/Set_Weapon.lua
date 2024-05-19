@@ -1,1 +1,1 @@
-poopDeck.SetWeapon(matches[2])
+poopDeck.setWeapon(matches[2])

@@ -119,8 +119,11 @@ end
 function poopDeck.setWeapon(boomstick)
     local weaponMessages = {
         ballista = "UNLEASH THE DARTS! - BALLISTA",
+        b = "UNLEASH THE DARTS! - BALLISTA",
         onager = "ENGAGE THE MIGHTY SLINGSHOT - ONAGER",
-        thrower = "SEND HAVOC SPINNING! - THROWER"
+        o = "ENGAGE THE MIGHTY SLINGSHOT - ONAGER",
+        thrower = "SEND HAVOC SPINNING! - THROWER",
+        t = "SEND HAVOC SPINNING! - THROWER"
     }
 
     -- Reset all weapon flags
@@ -130,7 +133,7 @@ function poopDeck.setWeapon(boomstick)
 
     -- If the weapon is recognized, set its flag to true and get its message
     if weaponMessages[boomstick] then
-        poopDeck[boomstick] = true
+        poopDeck.weapons[boomstick] = true
         poopDeck.goodEcho(weaponMessages[boomstick])
     else
         poopDeck.badEcho("NO WEAPON SELECTED!")
@@ -153,9 +156,9 @@ function poopDeck.autoFire()
 
     -- Define a table that maps each weapon to its corresponding commands
     local weaponCommands = {
-        ballista = {"maintain hull", "load ballista with dart", "fire ballista at seamonster"},
-        thrower = {"maintain hull", "load thrower with disc", "fire thrower at seamonster"},
-        onager = poopDeck.firedSpider and {"maintain hull", "load onager with starshot", "fire onager at seamonster"} or {"maintain hull", "load onager with spidershot", "fire onager at seamonster"}
+        ballista = {"maintain " .. poopDeck.maintain, "load ballista with dart", "fire ballista at seamonster"},
+        thrower = {"maintain " .. poopDeck.maintain, "load thrower with disc", "fire thrower at seamonster"},
+        onager = poopDeck.firedSpider and {"maintain " .. poopDeck.maintain, "load onager with starshot", "fire onager at seamonster"} or {"maintain " .. poopDeck.maintain, "load onager with spidershot", "fire onager at seamonster"}
     }
 
     if poopDeck.toggleCuring() then
@@ -179,13 +182,13 @@ end
 function poopDeck.seaFire(ammo)
     -- Define a table that maps each ammo type to its corresponding commands
     local ammoCommands = {
-        b = {"maintain hull", "load ballista with dart", "fire ballista at seamonster"},
-        bf = {"maintain hull", "load ballista with flare", "fire ballista at seamonster"},
-        o = poopDeck.firedSpider and {"maintain hull", "load onager with starshot", "fire onager at seamonster"} or {"maintain hull", "load onager with spidershot", "fire onager at seamonster"},
-        sp = {"maintain hull", "load onager with spidershot", "fire onager at seamonster"},
-        c = {"maintain hull", "load onager with chainshot", "fire onager at seamonster"},
-        st = {"maintain hull", "load onager with starshot", "fire onager at seamonster"},
-        d = {"maintain hull", "load thrower with disc", "fire thrower at seamonster"}
+        b = {"maintain " .. poopDeck.maintain, "load ballista with dart", "fire ballista at seamonster"},
+        bf = {"maintain " .. poopDeck.maintain, "load ballista with flare", "fire ballista at seamonster"},
+        o = poopDeck.firedSpider and {"maintain " .. poopDeck.maintain, "load onager with starshot", "fire onager at seamonster"} or {"maintain " .. poopDeck.maintain, "load onager with spidershot", "fire onager at seamonster"},
+        sp = {"maintain " .. poopDeck.maintain, "load onager with spidershot", "fire onager at seamonster"},
+        c = {"maintain " .. poopDeck.maintain, "load onager with chainshot", "fire onager at seamonster"},
+        st = {"maintain " .. poopDeck.maintain, "load onager with starshot", "fire onager at seamonster"},
+        d = {"maintain " .. poopDeck.maintain, "load thrower with disc", "fire thrower at seamonster"}
     }
 
     if poopDeck.firing == true then return end
