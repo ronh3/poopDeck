@@ -2,7 +2,7 @@
     {
         "name": "Auto Mode Toggle",
         "isActive": "yes",
-        "regex": "^autosea\\s?(on|off)$"
+        "regex": "^autosea$"
     },
     {
         "name": "Set Health",

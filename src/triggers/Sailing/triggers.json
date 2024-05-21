@@ -12,5 +12,29 @@
                 "type": "exactMatch"
             }
         ]
+    },
+    {
+        "name": "Maintaining",
+        "isActive": "yes",
+        "patterns": [
+            {
+                "pattern": "You begin actively maintaining the ship's hull.",
+                "type": "exactMatch"
+            }
+        ]
+    },
+    {
+        "name": "Not Maintaining",
+        "isActive": "yes",
+        "patterns": [
+            {
+                "pattern": "You cease maintaining the hull.",
+                "type": "exactMatch"
+            },
+            {
+                "pattern": "The hull is now fully repaired!",
+                "type": "exactMatch"
+            }
+        ]
     }
 ]

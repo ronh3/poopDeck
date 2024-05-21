@@ -101,16 +101,18 @@ end
 
 --Automatic Items
 --Turns your automatic seamonster firing on or off.
-function poopDeck.setSeamonsterAutoFire(mode)
+function poopDeck.setSeamonsterAutoFire()
     local myMessage
-    if mode == "on" then
-        myMessage = "AUTO FIRE ON"
-        poopDeck.mode = "automatic"
-        poopDeck.goodEcho(myMessage)
-    else
+    if poopDeck.autoSeaMonster then
         myMessage = "AUTO FIRE OFF"
         poopDeck.mode = "manual"
         poopDeck.badEcho(myMessage)
+        poopDeck.autoSeaMonster = false
+    else
+        myMessage = "AUTO FIRE ON"
+        poopDeck.mode = "automatic"
+        poopDeck.goodEcho(myMessage)
+        poopDeck.autoSeaMonster = true
     end
     
 end
@@ -273,7 +275,7 @@ end
 --Displays a thingie letting you know that you're shooting at something
 function poopDeck.parsePrompt()
     local firstMessage = true
-    if poopDeck.maintain then
+    if poopDeck.maintaining then
         echo("\n")
         local myMessage = "MAINTAINING " .. poopDeck.maintain
         poopDeck.maintainEcho(myMessage)
@@ -311,4 +313,13 @@ function poopDeck.setMaintain(maintain)
         poopDeck.maintain = false
     end
     poopDeck.goodEcho(myMessage)
+end
+
+--Tracking if you're maintaining
+function poopDeck.maintaining(maintain)
+    if maintain then
+        poopDeck.maintaining = true
+    else
+        poopDeck.maintaining = false
+    end
 end

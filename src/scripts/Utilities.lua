@@ -2,6 +2,7 @@
 poopDeck = poopDeck or {}
 poopDeck.config = poopDeck.config or {}
 poopDeck.weapons = poopDeck.weapons or {}
+poopDeck.autoSeaMonster = false
 poopDeck.version = "1.0"
 
 --Table of constants that are used throughout the package

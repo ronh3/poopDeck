@@ -1,1 +1,1 @@
-poopDeck.setSeamonsterAutoFire(matches[2])
+poopDeck.setSeamonsterAutoFire()
