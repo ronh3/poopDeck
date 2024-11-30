@@ -1,1 +1,0 @@
-poopDeck.countShots(matches.monster)

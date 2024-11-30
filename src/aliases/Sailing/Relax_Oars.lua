@@ -1,1 +1,1 @@
-poopDeck.command('relaxOars')
+poopDeck.command.manager:executeCommand("relaxOars")

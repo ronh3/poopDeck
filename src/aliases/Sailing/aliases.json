@@ -7,7 +7,7 @@
     {
         "name": "Anchor",
         "isActive": "yes",
-        "regex": "^([rl])anc$"
+        "regex": "^[rl]anc$"
     },
     {
         "name": "Cast Off",
@@ -27,12 +27,12 @@
     {
         "name": "Comm Screen",
         "isActive": "yes",
-        "regex": "^scomm\\s?(on|off)"
+        "regex": "^scomm\\s?(on|off)$"
     },
     {
         "name": "Dock",
         "isActive": "yes",
-        "regex": "^dock\\s?(\\w+)$"
+        "regex": "^dock\\s?(\\S+)$"
     },
     {
         "name": "Douse",
@@ -72,12 +72,12 @@
     {
         "name": "Ship Repairs",
         "isActive": "yes",
-        "regex": "^sre[pn]$"
+        "regex": "^srep([ahns])$"
     },
     {
         "name": "Ship Rescue",
         "isActive": "yes",
-        "regex": "^sres$"
+        "regex": "^shres$"
     },
     {
         "name": "Ship Warning",
@@ -92,7 +92,7 @@
     {
         "name": "Wavecall",
         "isActive": "yes",
-        "regex": "^wav\\s?(\\w+)\\s?([12345678])$"
+        "regex": "^wav\\s?(\\S+)\\s?([12345678])$"
     },
     {
         "name": "Windboost",

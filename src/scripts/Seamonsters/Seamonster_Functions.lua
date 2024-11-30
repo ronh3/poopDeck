@@ -1,6 +1,7 @@
 --Seamonster Tracking and callouts
 
 --Seamonster table to know total shots needed to kill.
+poopDeck.promptCount = 0
 poopDeck.seamonsters = {
     ["a legendary leviathan"] = 60,
     ["a hulking oceanic cyclops"] = 60,
@@ -78,12 +79,13 @@ end
 function poopDeck.monsterSurfaced()
     local myMessage = poopDeck.spottedSeamonsterMessages[math.random(#poopDeck.spottedSeamonsterMessages)]
     local timerName = os.date("monster%H%M%S")
+    echo(timerName)
     poopDeck.seamonsterShots = 0
     poopDeck.badEcho(myMessage)
     if poopDeck.mode == "automatic" then poopDeck.autoFire() end
-    tempTimer(poopDeck.constants.FIVE_MINUTES, [[poopDeck.goodEcho("Monster in 5 minutes")]], 5 .. timerName)
-    tempTimer(poopDeck.constants.ONE_MINUTE, [[poopDeck.goodEcho("Monster in 1 minute")]], 1 .. timerName)
-    tempTimer(poopDeck.constants.NEW_MONSTER, [[poopDeck.badEcho("Reel in, it's monster time!")]], 0 .. timerName)
+    timerName = tempTimer(poopDeck.constants.FIVE_MINUTES, [[poopDeck.goodEcho("Monster in 5 minutes")]])
+    timerName2 = tempTimer(poopDeck.constants.ONE_MINUTE, [[poopDeck.goodEcho("Monster in 1 minute")]])
+    timerName3 = tempTimer(poopDeck.constants.NEW_MONSTER, [[poopDeck.badEcho("Reel in, it's monster time!")]])
 end
 
 --Once a seamonster is killed, this will set the seamonster counter back to zero, give us a nice message that it's dead
@@ -190,7 +192,8 @@ function poopDeck.seaFire(ammo)
         sp = {"maintain " .. poopDeck.maintain, "load onager with spidershot", "fire onager at seamonster"},
         c = {"maintain " .. poopDeck.maintain, "load onager with chainshot", "fire onager at seamonster"},
         st = {"maintain " .. poopDeck.maintain, "load onager with starshot", "fire onager at seamonster"},
-        d = {"maintain " .. poopDeck.maintain, "load thrower with disc", "fire thrower at seamonster"}
+        d = {"maintain " .. poopDeck.maintain, "load thrower with disc", "fire thrower at seamonster"},
+        f = {"maintain hull", "load onager with flare", "fire onager at seamosnter"}
     }
 
     if poopDeck.firing == true then return end
@@ -275,7 +278,7 @@ end
 --Displays a thingie letting you know that you're shooting at something
 function poopDeck.parsePrompt()
     local firstMessage = true
-    if poopDeck.maintaining then
+    if poopDeck.maintain then
         echo("\n")
         local myMessage = "MAINTAINING " .. poopDeck.maintain
         poopDeck.maintainEcho(myMessage)
@@ -288,12 +291,18 @@ function poopDeck.parsePrompt()
         firstMessage = false
     end
     if poopDeck.oor then
+      if poopDeck.promptCount < 5 then
         if firstMessage then echo("\n") end
         local myMessage = "OUT OF RANGE!"
         poopDeck.rangeEcho(myMessage)
         firstMessage = false
+      else
+        poopDeck.promptCount = 0
+        poopDeck.oor = nil
+      end
     end
     if not firstMessage then echo("\n") end
+    poopDeck.promptCount = poopDeck.promptCount + 1
 end
 
 --Sets if you maintain on shot or not
@@ -307,10 +316,10 @@ function poopDeck.setMaintain(maintain)
         poopDeck.maintain = "sails"
     elseif maintain == "n" then
         myMessage = "MAINTAINING NONE"
-        poopDeck.maintain = false
+        poopDeck.maintain = nil
     else
         myMessage = "MAINTAINING NONE"
-        poopDeck.maintain = false
+        poopDeck.maintain = nil
     end
     poopDeck.goodEcho(myMessage)
 end

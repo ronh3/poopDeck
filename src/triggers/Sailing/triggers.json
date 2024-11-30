@@ -20,6 +20,10 @@
             {
                 "pattern": "You begin actively maintaining the ship's hull.",
                 "type": "exactMatch"
+            },
+            {
+                "pattern": "You're already maintaining the ship's hull.",
+                "type": "exactMatch"
             }
         ]
     },

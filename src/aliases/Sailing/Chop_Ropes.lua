@@ -1,1 +1,1 @@
-poopDeck.command('chop')
+poopDeck.command.manager:executeCommand("chop")

@@ -2,8 +2,80 @@
 poopDeck = poopDeck or {}
 poopDeck.config = poopDeck.config or {}
 poopDeck.weapons = poopDeck.weapons or {}
+poopDeck.command = poopDeck.command or {}
 poopDeck.autoSeaMonster = false
-poopDeck.version = "1.0"
+poopDeck.maintaining = false
+poopDeck.version = "2.0"
+
+-- Table of directions
+poopDeck.directions = {
+  e = "east",
+  ene = "east-northeast",
+  ese = "east-southeast",
+  n = "north",
+  nnw = "north-northwest",
+  nne = "north-northeast",
+  ne = "northeast",
+  nw = "northwest",
+  s = "south",
+  sse = "south-southeast",
+  ssw = "south-southwest",
+  se = "southeast",
+  sw = "southwest",
+  w = "west",
+  wnw = "west-northwest",
+  wsw = "west-southwest"
+}
+
+poopDeck.seamonsters = {
+  ["a legendary leviathan"] = 60,
+  ["a hulking oceanic cyclops"] = 60,
+  ["a towering oceanic hydra"] = 60,
+  ["a sea hag"] = 40,
+  ["a monstrous ketea"] = 40,
+  ["a monstrous picaroon"] = 40,
+  ["an unmarked warship"] = 40,
+  ["a red-sailed Kashari raider"]= 30,
+  ["a furious sea dragon"] = 30,
+  ["a pirate ship"] = 30,
+  ["a trio of raging sea serpents"] = 30,
+  ["a raging shraymor"] = 25,
+  ["a mass of sargassum"] = 25,
+  ["a gargantuan megalodon"] = 25,
+  ["a gargantuan angler fish"] = 25,
+  ["a mudback septacean"] = 20,
+  ["a flying sheilei"] = 20,
+  ["a foam-wreathed sea serpent"] = 20,
+  ["a red-faced septacean"] = 20
+}
+
+--Table of dead seamonster messages
+poopDeck.deadSeamonsterMessages = {
+  "🚢🐉 Triumphant Victory! 🐉🚢",
+  "⚓🌊 Monster Subdued! 🌊⚓",
+  "🔱🌊 Beast Beneath Conquered! 🌊🔱",
+  "⛵🌊 Monstrous Foe Defeated! 🌊⛵",
+  "🗡️🌊 Siren of the Deep Quelled! 🌊🗡️",
+  "⚔️🌊 Sea's Terror Defeated! 🌊⚔️",
+  "🦈🌊 Jaws of the Abyss Conquered! 🌊🦈",
+  "🚢🌊 Monstrous Victory Achieved! 🌊🚢",
+  "🌟🌊 Tidal Terror Tamed! 🌊🌟",
+  "🗺️🌊 Legends Born of Victory! 🌊🗺️"
+}
+
+--Table of spawned seamonster messages
+poopDeck.spottedSeamonsterMessages = {
+  "🐉🌊 Rising Behemoth! 🌊🐉",
+  "🔍🌊 Titan of the Deep Spotted! 🌊🔍",
+  "🐲🌊 Majestic Leviathan Ascendant! 🌊🐲",
+  "🦑🌊 Monstrous Anomaly Unveiled! 🌊🦑",
+  "🌌🌊 Awakening of the Abyssal Colossus! 🌊🌌",
+  "🌊🌊 Ripple of Giants! 🌊🌊",
+  "🌟🌊 Deep's Enigma Revealed! 🌊🌟",
+  "🐙🌊 Emergence of the Watery Behemoth! 🌊🐙",
+  "🔮🌊 Ocean's Secret Unveiled! 🌊🔮",
+  "🐍🌊 Serpentine Giant Surfaces! 🌊🐍"
+}
 
 --Table of constants that are used throughout the package
 poopDeck.constants = {
@@ -41,50 +113,50 @@ function poopDeck.containsEmoji(text)
   return text:match("[\128-\191][\128-\191]") ~= nil
 end
 
-function poopDeck.FramedBox(secondLineText, edgeColor, frameColor, poopColor, textColor, fillColor)
--- Define the static total width and poopText length
-local totalWidth = 80
-local poopTextLength = 14
+function poopDeck.framedBox(secondLineText, edgeColor, frameColor, poopColor, textColor, fillColor)
+  -- Define the static total width and poopText length
+  local totalWidth = 80
+  local poopTextLength = 14
 
--- Center 'poopDeck' in the first line
-local poopText = edgeColor .. "[ " .. poopColor .. "poop" .. textColor .. "Deck " .. edgeColor .. "]"
-local poopPaddingLength = math.floor((totalWidth - poopTextLength) / 2)
-local poopPadding = string.rep("═", poopPaddingLength)
+  -- Center 'poopDeck' in the first line
+  local poopText = edgeColor .. "[ " .. poopColor .. "poop" .. textColor .. "Deck " .. edgeColor .. "]"
+  local poopPaddingLength = math.floor((totalWidth - poopTextLength) / 2)
+  local poopPadding = string.rep("═", poopPaddingLength)
 
--- Second line text (variable content) with padding
-local secondLineLength = utf8.len(secondLineText)
-local secondPaddingLength = math.floor((totalWidth - secondLineLength - 2) / 2)
-local secondPadding
-local secondPadding2
+  -- Second line text (variable content) with padding
+  local secondLineLength = utf8.len(secondLineText)
+  local secondPaddingLength = math.floor((totalWidth - secondLineLength - 2) / 2)
+  local secondPadding
+  local secondPadding2
 
-if poopDeck.containsEmoji(secondLineText) then
-  secondPadding = string.rep(" ", secondPaddingLength - 2)
-  secondPadding2 = string.rep(" ", secondPaddingLength - 2)
-else
-  secondPadding = string.rep(" ", secondPaddingLength)
-  secondPadding2 = string.rep(" ", secondPaddingLength)
-end
+  if poopDeck.containsEmoji(secondLineText) then
+    secondPadding = string.rep(" ", secondPaddingLength - 2)
+    secondPadding2 = string.rep(" ", secondPaddingLength - 2)
+  else
+    secondPadding = string.rep(" ", secondPaddingLength)
+    secondPadding2 = string.rep(" ", secondPaddingLength)
+  end
 
--- Adjust for odd-length secondLineText
-if (secondLineLength % 2 ~= 0) then
-    secondPadding = secondPadding .. " " -- Add an extra space for odd length
-    local secondPadding2 = string.rep(" ", secondPaddingLength + 1)
+  -- Adjust for odd-length secondLineText
+  if (secondLineLength % 2 ~= 0) then
+      secondPadding = secondPadding .. " " -- Add an extra space for odd length
+      local secondPadding2 = string.rep(" ", secondPaddingLength + 1)
 
-end
+  end
 
--- Create the top, middle, and bottom lines
-local topLine = edgeColor .. "⌜" .. frameColor .. poopPadding .. poopText .. frameColor .. poopPadding .. edgeColor .. "⌝"
-local topMidLine = edgeColor .. "|" .. fillColor .. string.rep(" ", 78) .. "#r" .. edgeColor .. "|"
-local middleLine = edgeColor .."|" .. fillColor .. secondPadding .. textColor .. secondLineText .. fillColor .. secondPadding2 .. "#r" .. edgeColor .. "|"
-local bottomMidLine = edgeColor .. "|" .. fillColor .. string.rep(" ", 78) .. "#r" .. edgeColor .. "|"
-local bottomLine = edgeColor .."⌞" .. string.rep(frameColor .. "═", totalWidth - 2) .. edgeColor .."⌟"
+  -- Create the top, middle, and bottom lines
+  local topLine = edgeColor .. "⌜" .. frameColor .. poopPadding .. poopText .. frameColor .. poopPadding .. edgeColor .. "⌝"
+  local topMidLine = edgeColor .. "|" .. fillColor .. string.rep(" ", 78) .. "#r" .. edgeColor .. "|"
+  local middleLine = edgeColor .."|" .. fillColor .. secondPadding .. textColor .. secondLineText .. fillColor .. secondPadding2 .. "#r" .. edgeColor .. "|"
+  local bottomMidLine = edgeColor .. "|" .. fillColor .. string.rep(" ", 78) .. "#r" .. edgeColor .. "|"
+  local bottomLine = edgeColor .."⌞" .. string.rep(frameColor .. "═", totalWidth - 2) .. edgeColor .."⌟"
 
--- Output the lines
-hecho("\n" .. topLine)
-hecho("\n" .. topMidLine)
-hecho("\n" .. middleLine)
-hecho("\n" .. bottomMidLine)
-hecho("\n" .. bottomLine)
+  -- Output the lines
+  hecho("\n" .. topLine)
+  hecho("\n" .. topMidLine)
+  hecho("\n" .. middleLine)
+  hecho("\n" .. bottomMidLine)
+  hecho("\n" .. bottomLine)
 end
 
 function poopDeck.SmallFramedBox(secondLineText, edgeColor, frameColor, poopColor, textColor, fillColor)

@@ -1,1 +1,1 @@
-poopDeck.command('rowOars')
+poopDeck.command.manager:executeCommand("rowOars")

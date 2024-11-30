@@ -1,1 +1,3 @@
-poopDeck.wavecall(matches[2], matches[3])
+local heading = matches[2]
+local distance = matches[3]
+poopDeck.command.manager:executeCommand("wavecall", heading, distance)

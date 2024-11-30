@@ -1,1 +1,0 @@
-poopDeck.autoFire()
