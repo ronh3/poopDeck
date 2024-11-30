@@ -6,5 +6,3 @@
 --firc - fire onager chainshot
 --fird - fire thrower disc
 --firo - fire alternating starshot and spidershot
-
-poopDeck.seaFire(matches[2])

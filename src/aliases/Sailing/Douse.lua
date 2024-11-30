@@ -1,1 +1,2 @@
-poopDeck.command('douse', matches[2])
+local target = matches[2]
+poopDeck.command.manager:executeCommand("douse", target)

@@ -1,1 +1,1 @@
-poopDeck.command('castoff')
+poopDeck.command.manager:executeCommand("castoff")

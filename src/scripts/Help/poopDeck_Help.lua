@@ -24,6 +24,7 @@ poopDeck.helpSailing = {
             ["lpla"] = "Lower the plank",
             ["mainh"] = "Maintain the hull",
             ["mains"] = "Maintain the sails",
+            ["mainn"] = "Maintain nothing",
             ["ranc"] = "Raise the anchor",
             ["rpla"] = "Raise the plank",
             ["scomm off"] = "Turn off comm screen",
@@ -40,6 +41,12 @@ poopDeck.helpSailing = {
             ["rain"] = "Use rainstorm to put out fires on the ship",
             ["sres"] = "Use a token to SHIP RESCUE",
             ["wavXY"] = "Use wavecall in X direction for Y spaces, can use a space if preferred"
+        },
+        ["Settings"] = {
+            ["mainth"] = "Automatically maintain the hull",
+            ["maints"] = "Automatically maintain the sails",
+            ["maintn"] = "Automatically maintain nothing",
+            ["poophp X"] = "Set what HP percentage to go down to until curing is turned back on, default 75%"
         }
     }
 }
@@ -58,7 +65,7 @@ poopDeck.helpSeamonsters = {
     categories = {
         Automatic = {
             ["autosea"] = "Turn automatic seamonstering on or off",
-            ["seaweapon X"] = "Set what weapon to fire, accepts: ballista, onager, thrower",
+            ["seaweapon X"] = "Set what weapon to fire, accepts: ballista, b, onager, o, thrower, t",
             ["poophp X"] = "Set what HP percentage to go down to until curing is turned back on, default 75%"
         },
         Manual = {

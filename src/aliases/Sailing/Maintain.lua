@@ -1,1 +1,2 @@
-poopDeck.command('maintain', matches[2])
+local target = matches[2]
+poopDeck.command.manager:executeCommand("maintain", target)
