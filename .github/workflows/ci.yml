@@ -13,13 +13,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Muddle
-        uses: demonnic/build-with-muddler@v1.3
+        uses: demonnic/build-with-muddler@main
+        with:
+          muddlerVersion: "LATEST"
 
       - name: Upload MPackage
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: poopDeck
           path: build/tmp/
