@@ -431,7 +431,7 @@ function poopDeck.spell.command.WavecallCommand:new()
         "wavecall",
         nil,
         "wav(X)(Y)",
-        "Move X spaces in Y direction.",
+        "Move in X direction for Y spaces.",
         "Seaspells"
     )
     setmetatable(instance, {__index = poopDeck.spell.command.WavecallCommand})
