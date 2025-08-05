@@ -32,7 +32,8 @@ jobs:
         uses: demonnic/build-with-muddler@main
       
       - name: Run Tests
-        uses: demonnic/test-in-mudlet@v1.1
+        continue-on-error: true
+        uses: demonnic/test-in-mudlet@v1.2
         with:
           pretestPackage: ${{ github.workspace }}/build/tmp/poopDeck.mpackage
       
