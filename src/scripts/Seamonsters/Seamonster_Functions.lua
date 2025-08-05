@@ -1,5 +1,11 @@
 --Seamonster Tracking and callouts
 
+--#########################################
+-- Seamonster Commands (poopDeck.seamonster.command)
+--#########################################
+poopDeck.seamonster = poopDeck.seamonster or {}
+poopDeck.seamonster.command = {}
+
 --Seamonster table to know total shots needed to kill.
 poopDeck.promptCount = 0
 poopDeck.seamonsters = {
@@ -101,9 +107,22 @@ function poopDeck.deadSeamonster()
 end
 
 
---Automatic Items
---Turns your automatic seamonster firing on or off.
-function poopDeck.setSeamonsterAutoFire()
+-- Auto Fire Toggle Command
+poopDeck.seamonster.command.AutoFireToggleCommand = setmetatable({}, {__index = poopDeck.command.Command})
+
+function poopDeck.seamonster.command.AutoFireToggleCommand:new()
+    local instance = poopDeck.command.Command:new(
+        "autoFireToggle",
+        nil,
+        "autosea",
+        "Toggle automatic seamonster firing on/off",
+        "Seamonsters"
+    )
+    setmetatable(instance, {__index = poopDeck.seamonster.command.AutoFireToggleCommand})
+    return instance
+end
+
+function poopDeck.seamonster.command.AutoFireToggleCommand:execute()
     local myMessage
     if poopDeck.autoSeaMonster then
         myMessage = "AUTO FIRE OFF"
@@ -116,11 +135,33 @@ function poopDeck.setSeamonsterAutoFire()
         poopDeck.goodEcho(myMessage)
         poopDeck.autoSeaMonster = true
     end
-    
 end
 
---Sets which weapon you'll automatically attempt to fire.
-function poopDeck.setWeapon(boomstick)
+local autoFireToggleCommand = poopDeck.seamonster.command.AutoFireToggleCommand:new()
+poopDeck.command.manager:addCommand("autoFireToggle", autoFireToggleCommand)
+
+--Automatic Items
+--Legacy function - kept for backward compatibility
+function poopDeck.setSeamonsterAutoFire()
+    poopDeck.command.manager:executeCommand("autoFireToggle")
+end
+
+-- Set Weapon Command
+poopDeck.seamonster.command.SetWeaponCommand = setmetatable({}, {__index = poopDeck.command.Command})
+
+function poopDeck.seamonster.command.SetWeaponCommand:new()
+    local instance = poopDeck.command.Command:new(
+        "setWeapon",
+        nil,
+        "seaweapon X",
+        "Set weapon for automatic firing (ballista/b, onager/o, thrower/t)",
+        "Seamonsters"
+    )
+    setmetatable(instance, {__index = poopDeck.seamonster.command.SetWeaponCommand})
+    return instance
+end
+
+function poopDeck.seamonster.command.SetWeaponCommand:execute(boomstick)
     local weaponMessages = {
         ballista = "UNLEASH THE DARTS! - BALLISTA",
         b = "UNLEASH THE DARTS! - BALLISTA",
@@ -135,13 +176,30 @@ function poopDeck.setWeapon(boomstick)
     poopDeck.weapons.onager = false
     poopDeck.weapons.thrower = false
 
+    -- Map short forms to full names for flag setting
+    local weaponMap = {
+        b = "ballista",
+        o = "onager", 
+        t = "thrower"
+    }
+    
+    local weaponName = weaponMap[boomstick] or boomstick
+    
     -- If the weapon is recognized, set its flag to true and get its message
     if weaponMessages[boomstick] then
-        poopDeck.weapons[boomstick] = true
+        poopDeck.weapons[weaponName] = true
         poopDeck.goodEcho(weaponMessages[boomstick])
     else
         poopDeck.badEcho("NO WEAPON SELECTED!")
     end
+end
+
+local setWeaponCommand = poopDeck.seamonster.command.SetWeaponCommand:new()
+poopDeck.command.manager:addCommand("setWeapon", setWeaponCommand)
+
+--Legacy function - kept for backward compatibility
+function poopDeck.setWeapon(boomstick)
+    poopDeck.command.manager:executeCommand("setWeapon", boomstick)
 end
 
 --Tracks that you have started firing, so that triggers can be disabled/won't interrupt.
@@ -182,36 +240,110 @@ function poopDeck.autoFire()
     end
 end
 
---Manually fire a weapon. onager will alternate between spidershot and starshot if the correct alias (firo) is used.
-function poopDeck.seaFire(ammo)
-    -- Define a table that maps each ammo type to its corresponding commands
-    local ammoCommands = {
-        b = {"maintain " .. poopDeck.maintain, "load ballista with dart", "fire ballista at seamonster"},
-        bf = {"maintain " .. poopDeck.maintain, "load ballista with flare", "fire ballista at seamonster"},
-        o = poopDeck.firedSpider and {"maintain " .. poopDeck.maintain, "load onager with starshot", "fire onager at seamonster"} or {"maintain " .. poopDeck.maintain, "load onager with spidershot", "fire onager at seamonster"},
-        sp = {"maintain " .. poopDeck.maintain, "load onager with spidershot", "fire onager at seamonster"},
-        c = {"maintain " .. poopDeck.maintain, "load onager with chainshot", "fire onager at seamonster"},
-        st = {"maintain " .. poopDeck.maintain, "load onager with starshot", "fire onager at seamonster"},
-        d = {"maintain " .. poopDeck.maintain, "load thrower with disc", "fire thrower at seamonster"},
-        f = {"maintain hull", "load onager with flare", "fire onager at seamosnter"}
-    }
+-- Manual Fire Command - Base class for all manual firing
+poopDeck.seamonster.command.ManualFireCommand = setmetatable({}, {__index = poopDeck.command.Command})
 
+function poopDeck.seamonster.command.ManualFireCommand:new(name, ammo, weapon, alias, helpText)
+    local instance = poopDeck.command.Command:new(name, nil, alias, helpText, "Seamonsters")
+    setmetatable(instance, {__index = poopDeck.seamonster.command.ManualFireCommand})
+    instance.ammo = ammo
+    instance.weapon = weapon
+    return instance
+end
+
+function poopDeck.seamonster.command.ManualFireCommand:execute()
     if poopDeck.firing == true then return end
     if poopDeck.toggleCuring() then
-        local commands = ammoCommands[ammo]
-        if commands then
-            sendAll(unpack(commands))
-            if ammo == "o" then
-                poopDeck.firedSpider = not poopDeck.firedSpider
-            end
-        else
-            -- Handle the case where the ammo type is not recognized
-            print("Unknown ammo type: " .. ammo)
-        end
+        self:fireWeapon()
     else
         poopDeck.toggleCuring("on")
         local myMessage = "NEED TO HEAL - HOLD FIRE!"
         poopDeck.badEcho(myMessage)
+    end
+end
+
+function poopDeck.seamonster.command.ManualFireCommand:fireWeapon()
+    local maintainCmd = poopDeck.maintain and ("maintain " .. poopDeck.maintain) or "maintain hull"
+    local commands = {
+        maintainCmd,
+        "load " .. self.weapon .. " with " .. self.ammo,
+        "fire " .. self.weapon .. " at seamonster"
+    }
+    sendAll(unpack(commands))
+end
+
+-- Ballista Dart Command
+local ballistaDartCommand = poopDeck.seamonster.command.ManualFireCommand:new(
+    "ballistaDart", "dart", "ballista", "firb", "Fire a dart from ballista at seamonster"
+)
+poopDeck.command.manager:addCommand("ballistaDart", ballistaDartCommand)
+
+-- Ballista Flare Command  
+local ballistaFlareCommand = poopDeck.seamonster.command.ManualFireCommand:new(
+    "ballistaFlare", "flare", "ballista", "firf", "Fire a flare from ballista at seamonster"
+)
+poopDeck.command.manager:addCommand("ballistaFlare", ballistaFlareCommand)
+
+-- Thrower Disc Command
+local throwerDiscCommand = poopDeck.seamonster.command.ManualFireCommand:new(
+    "throwerDisc", "disc", "thrower", "fird", "Fire a wardisc from thrower at seamonster"
+)
+poopDeck.command.manager:addCommand("throwerDisc", throwerDiscCommand)
+
+-- Onager Starshot Command
+local onagerStarshotCommand = poopDeck.seamonster.command.ManualFireCommand:new(
+    "onagerStarshot", "starshot", "onager", "first", "Fire a starshot from onager at seamonster"
+)
+poopDeck.command.manager:addCommand("onagerStarshot", onagerStarshotCommand)
+
+-- Onager Spidershot Command
+local onagerSpidershotCommand = poopDeck.seamonster.command.ManualFireCommand:new(
+    "onagerSpidershot", "spidershot", "onager", "firsp", "Fire a spidershot from onager at seamonster"
+)
+poopDeck.command.manager:addCommand("onagerSpidershot", onagerSpidershotCommand)
+
+-- Onager Alternating Command (special case)
+poopDeck.seamonster.command.OnagerAlternatingCommand = setmetatable({}, {__index = poopDeck.seamonster.command.ManualFireCommand})
+
+function poopDeck.seamonster.command.OnagerAlternatingCommand:new()
+    local instance = poopDeck.seamonster.command.ManualFireCommand:new(
+        "onagerAlternating", nil, "onager", "firo", "Fire alternating starshot/spidershot from onager"
+    )
+    setmetatable(instance, {__index = poopDeck.seamonster.command.OnagerAlternatingCommand})
+    return instance
+end
+
+function poopDeck.seamonster.command.OnagerAlternatingCommand:fireWeapon()
+    local ammo = poopDeck.firedSpider and "starshot" or "spidershot"
+    local maintainCmd = poopDeck.maintain and ("maintain " .. poopDeck.maintain) or "maintain hull"
+    local commands = {
+        maintainCmd,
+        "load onager with " .. ammo,
+        "fire onager at seamonster"
+    }
+    sendAll(unpack(commands))
+    poopDeck.firedSpider = not poopDeck.firedSpider
+end
+
+local onagerAlternatingCommand = poopDeck.seamonster.command.OnagerAlternatingCommand:new()
+poopDeck.command.manager:addCommand("onagerAlternating", onagerAlternatingCommand)
+
+--Legacy function - kept for backward compatibility
+function poopDeck.seaFire(ammo)
+    local commandMap = {
+        b = "ballistaDart",
+        bf = "ballistaFlare", 
+        d = "throwerDisc",
+        st = "onagerStarshot",
+        sp = "onagerSpidershot",
+        o = "onagerAlternating"
+    }
+    
+    local commandName = commandMap[ammo]
+    if commandName then
+        poopDeck.command.manager:executeCommand(commandName)
+    else
+        print("Unknown ammo type: " .. ammo)
     end
 end
 
@@ -305,8 +437,22 @@ function poopDeck.parsePrompt()
     poopDeck.promptCount = poopDeck.promptCount + 1
 end
 
---Sets if you maintain on shot or not
-function poopDeck.setMaintain(maintain)
+-- Set Maintain Command
+poopDeck.seamonster.command.SetMaintainCommand = setmetatable({}, {__index = poopDeck.command.Command})
+
+function poopDeck.seamonster.command.SetMaintainCommand:new()
+    local instance = poopDeck.command.Command:new(
+        "setMaintain",
+        nil,
+        "maintain(h|s|n)",
+        "Set what to maintain during combat (hull/sails/none)",
+        "Seamonsters"
+    )
+    setmetatable(instance, {__index = poopDeck.seamonster.command.SetMaintainCommand})
+    return instance
+end
+
+function poopDeck.seamonster.command.SetMaintainCommand:execute(maintain)
     local myMessage
     if maintain == "h" then
         myMessage = "MAINTAINING HULL"
@@ -322,6 +468,40 @@ function poopDeck.setMaintain(maintain)
         poopDeck.maintain = nil
     end
     poopDeck.goodEcho(myMessage)
+end
+
+local setMaintainCommand = poopDeck.seamonster.command.SetMaintainCommand:new()
+poopDeck.command.manager:addCommand("setMaintain", setMaintainCommand)
+
+-- Set Health Command
+poopDeck.seamonster.command.SetHealthCommand = setmetatable({}, {__index = poopDeck.command.Command})
+
+function poopDeck.seamonster.command.SetHealthCommand:new()
+    local instance = poopDeck.command.Command:new(
+        "setHealth",
+        nil,
+        "poophp X",
+        "Set HP percentage threshold for curing (default 75%)",
+        "Seamonsters"
+    )
+    setmetatable(instance, {__index = poopDeck.seamonster.command.SetHealthCommand})
+    return instance
+end
+
+function poopDeck.seamonster.command.SetHealthCommand:execute(hpperc)
+    if hpperc and tonumber(hpperc) then
+        poopDeck.setHealth(hpperc)
+    else
+        poopDeck.badEcho("Invalid health percentage!")
+    end
+end
+
+local setHealthCommand = poopDeck.seamonster.command.SetHealthCommand:new()
+poopDeck.command.manager:addCommand("setHealth", setHealthCommand)
+
+--Legacy function - kept for backward compatibility
+function poopDeck.setMaintain(maintain)
+    poopDeck.command.manager:executeCommand("setMaintain", maintain)
 end
 
 --Tracking if you're maintaining
