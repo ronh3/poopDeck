@@ -30,8 +30,8 @@ fi
 NEW_VERSION="$MAJOR.$MINOR.$PATCH"
 echo "$NEW_VERSION" > VERSION
 
-# Update mfile with new version using sed
-sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" mfile
+# Update mfile with new version
+jq --arg version "$NEW_VERSION" '.version = $version' mfile > mfile.tmp && mv mfile.tmp mfile
 
 echo "Version bumped from $CURRENT_VERSION to $NEW_VERSION"
 echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
