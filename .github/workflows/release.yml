@@ -19,12 +19,7 @@ jobs:
           
       - name: Set up environment
         run: |
-          # Copy bump-version script from parent directory if it exists
-          if [ -f "../.github/scripts/bump-version.sh" ]; then
-            mkdir -p .github/scripts
-            cp ../.github/scripts/bump-version.sh .github/scripts/
-            chmod +x .github/scripts/bump-version.sh
-          fi
+          chmod +x .github/scripts/bump-version.sh
           
       - name: Get commit message
         id: commit
