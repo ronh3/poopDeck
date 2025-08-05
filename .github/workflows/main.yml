@@ -31,6 +31,11 @@ jobs:
       - name: Muddle
         uses: demonnic/build-with-muddler@main
       
+      - name: Run Tests
+        uses: demonnic/test-in-mudlet@v1.1
+        with:
+          pretestPackage: ${{ github.workspace }}/build/tmp/poopDeck.mpackage
+      
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         id: upload
