@@ -19,6 +19,8 @@ jobs:
           
       - name: Set up environment
         run: |
+          # Fix line endings and make executable
+          sed -i 's/\r$//' .github/scripts/bump-version.sh
           chmod +x .github/scripts/bump-version.sh
           
       - name: Get commit message
