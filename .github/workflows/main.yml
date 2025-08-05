@@ -1,0 +1,110 @@
+name: Build project using muddler and upload artifact
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    permissions: write-all
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install jq and bump version
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          # Install jq for JSON processing
+          sudo apt-get update && sudo apt-get install -y jq
+          # Fix line endings and make script executable
+          sed -i 's/\r$//' .github/scripts/bump-version.sh
+          chmod +x .github/scripts/bump-version.sh
+          # Bump version based on commit message
+          .github/scripts/bump-version.sh "${{ github.event.head_commit.message }}"
+
+      - name: Muddle
+        uses: demonnic/build-with-muddler@main
+      
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        id: upload
+        with:
+          name: poopDeck
+          path: build/tmp/
+      
+      - name: Post Artifact
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |-
+            ## Build preview
+            You can get it [here](${{ steps.upload.outputs.artifact-url }})
+            ![badge](https://img.shields.io/badge/Build-Success!-3fb950?logo=github&style=for-the-badge)
+      
+      - name: Read version
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        id: version
+        run: |
+          VERSION=$(cat VERSION)
+          echo "version=v$VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $VERSION"
+      
+      - name: List build output
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          echo "Contents of build directory:"
+          find build -type f -name "*" 2>/dev/null | head -20 || echo "Build directory not found"
+          echo "Contents of build/tmp:"
+          ls -la build/tmp/ 2>/dev/null || echo "build/tmp not found"
+      
+      - name: Find package file
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        id: package
+        run: |
+          # Look for any .mpackage or .zip file in build directory
+          PACKAGE_FILE=$(find build -type f \( -name "*.mpackage" -o -name "*.zip" \) 2>/dev/null | head -1)
+          
+          if [ -n "$PACKAGE_FILE" ]; then
+            echo "file=$PACKAGE_FILE" >> $GITHUB_OUTPUT
+            echo "Found package: $PACKAGE_FILE"
+          else
+            echo "Warning: No package file found"
+            echo "file=" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Commit version changes
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add VERSION mfile
+          git commit -m "chore: bump version to $(cat VERSION)" || exit 0
+          git push
+      
+      - name: Create Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.package.outputs.file != ''
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          name: poopDeck ${{ steps.version.outputs.version }}
+          body: |
+            ## poopDeck Sailing System
+            
+            Automated release from commit ${{ github.sha }}
+            
+            ### Installation
+            1. Download the package file below
+            2. Open Mudlet Package Manager
+            3. Install the downloaded package
+            
+            ### Changes
+            ${{ github.event.head_commit.message }}
+          files: ${{ steps.package.outputs.file }}
+          draft: false
+          prerelease: false
