@@ -1,27 +1,120 @@
-name: CI
+name: Build and Release
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Muddle
+      - name: Get current version
+        id: get_version
+        run: |
+          # Extract version from mfile
+          VERSION=$(grep -oP '"version":\s*"\K[^"]+' mfile)
+          echo "current_version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $VERSION"
+
+      - name: Increment version
+        id: increment_version
+        run: |
+          VERSION="${{ steps.get_version.outputs.current_version }}"
+          # Split version into parts (assuming semantic versioning)
+          IFS='.' read -ra PARTS <<< "$VERSION"
+          MAJOR=${PARTS[0]}
+          MINOR=${PARTS[1]}
+          PATCH=${PARTS[2]}
+          
+          # Increment patch version
+          PATCH=$((PATCH + 1))
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_VERSION"
+
+      - name: Update version in mfile
+        run: |
+          NEW_VERSION="${{ steps.increment_version.outputs.new_version }}"
+          sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" mfile
+          echo "Updated mfile with version $NEW_VERSION"
+
+      - name: Build with Muddler
         uses: demonnic/build-with-muddler@main
         with:
           muddlerVersion: "LATEST"
 
-      - name: Upload MPackage
+      - name: Rename to .mpackage
+        run: |
+          cd build/tmp/
+          # Find the generated zip file and rename it to .mpackage
+          for file in *.zip; do
+            if [ -f "$file" ]; then
+              mv "$file" "${file%.zip}.mpackage"
+              echo "Renamed $file to ${file%.zip}.mpackage"
+            fi
+          done
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Get commits since last tag
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -z "$LAST_TAG" ]; then
+            # If no tags exist, get all commits
+            COMMITS=$(git log --pretty=format:"- %s" --no-merges)
+          else
+            # Get commits since last tag
+            COMMITS=$(git log ${LAST_TAG}..HEAD --pretty=format:"- %s" --no-merges)
+          fi
+          
+          # Create changelog
+          CHANGELOG="## Changes in v${{ steps.increment_version.outputs.new_version }}
+
+$COMMITS
+
+**Full Changelog**: https://github.com/${{ github.repository }}/compare/${LAST_TAG}...v${{ steps.increment_version.outputs.new_version }}"
+          
+          # Save changelog to file for release
+          echo "$CHANGELOG" > CHANGELOG.md
+          echo "Generated changelog for release"
+
+      - name: Commit version bump
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add mfile
+          git commit -m "Bump version to ${{ steps.increment_version.outputs.new_version }}" || exit 0
+          git push
+
+      - name: Create Release
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.increment_version.outputs.new_version }}
+          name: poopDeck v${{ steps.increment_version.outputs.new_version }}
+          body_path: CHANGELOG.md
+          files: build/tmp/*.mpackage
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: poopDeck
-          path: build/tmp/
+          name: poopDeck-v${{ steps.increment_version.outputs.new_version }}
+          path: build/tmp/*.mpackage
