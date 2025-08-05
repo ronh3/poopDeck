@@ -5,6 +5,11 @@ poopDeck.weapons = poopDeck.weapons or {}
 poopDeck.command = poopDeck.command or {}
 poopDeck.autoSeaMonster = false
 poopDeck.maintaining = false
+poopDeck.firing = false
+poopDeck.oor = false
+poopDeck.mode = "manual"
+poopDeck.firedSpider = false
+poopDeck.seamonsterShots = 0
 poopDeck.version = "2.0"
 
 -- Table of directions

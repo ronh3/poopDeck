@@ -124,16 +124,32 @@ end
 
 function poopDeck.seamonster.command.AutoFireToggleCommand:execute()
     local myMessage
-    if poopDeck.autoSeaMonster then
+    if poopDeck.autoSeaMonster or poopDeck.mode == "automatic" then
         myMessage = "AUTO FIRE OFF"
         poopDeck.mode = "manual"
-        poopDeck.badEcho(myMessage)
         poopDeck.autoSeaMonster = false
+        poopDeck.badEcho(myMessage)
+        -- Disable retry trigger when turning off auto
+        disableTrigger("Ship Moved Lets Try Again")
     else
+        -- Check if we have a weapon selected before enabling auto
+        local hasWeapon = false
+        for weapon, isWeaponActive in pairs(poopDeck.weapons) do
+            if isWeaponActive then
+                hasWeapon = true
+                break
+            end
+        end
+        
+        if not hasWeapon then
+            poopDeck.badEcho("SELECT A WEAPON FIRST! Use 'seaweapon ballista/onager/thrower'")
+            return
+        end
+        
         myMessage = "AUTO FIRE ON"
         poopDeck.mode = "automatic"
-        poopDeck.goodEcho(myMessage)
         poopDeck.autoSeaMonster = true
+        poopDeck.goodEcho(myMessage)
     end
 end
 
@@ -216,27 +232,47 @@ end
 function poopDeck.autoFire()
     if poopDeck.firing then return end
 
+    -- Check if we have a weapon selected
+    local hasWeapon = false
+    for weapon, isWeaponActive in pairs(poopDeck.weapons) do
+        if isWeaponActive then
+            hasWeapon = true
+            break
+        end
+    end
+    
+    if not hasWeapon then
+        poopDeck.badEcho("NO WEAPON SELECTED! Use 'seaweapon ballista/onager/thrower' first.")
+        return
+    end
+
+    -- Safe maintenance command - default to hull if not set
+    local maintainCmd = poopDeck.maintain and ("maintain " .. poopDeck.maintain) or "maintain hull"
+    
     -- Define a table that maps each weapon to its corresponding commands
     local weaponCommands = {
-        ballista = {"maintain " .. poopDeck.maintain, "load ballista with dart", "fire ballista at seamonster"},
-        thrower = {"maintain " .. poopDeck.maintain, "load thrower with disc", "fire thrower at seamonster"},
-        onager = poopDeck.firedSpider and {"maintain " .. poopDeck.maintain, "load onager with starshot", "fire onager at seamonster"} or {"maintain " .. poopDeck.maintain, "load onager with spidershot", "fire onager at seamonster"}
+        ballista = {maintainCmd, "load ballista with dart", "fire ballista at seamonster"},
+        thrower = {maintainCmd, "load thrower with disc", "fire thrower at seamonster"},
+        onager = poopDeck.firedSpider and {maintainCmd, "load onager with starshot", "fire onager at seamonster"} or {maintainCmd, "load onager with spidershot", "fire onager at seamonster"}
     }
 
-    if poopDeck.toggleCuring() then
-        for weapon, isWeaponActive in pairs(poopDeck.weapons) do
-            if isWeaponActive and weaponCommands[weapon] then
-                sendAll(unpack(weaponCommands[weapon]))
-                if weapon == "onager" then
-                    poopDeck.firedSpider = not poopDeck.firedSpider
-                end
-                break
-            end
-        end
-    else
+    -- Check health before firing
+    if not poopDeck.toggleCuring() then
         poopDeck.toggleCuring("on")
-        local myMessage = "NEED TO HEAL - HOLD FIRE!"
+        local myMessage = "NEED TO HEAL - Hold FIRE!"
         poopDeck.badEcho(myMessage)
+        return
+    end
+
+    -- Find active weapon and fire
+    for weapon, isWeaponActive in pairs(poopDeck.weapons) do
+        if isWeaponActive and weaponCommands[weapon] then
+            sendAll(unpack(weaponCommands[weapon]))
+            if weapon == "onager" then
+                poopDeck.firedSpider = not poopDeck.firedSpider
+            end
+            break
+        end
     end
 end
 
@@ -363,15 +399,25 @@ end
 
 --Toggle to turn curing on/off automatically while firing.
 function poopDeck.toggleCuring(curing)
-    if poopDeck.rescue == true then return end
+    if poopDeck.rescue == true then 
+        return false -- Don't fire if we're in rescue mode
+    end
 
-    local shouldCure = (tonumber(gmcp.Char.Vitals.hp) / tonumber(gmcp.Char.Vitals.maxhp) * 100) < poopDeck.config.sipHealthPercent
+    -- Safe GMCP access with fallbacks
+    local currentHP = tonumber(gmcp.Char.Vitals.hp) or 0
+    local maxHP = tonumber(gmcp.Char.Vitals.maxhp) or 1
+    local healthPercent = (currentHP / maxHP) * 100
+    
+    -- Use default health threshold if not configured
+    local sipThreshold = poopDeck.config.sipHealthPercent or 75
+    local shouldCure = healthPercent < sipThreshold
+    
     if curing == "on" or shouldCure then
         send("curing on")
-        return false
+        return false -- Don't allow firing when we need to heal
     else
         send("curing off")
-        return true
+        return true -- Safe to fire
     end
 end
 
