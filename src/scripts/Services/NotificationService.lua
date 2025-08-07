@@ -52,7 +52,7 @@ function poopDeck.services.NotificationService:initialize(config)
             "🐟🌊 Monster spawn - cease fishing! 🌊🐟"
         }
     }
-}
+end
 
 -- Timer management
 function poopDeck.services.NotificationService:startSpawnTimers(lastSpawnTime)
