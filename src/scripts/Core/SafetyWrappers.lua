@@ -182,9 +182,15 @@ end
 
 -- Safe file operations
 function poopDeck.safe.fileExists(filePath, context)
+    -- Validate input
+    if not filePath or filePath == "" then
+        return false
+    end
+    
     local errorHandler = getErrorHandler()
     if errorHandler then
         return errorHandler:safeCall(function(path)
+            if not path or path == "" then return false end
             return io.exists and io.exists(path) or false
         end, context or "safe_fileExists", filePath)
     end

@@ -18,9 +18,13 @@ function poopDeck.core.SessionManager:initialize()
     self.ui = nil
     
     -- Configuration
+    local mudletHome = getMudletHomeDir()
+    if not mudletHome or mudletHome == "" then
+        mudletHome = "."  -- fallback to current directory
+    end
     self.config = {
         loaded = false,
-        configPath = getMudletHomeDir() .. "/poopDeckconfig.lua"
+        configPath = mudletHome .. "/poopDeckconfig.lua"
     }
     
     -- Session state
