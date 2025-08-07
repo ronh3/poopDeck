@@ -18,5 +18,25 @@
         "name": "Set Weapon",
         "isActive": "yes",
         "regex": "^seaweapon\\s?(\\S+)$"
+    },
+    {
+        "name": "Notification Settings",
+        "isActive": "yes",
+        "regex": "^(notifications?|notify.+|spawntimer|timer|notifystatus)$"
+    },
+    {
+        "name": "Prompt Settings",
+        "isActive": "yes",
+        "regex": "^(poopquiet|poopquietmode|poopprompts?|pooppromptsettings|poopresetprompts|poopthrottle\\d+)$"
+    },
+    {
+        "name": "Status Windows",
+        "isActive": "yes",
+        "regex": "^(poopwindows?|poopstatus|poopcombat|poopship|poopfish|poopfishing|poopalerts?|poopnotify|poopshowall|poopopenall|poophideall|poopcloseall|poophide\\w+)$"
+    },
+    {
+        "name": "Error Management",
+        "isActive": "yes",
+        "regex": "^(poopdebug|pooperrors?|poopclearerrors|pooplogging|pooploglevel\\w+|pooperrorstatus|pooptest)$"
     }
 ]

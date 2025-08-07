@@ -1,1 +1,1 @@
-poopDeck.command.manager:executeCommand("allStop")
+poopDeck.session:executeCommand("allstop")

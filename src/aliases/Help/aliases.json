@@ -18,5 +18,10 @@
         "name": "poopDeck Seamonsters",
         "isActive": "yes",
         "regex": "^poopmonster$"
+    },
+    {
+        "name": "poopDeck Fishing",
+        "isActive": "yes",
+        "regex": "^poopfish$"
     }
 ]

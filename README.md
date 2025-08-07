@@ -1,41 +1,80 @@
-# 🚢 poopDeck - Achaea Seafaring Automation
+# 🚢 poopDeck - Complete Achaea Seafaring Automation
 
-A comprehensive automation package for seafaring activities in the text-based MMORPG **Achaea**. Designed for the Mudlet MUD client, poopDeck streamlines ship navigation, seamonster combat, and fishing operations.
+[![Release](https://img.shields.io/github/v/release/nikolais/poopDeck)](https://github.com/nikolais/poopDeck/releases)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Mudlet](https://img.shields.io/badge/mudlet-4.0%2B-green.svg)](https://www.mudlet.org/)
+[![Achaea](https://img.shields.io/badge/game-achaea-orange.svg)](https://www.achaea.com/)
+
+**poopDeck** is a comprehensive automation package for Achaea seafaring, built for the Mudlet MUD client. Whether you're battling seamonsters, managing your ship, or perfecting your fishing technique, poopDeck provides intelligent automation with robust error handling and extensive customization options.
 
 > *Yes, I chose the name because I have the maturity of a thirteen year old.* 😄
 
-## ✨ Features
+## 🎯 Key Features
 
-### 🧭 **Ship Navigation & Management**
-- **Automated Movement**: Docking, casting off, rowing, turning, speed control
-- **Ship Maintenance**: Hull and sail repairs, anchor/plank operations  
-- **Emergency Response**: Chopping ropes, clearing rigging, fire suppression
+### 🐙 **Seamonster Combat**
+- **Intelligent Auto-Fire**: Automatic weapon management with health monitoring
+- **Multi-Weapon Support**: Ballista, onager (alternating ammo), and thrower
+- **Safety Systems**: GMCP health monitoring with automatic curing activation
+- **Combat State Management**: Robust tracking and recovery systems
 
-### ⚔️ **Seamonster Combat System**
-- **Automatic Mode**: Fully automated seamonster hunting with intelligent weapon selection
-- **Manual Mode**: Individual weapon firing commands with shot tracking
-- **Combat Intelligence**: 
-  - Tracks different monster types (20-60 shots required)
-  - Alternates ammunition types for optimal damage
-  - Manages health/curing during combat
-  - Out-of-range detection and repositioning
+### 🎣 **Advanced Fishing System**  
+- **🔄 Auto-Resume**: Automatically restarts fishing when fish escape *(Primary user-requested feature)*
+- **Smart Bait Management**: Support for ANY bait type from tank, inventory, or fishbucket
+- **Comprehensive Statistics**: Persistent tracking across sessions with detailed analytics
+- **Intelligent Retry Logic**: Configurable attempts with smart delays
 
-### 🎣 **Fishing Automation**
-- Automated fishing with line management
-- Fish sizing and response triggers
-- Fisher interaction management
+### 🚢 **Complete Ship Management**
+- **Full Navigation**: Docking, sailing, rowing, speed control, turning
+- **Maintenance Automation**: Hull and sail maintenance with scheduling
+- **Emergency Operations**: Wavecall, ship rescue, fire fighting, rope management
+- **Safety Features**: Anchor/plank management and collision avoidance
 
-### 🎨 **Smart User Interface**
-- Colored, framed message boxes for different event types
-- Real-time status indicators in prompt area
-- Comprehensive in-game help system with command reference
+### 🪟 **Multi-Window Status System**
+- **Four Specialized Windows**: Combat, Ship, Fishing, and Alerts
+- **Intelligent Display**: Auto-show/hide with message history and overflow management
+- **Customizable Layout**: Draggable, resizable windows with position persistence
+- **Color-Coded Messages**: Distinct colors for different message types
 
-## 🚀 Installation
+### 🔔 **Seamonster Spawn Notifications**
+- **20-Minute Cycle Tracking**: Automatic spawn predictions
+- **Multi-Stage Alerts**: 5-minute, 1-minute, and spawn notifications
+- **Smart Scheduling**: Auto-restart cycle with timer management
 
-1. Download the latest `.mpackage` file from [Releases](https://github.com/ronh3/poopDeck/releases)
-2. In Mudlet: **Package Manager → Install**
-3. Select the downloaded `.mpackage` file
-4. Type `poopdeck` to get started!
+### 📢 **Prompt Spam Reduction**
+- **Intelligent Throttling**: Message rate limiting during ship operations
+- **Quiet Mode**: Suppress sailing prompts while preserving important alerts
+- **Summary Reports**: Periodic summaries of suppressed messages
+
+### 🛡️ **Comprehensive Error Handling**
+- **Automatic Recovery**: Service restart and state recovery
+- **Multiple Strategies**: Context-aware recovery approaches
+- **Error Logging**: Detailed error tracking with user-friendly messages
+
+## 🚀 Quick Start
+
+### Installation
+
+1. **Download**: Get the latest `poopDeck-v2.0.0.mpackage` from [Releases](https://github.com/nikolais/poopDeck/releases)
+2. **Install**: Drag-and-drop onto Mudlet or use Package Manager → Install  
+3. **Restart**: Restart Mudlet to complete installation
+4. **Verify**: Type `poopsail` to see the help system
+
+### Basic Setup
+
+```lua
+# Fishing setup
+fishbait bass          # Set your preferred bait
+fishsource tank        # Set bait source (tank/inventory/fishbucket)
+fish                   # Start fishing (auto-resumes when fish escape!)
+
+# Combat setup  
+seaweapon ballista     # Choose weapon
+autosea                # Enable auto-combat
+poophp 75              # Set health safety threshold
+
+# Status monitoring
+poopwindows            # Show status window system
+```
 
 ## 📋 Command Reference
 

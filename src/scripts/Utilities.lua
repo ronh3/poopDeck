@@ -164,7 +164,7 @@ function poopDeck.framedBox(secondLineText, edgeColor, frameColor, poopColor, te
   hecho("\n" .. bottomLine)
 end
 
-function poopDeck.SmallFramedBox(secondLineText, edgeColor, frameColor, poopColor, textColor, fillColor)
+function poopDeck.smallFramedBox(secondLineText, edgeColor, frameColor, poopColor, textColor, fillColor)
   -- Define the static total width and poopText length
   local totalWidth = 80
   local poopTextLength = 14
@@ -236,27 +236,27 @@ end
 
 --Large Echo for good things
 function poopDeck.goodEcho(daword)
-  poopDeck.FramedBox(daword, "#6aa84f","#274e13","#6e1b1b","#FFFFFF","#FFFFFF,008000")
+  poopDeck.framedBox(daword, "#6aa84f","#274e13","#6e1b1b","#FFFFFF","#FFFFFF,008000")
 end
 
 --Large Echo for bad things
 function poopDeck.badEcho(daword)
-  poopDeck.FramedBox(daword, "#f37735","#d11141","#6e1b1b","#FFFFFF","#FFFFFF,800000")
+  poopDeck.framedBox(daword, "#f37735","#d11141","#6e1b1b","#FFFFFF","#FFFFFF,800000")
 end
 
 --Small Echo for good things
 function poopDeck.smallGoodEcho(daword)
-  poopDeck.SmallFramedBox(daword, "#6aa84f","#274e13","#6e1b1b","#FFFFFF","#FFFFFF,008000")
+  poopDeck.smallFramedBox(daword, "#6aa84f","#274e13","#6e1b1b","#FFFFFF","#FFFFFF,008000")
 end
 
 --Small Echo for bad things
 function poopDeck.smallBadEcho(daword)
-  poopDeck.SmallFramedBox(daword, "#f37735","#d11141","#6e1b1b","#FFFFFF","#FFFFFF,800000")
+  poopDeck.smallFramedBox(daword, "#f37735","#d11141","#6e1b1b","#FFFFFF","#FFFFFF,800000")
 end
 
 --Small Echo for shooting things
 function poopDeck.shotEcho(daword)
-  poopDeck.SmallFramedBox(daword, "#fdb643","#90d673","#6e1b1b","#FFFFFF","#FFFFFF,800000")
+  poopDeck.smallFramedBox(daword, "#fdb643","#90d673","#6e1b1b","#FFFFFF","#FFFFFF,800000")
 end
 
 --Prompt echo for when firing
@@ -276,7 +276,14 @@ end
 
 -- Echo for settings information
 function poopDeck.settingEcho(daword)
-  poopDeck.SmallFramedBox(daword, "#4f81bd","#385d8a","#6e1b1b","#FFFFFF","#FFFFFF,008080")
+  poopDeck.smallFramedBox(daword, "#4f81bd","#385d8a","#6e1b1b","#FFFFFF","#FFFFFF,008080")
+end
+
+-- Utility function to get table size
+function table.size(t)
+    local count = 0
+    for _ in pairs(t) do count = count + 1 end
+    return count
 end
 
 --Saves and loads the config tables

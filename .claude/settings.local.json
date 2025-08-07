@@ -15,7 +15,9 @@
       "Bash(ls:*)",
       "Bash(mv:*)",
       "Bash(rm:*)",
-      "Bash(git restore:*)"
+      "Bash(git restore:*)",
+      "WebFetch(domain:demonnic.com)",
+      "Bash(./build-package.sh:*)"
     ],
     "deny": []
   }

@@ -1,0 +1,170 @@
+[
+    {
+        "name": "Start Fishing",
+        "isActive": "yes",
+        "patterns": [
+            {
+                "pattern": "^fish(?:\\s+(\\w+))?(?:\\s+(\\w+))?$",
+                "type": "regex"
+            },
+            {
+                "pattern": "^startfish(?:\\s+(\\w+))?(?:\\s+(\\w+))?$", 
+                "type": "regex"
+            },
+            {
+                "pattern": "^autofish(?:\\s+(\\w+))?(?:\\s+(\\w+))?$",
+                "type": "regex"
+            }
+        ]
+    },
+    {
+        "name": "Stop Fishing", 
+        "isActive": "yes",
+        "patterns": [
+            {
+                "pattern": "stopfish",
+                "type": "exactMatch"
+            },
+            {
+                "pattern": "fishstop", 
+                "type": "exactMatch"
+            },
+            {
+                "pattern": "quitfish",
+                "type": "exactMatch"
+            }
+        ]
+    },
+    {
+        "name": "Fishing Statistics",
+        "isActive": "yes", 
+        "patterns": [
+            {
+                "pattern": "fishstats",
+                "type": "exactMatch"
+            },
+            {
+                "pattern": "poopfishstats",
+                "type": "exactMatch"
+            },
+            {
+                "pattern": "fishingstats",
+                "type": "exactMatch"
+            }
+        ]
+    },
+    {
+        "name": "Set Fishing Bait",
+        "isActive": "yes",
+        "patterns": [
+            {
+                "pattern": "^fishbait\\s+(\\w+)$",
+                "type": "regex"
+            },
+            {
+                "pattern": "^setbait\\s+(\\w+)$",
+                "type": "regex"
+            },
+            {
+                "pattern": "^bait\\s+(\\w+)$",
+                "type": "regex"
+            }
+        ]
+    },
+    {
+        "name": "Set Cast Distance",
+        "isActive": "yes", 
+        "patterns": [
+            {
+                "pattern": "^fishcast\\s+(\\w+)$",
+                "type": "regex"
+            },
+            {
+                "pattern": "^setcast\\s+(\\w+)$",
+                "type": "regex"
+            },
+            {
+                "pattern": "^castdistance\\s+(\\w+)$",
+                "type": "regex"
+            }
+        ]
+    },
+    {
+        "name": "Set Bait Source",
+        "isActive": "yes",
+        "patterns": [
+            {
+                "pattern": "^fishsource\\s+(\\w+)$",
+                "type": "regex"
+            },
+            {
+                "pattern": "^baitsource\\s+(\\w+)$",
+                "type": "regex"
+            },
+            {
+                "pattern": "^setsource\\s+(\\w+)$",
+                "type": "regex"
+            }
+        ]
+    },
+    {
+        "name": "Toggle Auto-Restart",
+        "isActive": "yes",
+        "patterns": [
+            {
+                "pattern": "fishrestart",
+                "type": "exactMatch"
+            },
+            {
+                "pattern": "autorestart", 
+                "type": "exactMatch"
+            },
+            {
+                "pattern": "fishauto",
+                "type": "exactMatch"
+            }
+        ]
+    },
+    {
+        "name": "Enable Fishing Service",
+        "isActive": "yes",
+        "patterns": [
+            {
+                "pattern": "fishenable",
+                "type": "exactMatch"
+            },
+            {
+                "pattern": "poopfishenable",
+                "type": "exactMatch"
+            }
+        ]
+    },
+    {
+        "name": "Disable Fishing Service", 
+        "isActive": "yes",
+        "patterns": [
+            {
+                "pattern": "fishdisable",
+                "type": "exactMatch"
+            },
+            {
+                "pattern": "poopfishdisable", 
+                "type": "exactMatch"
+            }
+        ]
+    },
+    {
+        "name": "Reset Fishing Statistics",
+        "isActive": "yes",
+        "patterns": [
+            {
+                "pattern": "fishresetstats",
+                "type": "exactMatch"
+            },
+            {
+                "pattern": "resetfishstats",
+                "type": "exactMatch"
+            }
+        ]
+    }
+]

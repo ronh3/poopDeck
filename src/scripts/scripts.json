@@ -1,5 +1,61 @@
 [
     {
+        "name": "Core/Initialize",
+        "isActive": "yes"
+    },
+    {
+        "name": "Core/BaseClass",
+        "isActive": "yes"
+    },
+    {
+        "name": "Services/ErrorHandlingService",
+        "isActive": "yes"
+    },
+    {
+        "name": "Core/SafetyWrappers",
+        "isActive": "yes"
+    },
+    {
+        "name": "Domain/Ship",
+        "isActive": "yes"
+    },
+    {
+        "name": "Domain/Seamonster",
+        "isActive": "yes"
+    },
+    {
+        "name": "Domain/Weapon",
+        "isActive": "yes"
+    },
+    {
+        "name": "Services/CombatService",
+        "isActive": "yes"
+    },
+    {
+        "name": "Services/UIService",
+        "isActive": "yes"
+    },
+    {
+        "name": "Services/NotificationService",
+        "isActive": "yes"
+    },
+    {
+        "name": "Services/MonsterTracker",
+        "isActive": "yes"
+    },
+    {
+        "name": "Services/PromptService",
+        "isActive": "yes"
+    },
+    {
+        "name": "Services/StatusWindowService",
+        "isActive": "yes"
+    },
+    {
+        "name": "Core/SessionManager",
+        "isActive": "yes"
+    },
+    {
         "name": "Utilities",
         "isActive": "yes"
     }

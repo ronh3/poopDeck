@@ -1,7 +1,26 @@
 {
   "package": "poopDeck",
-  "title": "poopDeck Sailing Package",
-  "version": "1.0.0",
+  "title": "poopDeck - Complete Achaea Seafaring Automation",
+  "version": "2.0.0",
   "author": "Nikolais",
-  "icon": "imonaboat.png"
+  "created": "2024-01-01",
+  "description": "Comprehensive seafaring automation package for Achaea featuring auto-firing seamonsters, intelligent fishing with auto-resume, ship navigation, status windows, and spam reduction.",
+  "icon": "imonaboat.png",
+  "dependencies": [],
+  "mpackage": "poopDeck.mpackage",
+  "website": "https://github.com/nikolais/poopDeck",
+  "keywords": ["achaea", "seafaring", "automation", "fishing", "seamonster", "mudlet"],
+  "license": "MIT",
+  "mudletVersion": "4.0+",
+  "features": [
+    "🐙 Seamonster auto-fire with weapon management",
+    "🎣 Intelligent fishing with auto-resume functionality", 
+    "🚢 Complete ship navigation and management",
+    "🪟 Multi-window status display system",
+    "🔔 Seamonster spawn timer notifications",
+    "📢 Prompt spam reduction and quiet mode",
+    "🛡️ Comprehensive error handling and recovery",
+    "⚙️ Full command integration with 'poop' prefix",
+    "💾 Configuration persistence across sessions"
+  ]
 }

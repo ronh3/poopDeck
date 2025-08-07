@@ -1,1 +1,2 @@
-sendAll("queue addclearfull freestand get bass from tank here", "queue add freestand bait hook with bass", "queue add freestand cast line medium")
+-- Use the new fishing service instead of direct commands
+poopDeck.session:executeCommand("fish")
