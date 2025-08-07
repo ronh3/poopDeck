@@ -132,7 +132,7 @@ function poopDeck.services.CommandService:executeCommand(commandName, args, cont
         local validationSuccess, validationError = poopDeck.safe.call(
             command.validate, 
             "validate_" .. actualCommandName, 
-            args
+            args or {}
         )
         
         if not validationSuccess or validationError then
