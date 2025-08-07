@@ -235,3 +235,27 @@ function poopDeck.help.displayDynamicHelp(name)
     poopDeck.help.Utils.addCategoriesFromManager(helpManager, poopDeck.command.manager)
     helpManager:createHelp()
 end
+
+-- Convenience function for direct help configuration objects
+function poopDeck.createHelp(helpConfig)
+    if not helpConfig or not helpConfig.config then
+        poopDeck.badEcho("Invalid help configuration provided")
+        return
+    end
+    
+    local helpManager = poopDeck.help.HelpManager:new(helpConfig.config)
+    
+    -- Add categories from the help configuration
+    if helpConfig.categories then
+        for categoryName, entries in pairs(helpConfig.categories) do
+            helpManager:addCategory(categoryName, entries)
+        end
+    end
+    
+    -- Add entries if provided (for simple help configs)
+    if helpConfig.entries then
+        helpManager:addCategory("Commands", helpConfig.entries)
+    end
+    
+    helpManager:createHelp()
+end
