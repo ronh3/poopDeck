@@ -1,13 +1,12 @@
--- Start fishing alias
--- Usage: fish [bait] [cast_distance]
+-- Simple fishing command - bypass complex service layer for now
+local bait = matches[2] or "bass"
+local castDistance = matches[3] or "medium"
 
-local bait = matches[2] or nil
-local castDistance = matches[3] or nil
+poopDeck.goodEcho("Starting fishing with " .. bait .. " at " .. castDistance .. " distance")
 
-if bait and castDistance then
-    poopDeck.session:executeCommand("fish", bait, castDistance)
-elseif bait then
-    poopDeck.session:executeCommand("fish", bait)
-else
-    poopDeck.session:executeCommand("fish")
-end
+-- Basic fishing sequence
+sendAll(
+    "queue addclearfull freestand get " .. bait .. " from tank here",
+    "queue add freestand bait hook with " .. bait,
+    "queue add freestand cast line " .. castDistance
+)
