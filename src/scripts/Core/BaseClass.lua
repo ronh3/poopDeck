@@ -24,8 +24,8 @@ function poopDeck.core.BaseClass:extend(className)
         __call = function(cls, ...)
             local instance = setmetatable({}, cls)
             instance.__className = className
-            if cls.initialize then
-                cls:initialize(...)
+            if instance.initialize then
+                instance:initialize(...)
             end
             instance.__isInitialized = true
             return instance
