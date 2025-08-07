@@ -6,6 +6,11 @@ on:
       - 'v*'
   workflow_dispatch:
 
+permissions:
+  contents: write
+  packages: write
+  pull-requests: read
+
 jobs:
   create-release:
     runs-on: ubuntu-latest
@@ -127,7 +132,7 @@ jobs:
         EOF
         
     - name: Create Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         name: "poopDeck ${{ env.RELEASE_VERSION }}"
         body_path: release_notes.md
@@ -140,8 +145,7 @@ jobs:
           CHANGELOG.md
         draft: false
         prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         
     - name: Update package info
       run: |
