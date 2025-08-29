@@ -1,10 +1,14 @@
 [
-    {
-        "name": "Help Functions",
-        "isActive": "yes"
-    },
-    {
-        "name": "poopDeck Help",
-        "isActive": "yes"
-    }
+       {
+              "name": "Help Functions",
+              "isActive": "yes",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "poopDeck Help",
+              "isActive": "yes",
+              "script": "",
+              "isFolder": "no"
+       }
 ]

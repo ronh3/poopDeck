@@ -1,6 +1,8 @@
 [
-    {
-        "name": "Sailing Commands",
-        "isActive": "yes"
-    }
+       {
+              "name": "Sailing Functions",
+              "isActive": "yes",
+              "script": "",
+              "isFolder": "no"
+       }
 ]

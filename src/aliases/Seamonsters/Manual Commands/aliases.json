@@ -1,7 +1,9 @@
 [
-    {
-        "name": "Fire Weapon",
-        "isActive": "yes",
-        "regex": "^fir(\\w+)$"
-    }
+       {
+              "name": "Fire Weapon",
+              "isActive": "yes",
+              "regex": "^fir(\\w+)$",
+              "script": "",
+              "isFolder": "no"
+       }
 ]

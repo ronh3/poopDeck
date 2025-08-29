@@ -1,42 +1,30 @@
 [
-    {
-        "name": "Auto Mode Toggle",
-        "isActive": "yes",
-        "regex": "^autosea$"
-    },
-    {
-        "name": "Set Health",
-        "isActive": "yes",
-        "regex": "^poophp (\\d+)$"
-    },
-    {
-        "name": "Set Maintain",
-        "isActive": "yes",
-        "regex": "^maint\\s?(\\S+)$"
-    },
-    {
-        "name": "Set Weapon",
-        "isActive": "yes",
-        "regex": "^seaweapon\\s?(\\S+)$"
-    },
-    {
-        "name": "Notification Settings",
-        "isActive": "yes",
-        "regex": "^(notifications?|notify.+|spawntimer|timer|notifystatus)$"
-    },
-    {
-        "name": "Prompt Settings",
-        "isActive": "yes",
-        "regex": "^(poopquiet|poopquietmode|poopprompts?|pooppromptsettings|poopresetprompts|poopthrottle\\d+)$"
-    },
-    {
-        "name": "Status Windows",
-        "isActive": "yes",
-        "regex": "^(poopwindows?|poopstatus|poopcombat|poopship|poopfish|poopfishing|poopalerts?|poopnotify|poopshowall|poopopenall|poophideall|poopcloseall|poophide\\w+)$"
-    },
-    {
-        "name": "Error Management",
-        "isActive": "yes",
-        "regex": "^(poopdebug|pooperrors?|poopclearerrors|pooplogging|pooploglevel\\w+|pooperrorstatus|pooptest)$"
-    }
+       {
+              "name": "Auto Mode Toggle",
+              "isActive": "yes",
+              "regex": "^autosea\\s?(on|off)$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Set Health",
+              "isActive": "yes",
+              "regex": "^poophp (\\d+)$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Set Maintain",
+              "isActive": "yes",
+              "regex": "^maint\\s?(\\S+)$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Set Weapon",
+              "isActive": "yes",
+              "regex": "^seaweapon\\s?(\\S+)$",
+              "script": "",
+              "isFolder": "no"
+       }
 ]

@@ -1,5 +1,2 @@
--- Use the fishing service to handle reeling
-if poopDeck.session and poopDeck.session.fishing then
-    poopDeck.session.fishing:onReadyToReel()
-end
+send("reel line")
 deleteLine()

@@ -1,1 +1,1 @@
-poopDeck.command.manager:executeCommand("shipRescue")
+poopDeck.command('shipRescue')

@@ -1,4 +1,3 @@
--- Use the fishing service to handle large strikes
-if poopDeck.session and poopDeck.session.fishing then
-    poopDeck.session.fishing:onLargeStrike()
-end
+tempTimer(3.34, [[send("jerk pole")]])
+tempTimer(1.67, [[send("jerk pole")]])
+send("jerk pole")

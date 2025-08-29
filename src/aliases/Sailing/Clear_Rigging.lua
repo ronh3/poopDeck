@@ -1,1 +1,1 @@
-poopDeck.command.manager:executeCommand("clearRigging")
+poopDeck.command('clearRigging')

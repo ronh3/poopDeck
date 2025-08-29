@@ -1,68 +1,146 @@
 [
-    {
-      "name": "Monster Shot",
-      "isActive": "yes",
-      "patterns": [
-        {
-          "pattern": "^A heavy wooden shaft streaks from .+ toward (?<monster>.+), burying itself deeply in its side\\.$",
-          "type": "regex"
-        },
-        {
-          "pattern": "^A rotating disc glides away from .+ at (?<monster>.+), wreaking havoc across its body\\.$",
-          "type": "regex"
-        }
-      ]
-    },
-    {
-      "name": "Monster Starshot",
-      "isActive": "yes",
-      "patterns": [
-        {
-          "pattern": "A mass of sharp pieces of metal and wood fly out from",
-          "type": "startOfLine"
-        }
-      ]
-    },
-    {
-      "name": "Monster Spidershot",
-      "isActive": "yes",
-      "patterns": [
-        {
-          "pattern": "A tangle of ropes and cloth rises from",
-          "type": "startOfLine"
-        }
-      ]
-    },
-    {
-      "name": "Monster Surfaced",
-      "isActive": "yes",
-      "patterns": [
-        {
-          "pattern": "A wave crashes over the ship as a massive form emerges from the depths.",
-          "type": "exactMatch"
-        },
-        {
-          "pattern": "The result of the depths disturbed, a great wave crashes against your ship, sending spume showering down over all aboard.",
-          "type": "exactMatch"
-        },
-        {
-          "pattern": "A fearfilled silence weighs heavily upon the waves as something shifts in the dark water.",
-          "type": "exactMatch"
-        },
-        {
-          "pattern": "A swell rocks your vessel as something rises from the depths.",
-          "type": "exactMatch"
-        }
-      ]
-    },
-    {
-      "name": "Dead Monster",
-      "isActive": "yes",
-      "patterns": [
-        {
-          "pattern": "^.+ is defeated and begins to sink to the depths\\.$",
-          "type": "regex"
-        }
-      ]
-    }
-  ]
+       {
+              "name": "Monster Shot",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^A heavy wooden shaft streaks from .+ toward (?\u003cmonster\u003e.+), burying itself deeply in its side\\.$",
+                            "type": "regex"
+                     },
+                     {
+                            "pattern": "^A rotating disc glides away from .+ at (?\u003cmonster\u003e.+), wreaking havoc across its body\\.$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "Monster Starshot",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "A mass of sharp pieces of metal and wood fly out from",
+                            "type": "startOfLine"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "Monster Spidershot",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "A tangle of ropes and cloth rises from",
+                            "type": "startOfLine"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "Monster Surfaced",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "A wave crashes over the ship as a massive form emerges from the depths.",
+                            "type": "exactMatch"
+                     },
+                     {
+                            "pattern": "The result of the depths disturbed, a great wave crashes against your ship, sending spume showering down over all aboard.",
+                            "type": "exactMatch"
+                     },
+                     {
+                            "pattern": "A fearfilled silence weighs heavily upon the waves as something shifts in the dark water.",
+                            "type": "exactMatch"
+                     },
+                     {
+                            "pattern": "A swell rocks your vessel as something rises from the depths.",
+                            "type": "exactMatch"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "Monster Killed External",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ffff00",
+              "highlightBG": "#ff0000",
+              "patterns": [
+                     {
+                            "pattern": "sinks beneath the waves",
+                            "type": "substring"
+                     },
+                     {
+                            "pattern": "disappears beneath the waves",
+                            "type": "substring"
+                     },
+                     {
+                            "pattern": "The monster is no more",
+                            "type": "substring"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "Dead Monster",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^.+ is defeated and begins to sink to the depths\\.$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       }
+]

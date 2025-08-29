@@ -1,2 +1,1 @@
-local orientation = matches[2]
-poopDeck.session:executeCommand("plank", orientation)
+poopDeck.command('plank', matches[2])

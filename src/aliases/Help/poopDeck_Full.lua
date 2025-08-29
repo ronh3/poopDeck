@@ -1,1 +1,1 @@
-poopDeck.help.displayDynamicHelp()
+poopDeck.createHelp(poopDeck.helpFullPoop)

@@ -1,0 +1,34 @@
+[
+    {
+        "name": "poopDeck Classes",
+        "isActive": "yes",
+        "isFolder": "yes",
+        "children": [
+            {
+                "name": "Display",
+                "isActive": "yes",
+                "isFolder": "no"
+            },
+            {
+                "name": "Config",
+                "isActive": "yes",
+                "isFolder": "no"
+            },
+            {
+                "name": "Ship",
+                "isActive": "yes",
+                "isFolder": "no"
+            },
+            {
+                "name": "SeamonsterCombat",
+                "isActive": "yes",
+                "isFolder": "no"
+            },
+            {
+                "name": "Init",
+                "isActive": "yes",
+                "isFolder": "no"
+            }
+        ]
+    }
+]

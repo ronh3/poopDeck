@@ -1,27 +1,30 @@
 [
-    {
-        "name": "poopDeck Splash",
-        "isActive": "yes",
-        "regex": "^poopdeck$"
-    },
-    {
-        "name": "poopDeck Full",
-        "isActive": "yes",
-        "regex": "^poopfull$"
-    },
-    {
-        "name": "poopDeck Sailing",
-        "isActive": "yes",
-        "regex": "^poopsail$"
-    },
-    {
-        "name": "poopDeck Seamonsters",
-        "isActive": "yes",
-        "regex": "^poopmonster$"
-    },
-    {
-        "name": "poopDeck Fishing",
-        "isActive": "yes",
-        "regex": "^poopfish$"
-    }
+       {
+              "name": "poopDeck Splash",
+              "isActive": "yes",
+              "regex": "^poopdeck$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "poopDeck Full",
+              "isActive": "yes",
+              "regex": "^poopfull$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "poopDeck Sailing",
+              "isActive": "yes",
+              "regex": "^poopsail$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "poopDeck Seamonsters",
+              "isActive": "yes",
+              "regex": "^poopmonster$",
+              "script": "",
+              "isFolder": "no"
+       }
 ]

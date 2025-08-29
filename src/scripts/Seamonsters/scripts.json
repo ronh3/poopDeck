@@ -1,6 +1,8 @@
 [
-    {
-        "name": "Seamonster Functions",
-        "isActive": "yes"
-    }
+       {
+              "name": "Seamonster Functions",
+              "isActive": "yes",
+              "script": "",
+              "isFolder": "no"
+       }
 ]

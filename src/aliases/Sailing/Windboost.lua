@@ -1,1 +1,1 @@
-poopDeck.command.manager:executeCommand("windboost")
+poopDeck.command('windboost')

@@ -1,78 +1,138 @@
 [
-    {
-      "name": "Fired Weapon",
-      "isActive": "yes",
-      "patterns": [
-        {
-          "pattern": "You call out \"Fire!\" and release the mechanism on a ballista.",
-          "type": "exactMatch"
-        },
-        {
-          "pattern": "You call out \"Fire!\" and release the mechanism on an Arcanian arm thrower.",
-          "type": "exactMatch"
-        },
-        {
-          "pattern": "You call out \"Fire!\" and release the mechanism on an onager.",
-          "type": "exactMatch"
-        }
-      ]
-    },
-    {
-      "name": "Out of Range",
-      "isActive": "yes",
-      "patterns": [
-        {
-          "pattern": "^The target is out of range of .+\\.$",
-          "type": "regex"
-        },
-        {
-          "pattern": "^Fire at what\\?$",
-          "type": "regex"
-        }
-      ]
-    },
-    {
-      "name": "Ship Moved Lets Try Again",
-      "isActive": "no",
-      "patterns": [
-        {
-          "pattern": "^The ship (moves|drifts) .+$",
-          "type": "regex"
-        },
-        {
-          "pattern": "The wake caused by the movement .+",
-          "type": "regex"
-        }
-      ]
-    },
-    {
-      "name": "Firing Interrupted",
-      "isActive": "yes",
-      "patterns": [
-        {
-          "pattern": "You cease the process of aiming the ship's weapon.",
-          "type": "exactMatch"
-        }
-      ]
-    },
-    {
-      "name": "Firing_Weapon",
-      "isActive": "yes",
-      "patterns": [
-        {
-          "pattern": "You begin the painstaking process of aiming",
-          "type": "startOfLine"
-        }
-      ]
-    },
-    {
-      "name": "Parsing Prompt",
-      "isActive": "yes",
-      "patterns": [
-        {
-          "pattern": "^.*Sl.*hp.*Hl.*Wd.*$",
-          "type": "regex"
-        }
-      ]
-    }
-  ]
+       {
+              "name": "Fired Weapon",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "You call out \"Fire!\" and release the mechanism on a ballista.",
+                            "type": "exactMatch"
+                     },
+                     {
+                            "pattern": "You call out \"Fire!\" and release the mechanism on an Arcanian arm thrower.",
+                            "type": "exactMatch"
+                     },
+                     {
+                            "pattern": "You call out \"Fire!\" and release the mechanism on an onager.",
+                            "type": "exactMatch"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "Out of Range",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^The target is out of range of .+\\.$",
+                            "type": "regex"
+                     },
+                     {
+                            "pattern": "^Fire at what\\?$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "Ship Moved Lets Try Again",
+              "isActive": "no",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^The ship (moves|drifts) .+$",
+                            "type": "regex"
+                     },
+                     {
+                            "pattern": "The wake caused by the movement .+",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "Firing Interrupted",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "You cease the process of aiming the ship's weapon.",
+                            "type": "exactMatch"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "Firing_Weapon",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "You begin the painstaking process of aiming",
+                            "type": "startOfLine"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "Parsing Prompt",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^.*Sl.*hp.*Hl.*Wd.*$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       }
+]

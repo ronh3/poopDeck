@@ -1,2 +1,1 @@
-local state = matches[2]
-poopDeck.command.manager:executeCommand("shipWarning", state)
+poopDeck.command('shipWarning', matches[2])

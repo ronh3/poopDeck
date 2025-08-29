@@ -1,2 +1,1 @@
-local direction = matches[2]
-poopDeck.session:executeCommand("dock", direction)
+poopDeck.dock(matches[2])

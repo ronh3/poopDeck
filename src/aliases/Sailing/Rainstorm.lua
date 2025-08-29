@@ -1,1 +1,1 @@
-poopDeck.command.manager:executeCommand("rainstorm")
+poopDeck.command('rainstorm')

@@ -1,73 +1,22 @@
-poopDeck = poopDeck or {}
-poopDeck.help = {}
-poopDeck.help.HelpManager = {}
-poopDeck.help.HelpManager.__index = poopDeck.help.HelpManager
-
--- HelpManager Class
-function poopDeck.help.HelpManager:new(config)
-    local instance = setmetatable({}, poopDeck.help.HelpManager)
-    instance.config = config
-    instance.categories = {}
-    return instance
-end
-
-function poopDeck.help.HelpManager:addCategory(name, entries)
-    self.categories[name] = poopDeck.help.Category:new(name, entries, self.config)
-end
-
-function poopDeck.help.HelpManager:createHelp()
-    if self.config.headerName then
-        poopDeck.help.Header:new(self.config):display()
+-- Determines the longest command length
+function poopDeck.calculateLongestCommandLength(entries)
+    local longestLength = 0
+    for command, _ in pairs(entries) do
+        longestLength = math.max(longestLength, #command)
     end
-
-    -- Use global longest lengths for consistent spacing
-    local globalLongestCommandLength, globalLongestAliasLength = poopDeck.help.Utils.addCategoriesFromManager(self, poopDeck.command.manager)
-
-    for _, category in pairs(self.categories) do
-        category:display(globalLongestCommandLength, globalLongestAliasLength)
-    end
-
-    poopDeck.help.Footer:new(self.config):display()
+    return longestLength
 end
 
--- Header Class
-poopDeck.help.Header = {}
-poopDeck.help.Header.__index = poopDeck.help.Header
-
-function poopDeck.help.Header:new(config)
-    local instance = setmetatable({}, poopDeck.help.Header)
-    instance.config = config
-    return instance
-end
-
-function poopDeck.help.Header:display()
-    local name = self.config.headerName
-    local borderC = self.config.borderColor
-    local headerFooterColor = self.config.headerFooterColor
-    local totalWidth = self.config.width
-
+-- Creates the header for the helpfile
+function poopDeck.createHeader(name, borderC, headerFooterColor, totalWidth)
     local headerLine = string.format("#%s┌─#%s%s#%s─┐#r", borderC, headerFooterColor, name, borderC)
     local bottomLine = "#" .. borderC .. string.rep("─", totalWidth)
     local header = string.format("#%s\n%s\n%s#r", borderC, headerLine, bottomLine)
     hecho(header .. "\n")
 end
 
--- Footer Class
-poopDeck.help.Footer = {}
-poopDeck.help.Footer.__index = poopDeck.help.Footer
-
-function poopDeck.help.Footer:new(config)
-    local instance = setmetatable({}, poopDeck.help.Footer)
-    instance.config = config
-    return instance
-end
-
-function poopDeck.help.Footer:display()
-    local name = self.config.footerName
-    local borderC = self.config.borderColor
-    local headerFooterColor = self.config.headerFooterColor
-    local totalWidth = self.config.width
-
+-- Creates the footer for the helpfile
+function poopDeck.createFooter(name, borderC, headerFooterColor, totalWidth)
     local topLine = "#" .. borderC .. string.rep("─", totalWidth)
     local paddingLength = totalWidth - #name - 4 -- 4 accounts for "└─" and "─┘"
     local footerLine = string.format("#%s└─#%s%s#%s─┘", borderC, headerFooterColor, name, borderC)
@@ -76,162 +25,102 @@ function poopDeck.help.Footer:display()
     hecho(footer .. "\n")
 end
 
--- Category Class
-poopDeck.help.Category = {}
-poopDeck.help.Category.__index = poopDeck.help.Category
-
-function poopDeck.help.Category:new(name, entries, config)
-    local instance = setmetatable({}, poopDeck.help.Category)
-    instance.name = name
-    instance.entries = entries
-    instance.config = config
-    return instance
+-- Creates an entry for the helpfile
+function poopDeck.addEntry(command, description, cmdColor, descColor, separatorPosition, totalWidth)
+    local commandStyled = string.format("#%s%s#r", cmdColor, command)
+    local descriptionStyled = string.format("#%s%s#r", descColor, description)
+    local commandSpacing = string.rep(" ", separatorPosition - #command + 3) -- 3 spaces after the longest command
+    local line = commandStyled .. commandSpacing .. "| " .. descriptionStyled
+    hecho(line .. "\n")
 end
 
-function poopDeck.help.Category:display(globalLongestCommandLength, globalLongestAliasLength)
-    local categoryNameFormatted = string.format("#%s[%s]#r", self.config.categoryColor, self.name)
-    hecho(categoryNameFormatted .. "\n")
-
-    -- Alphabetize entries
-    local sortedEntries = {}
-    for command, data in pairs(self.entries) do
-        table.insert(sortedEntries, {command = command, alias = data.alias, description = data.description})
-    end
-    table.sort(sortedEntries, function(a, b) return a.command < b.command end)
-
-    -- Use global longest lengths for alignment
-    for _, entry in ipairs(sortedEntries) do
-        poopDeck.help.Utils.addEntry(
-            entry.command,
-            entry.alias,
-            entry.description,
-            self.config.commandColor,
-            self.config.aliasColor,
-            self.config.descriptionColor,
-            globalLongestCommandLength,
-            globalLongestAliasLength
-        )
-    end
+-- Creates a standard line of text for the helpfile
+function poopDeck.addLine(text, textColor, totalWidth)
+    local formattedText = string.format("#%s%s#r", textColor, text)
+    hecho(formattedText .. "\n")
 end
 
-
--- Utility Functions
-poopDeck.help.Utils = {}
-
-function poopDeck.help.Utils.calculateLongestLengths(entries)
-    local longestCommandLength = 0
-    local longestAliasLength = 0
-
-    for _, data in pairs(entries) do
-        local commandLength = #poopDeck.help.Utils.stripColorCodes(data.command)
-        local aliasLength = #poopDeck.help.Utils.stripColorCodes(data.alias)
-
-        longestCommandLength = math.max(longestCommandLength, commandLength)
-        longestAliasLength = math.max(longestAliasLength, aliasLength)
+-- Processes entries for the helpfile, either a single category or multiple categories
+function poopDeck.processEntries(entries, config, categoryName)
+    if categoryName then
+        local categoryNameFormatted = string.format("#%s[%s]#r", config.categoryColor, categoryName)
+        hecho(categoryNameFormatted .. "\n")
     end
 
-    return longestCommandLength, longestAliasLength
-end
+    local longestCommandLength = poopDeck.calculateLongestCommandLength(entries)
+    local separatorPosition = longestCommandLength + 3 -- Three spaces after the longest command
 
-function poopDeck.help.Utils.addEntry(command, alias, description, cmdColor, aliasColor, descColor, cmdWidth, aliasWidth)
-    -- Inline color codes for each part
-    local commandStyled = string.format("<%s>%s<%s>", cmdColor, command, "reset")
-    local aliasStyled = string.format("<%s>%s<%s>", aliasColor, alias, "reset")
-    local descriptionStyled = string.format("<%s>%s<%s>", descColor, description, "reset")
-
-    -- Strip color codes to calculate visible lengths
-    local visibleCommandLength = #poopDeck.help.Utils.stripColorCodes(command)
-    local visibleAliasLength = #poopDeck.help.Utils.stripColorCodes(alias)
-
-    -- Calculate spacing
-    local commandSpacing = string.rep(" ", cmdWidth - visibleCommandLength + 5)
-    local aliasSpacing = string.rep(" ", aliasWidth - visibleAliasLength + 3)
-
-    -- Construct the final line
-    local line = commandStyled .. commandSpacing .. "<orange>| " .. aliasStyled .. aliasSpacing .. "<orange>| " .. descriptionStyled
-
-    -- Use cecho for output
-    cecho(line .. "\n")
-end
-
-function poopDeck.help.Utils.stripColorCodes(input)
-    return input:gsub("#%x%x%x%x%x%x", ""):gsub("<%a+>", ""):gsub("</%a+>", "")
-end
-
-function poopDeck.help.Utils.addCategoriesFromManager(helpManager, manager)
-    local categorizedCommands = {}
-    local globalLongestCommandLength = 0
-    local globalLongestAliasLength = 0
-
-    -- Group commands by category and calculate global longest lengths
-    for name, commandObj in pairs(manager.commands) do
-        local categoryName = commandObj.category or "Uncategorized"
-        categorizedCommands[categoryName] = categorizedCommands[categoryName] or {}
-        categorizedCommands[categoryName][name] = {
-            command = name,
-            alias = commandObj.alias or "No alias",
-            description = commandObj.helpText
-        }
-
-        -- Update global longest lengths
-        globalLongestCommandLength = math.max(globalLongestCommandLength, #name)
-        globalLongestAliasLength = math.max(globalLongestAliasLength, #commandObj.alias or "No alias")
-    end
-
-    -- Sort category names alphabetically
-    local sortedCategoryNames = {}
-    for categoryName, _ in pairs(categorizedCommands) do
-        table.insert(sortedCategoryNames, categoryName)
-    end
-    table.sort(sortedCategoryNames)
-
-    -- Add categories to the help manager in sorted order
-    for _, categoryName in ipairs(sortedCategoryNames) do
-        local entries = categorizedCommands[categoryName]
-        if next(entries) then
-            helpManager:addCategory(categoryName, entries)
-        end
-    end
-
-    -- Return global longest lengths for alignment
-    return globalLongestCommandLength, globalLongestAliasLength
-end
-
-
-function poopDeck.help.Utils.wrapText(text, width)
-    local lines = {}
-    local currentLine = ""
-
-    for word in text:gmatch("%S+") do
-        if #currentLine + #word + 1 > width then
-            table.insert(lines, currentLine)
-            currentLine = word
+    for key, value in pairs(entries) do
+        if key == "addLine" then
+            -- If the entry is specifically for adding a line of text, call addLine
+            poopDeck.addLine(value, config.descriptionColor, config.width)
         else
-            currentLine = currentLine == "" and word or (currentLine .. " " .. word)
+            -- Otherwise, process as a command/description pair
+            poopDeck.addEntry(key, value, config.commandColor, config.descriptionColor, separatorPosition, config.width)
         end
     end
+    -- Optionally, print a separator or blank line after the entries for visual separation
+    --echo("\n")
+end
 
-    if currentLine ~= "" then
-        table.insert(lines, currentLine)
+-- Pulls it all together, and creates and displays the helpfile/table.
+function poopDeck.createHelp(helpData)
+    local config = helpData.config
+    if config.headerName then
+        poopDeck.createHeader(config.headerName, config.borderColor, config.headerFooterColor, config.width)
     end
-
-    return lines
+    local hasCategories = helpData.categories ~= nil
+    if hasCategories then
+        for categoryName, commands in pairs(helpData.categories) do
+            poopDeck.processEntries(commands, config, categoryName)
+        end
+    else
+        poopDeck.processEntries(helpData.entries, config)
+    end
+    poopDeck.createFooter(config.footerName, config.borderColor, config.headerFooterColor, config.width)
 end
 
-function poopDeck.help.displayDynamicHelp(name)
-    local config = {
-        headerName = name,
-        footerName = "poopDeck",
-        borderColor = "00557F",
-        commandColor = "honeydew",
-        aliasColor = "sky_blue",
-        descriptionColor = "honeydew",
-        headerFooterColor = "F0F0F0",
-        categoryColor = "FFD700",
-        width = getWindowWrap("main")
+
+ --   Structured help file table example
+--[[     poopDeck.sampleHelp1 = {
+    config = {
+        headerName = "Sample Commands", -- The text you want to have appear in the top tab
+        footerName = "poopDeck", -- The text you want to have appear in the footer tab
+        borderColor = "00557F", -- The color of the border work, given in hexadecimal
+        commandColor = "B1D4E0", -- The color of the command/left entry given in hexadecimal
+        descriptionColor = "FFFFFF", -- The folor of the description/right entry given in hexadecimal
+        headerFooterColor = "F0F0F0", -- New color for header/footer text
+        width = 100 -- How wide you want the file/table to be. If not set, will default to mudlet's main window width
+    },
+    entries = {
+        ["poopdeck"] = "This will display the help file for poopDeck!",
+        ["poopmonster"] = "This will display the help file for poopDeck seamonster commands!",
+        -- Add more entries as needed
     }
+} ]]
 
-    local helpManager = poopDeck.help.HelpManager:new(config)
-    poopDeck.help.Utils.addCategoriesFromManager(helpManager, poopDeck.command.manager)
-    helpManager:createHelp()
-end
+--[[ poopDeck.sampleHelp2 = {
+    config = {
+        headerName = "Sample Commands", -- The text you want to have appear in the top tab
+        footerName = "poopDeck", -- The text you want to have appear in the footer tab
+        borderColor = "00557F", -- The color of the border work, given in hexadecimal
+        commandColor = "B1D4E0", -- The color of the command/left entry given in hexadecimal
+        descriptionColor = "FFFFFF", -- The color of the description/right entry given in hexadecimal
+        headerFooterColor = "F0F0F0", -- The color of the header/footer text given in hexadecimal
+        categoryColor = "FFD700", -- The color of the category name given in hexadecimal
+        width = 100 -- How wide you want the file/table to be. If not set, will default to mudlet's main window width
+    },
+    categories = {
+        Cat1 = {
+            ["poopdeck"] = "This will display the help file for poopDeck!",
+            ["poopmonster"] = "This will display the help file for poopDeck seamonster commands!",
+            ["addLine"] = "This is just a line, no commands here."
+            -- Add more entries as needed
+        },
+        Cat2 = {
+            ["poopdecks"] = "This will display the help file for poopDeck!",
+            ["poopmonsters"] = "This will display the help file for poopDeck seamonster commands!",
+            -- Add more entries as needed
+        },
+    }
+} ]]

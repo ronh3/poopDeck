@@ -1,102 +1,142 @@
 [
-    {
-        "name": "All Stop",
-        "isActive": "yes",
-        "regex": "^sstop$"
-    },
-    {
-        "name": "Anchor",
-        "isActive": "yes",
-        "regex": "^[rl]anc$"
-    },
-    {
-        "name": "Cast Off",
-        "isActive": "yes",
-        "regex": "^scast$"
-    },
-    {
-        "name": "Chop Ropes",
-        "isActive": "yes",
-        "regex": "^chop$"
-    },
-    {
-        "name": "Clear Rigging",
-        "isActive": "yes",
-        "regex": "^crig$"
-    },
-    {
-        "name": "Comm Screen",
-        "isActive": "yes",
-        "regex": "^scomm\\s?(on|off)$"
-    },
-    {
-        "name": "Dock",
-        "isActive": "yes",
-        "regex": "^dock\\s?(\\S+)$"
-    },
-    {
-        "name": "Douse",
-        "isActive": "yes",
-        "regex": "^dou([rms])$"
-    },
-    {
-        "name": "Maintain",
-        "isActive": "yes",
-        "regex": "^main([hsn])$"
-    },
-    {
-        "name": "Plank",
-        "isActive": "yes",
-        "regex": "^([rl])pla$"
-    },
-    {
-        "name": "Rainstorm",
-        "isActive": "yes",
-        "regex": "^rain$"
-    },
-    {
-        "name": "Relax Oars",
-        "isActive": "yes",
-        "regex": "^sreo$"
-    },
-    {
-        "name": "Row",
-        "isActive": "yes",
-        "regex": "^srow$"
-    },
-    {
-        "name": "Set Speed",
-        "isActive": "yes",
-        "regex": "^sss\\s?((full|furl|relax|strike)|(\\d+))$"
-    },
-    {
-        "name": "Ship Repairs",
-        "isActive": "yes",
-        "regex": "^srep([ahns])$"
-    },
-    {
-        "name": "Ship Rescue",
-        "isActive": "yes",
-        "regex": "^shres$"
-    },
-    {
-        "name": "Ship Warning",
-        "isActive": "yes",
-        "regex": "shw\\s?(on|off)"
-    },
-    {
-        "name": "Turn Ship",
-        "isActive": "yes",
-        "regex": "^stt\\s?([nesw]{1,3})$"
-    },
-    {
-        "name": "Wavecall",
-        "isActive": "yes",
-        "regex": "^wav\\s?(\\S+)\\s?([12345678])$"
-    },
-    {
-        "name": "Windboost",
-        "isActive": "yes",
-        "regex": "^wind$"
-    }
+       {
+              "name": "All Stop",
+              "isActive": "yes",
+              "regex": "^sstop$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Anchor",
+              "isActive": "yes",
+              "regex": "^([rl])anc$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Cast Off",
+              "isActive": "yes",
+              "regex": "^scast$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Chop Ropes",
+              "isActive": "yes",
+              "regex": "^chop$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Clear Rigging",
+              "isActive": "yes",
+              "regex": "^crig$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Comm Screen",
+              "isActive": "yes",
+              "regex": "^scomm\\s?(on|off)",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Dock",
+              "isActive": "yes",
+              "regex": "^dock\\s?(\\w+)$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Douse",
+              "isActive": "yes",
+              "regex": "^dou([rms])$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Maintain",
+              "isActive": "yes",
+              "regex": "^main([hsn])$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Plank",
+              "isActive": "yes",
+              "regex": "^([rl])pla$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Rainstorm",
+              "isActive": "yes",
+              "regex": "^rain$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Relax Oars",
+              "isActive": "yes",
+              "regex": "^sreo$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Row",
+              "isActive": "yes",
+              "regex": "^srow$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Set Speed",
+              "isActive": "yes",
+              "regex": "^sss\\s?((full|furl|relax|strike)|(\\d+))$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Ship Repairs",
+              "isActive": "yes",
+              "regex": "^sre[pn]$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Ship Rescue",
+              "isActive": "yes",
+              "regex": "^sres$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Ship Warning",
+              "isActive": "yes",
+              "regex": "shw\\s?(on|off)",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Turn Ship",
+              "isActive": "yes",
+              "regex": "^stt\\s?([nesw]{1,3})$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Wavecall",
+              "isActive": "yes",
+              "regex": "^wav\\s?(\\w+)\\s?([12345678])$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "Windboost",
+              "isActive": "yes",
+              "regex": "^wind$",
+              "script": "",
+              "isFolder": "no"
+       }
 ]
